@@ -1,0 +1,1117 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hausaufgabe · Modalpartikeln im Museumsprojekt · Kate</title>
+<style>
+:root{
+  --bone:#F4F1EA; --bone2:#FAF8F3; --card:#FFFFFF;
+  --ink:#1C1B19; --ink2:#3A3733; --grey:#7C766C; --line:#DFD9CD;
+  --brass:#9A6B2F; --brass-l:#C2924F;
+  --petrol:#1F4C55; --petrol-l:#2F6E79;
+  --plum:#5B2A3E;
+  --ok:#2E6B52; --ok-bg:#E8F1EC;
+  --mid:#8A6A1E; --mid-bg:#F6EFDC;
+  --low:#8A3B34; --low-bg:#F7E8E5;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bone);color:var(--ink);
+ font-family:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif;line-height:1.62;font-size:17px}
+.sans{font-family:ui-sans-serif,system-ui,-apple-system,"Helvetica Neue",Arial,sans-serif}
+.wrap{max-width:1000px;margin:0 auto;padding:0 22px 100px}
+
+header.top{background:var(--ink);color:var(--bone);padding:46px 22px 34px}
+header.top .in{max-width:1000px;margin:0 auto}
+.kicker{font-family:ui-sans-serif,system-ui,sans-serif;letter-spacing:.24em;text-transform:uppercase;
+ font-size:11px;color:var(--brass-l);font-weight:700}
+h1{font-size:clamp(27px,4.4vw,40px);margin:.3em 0 .25em;line-height:1.12;font-weight:600}
+header.top p.sub{max-width:660px;color:#CFC8BC;margin:0;font-size:16.5px}
+.idbar{display:flex;flex-wrap:wrap;gap:12px;margin-top:24px;align-items:center}
+.idbar input{font-family:ui-sans-serif,system-ui,sans-serif;font-size:14px;padding:8px 12px;border-radius:3px;
+ border:1px solid rgba(244,241,234,.35);background:rgba(255,255,255,.07);color:var(--bone);min-width:190px}
+.idbar input::placeholder{color:#9C958A}
+.idbar label{font-family:ui-sans-serif,system-ui,sans-serif;font-size:11px;letter-spacing:.14em;
+ text-transform:uppercase;color:#9C958A;display:block;margin-bottom:5px}
+
+nav.bar{position:sticky;top:0;z-index:60;background:rgba(244,241,234,.97);backdrop-filter:blur(9px);
+ border-bottom:1px solid var(--line)}
+nav.bar .in{max-width:1000px;margin:0 auto;padding:8px 22px;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.progwrap{flex:1;min-width:170px}
+.progbar{height:6px;background:var(--line);border-radius:99px;overflow:hidden}
+.progfill{height:100%;width:0%;background:var(--brass);transition:width .35s}
+.progtxt{font-family:ui-sans-serif,system-ui,sans-serif;font-size:11px;color:var(--grey);margin-top:3px;letter-spacing:.05em}
+.streak{font-family:ui-sans-serif,system-ui,sans-serif;font-size:12.5px;color:var(--petrol);
+ border:1px solid var(--line);background:var(--card);padding:5px 11px;border-radius:99px;white-space:nowrap}
+.navlinks{display:flex;gap:2px;overflow-x:auto;max-width:100%}
+.navlinks a{font-family:ui-sans-serif,system-ui,sans-serif;font-size:12px;text-decoration:none;color:var(--petrol);
+ padding:5px 8px;border-radius:4px;white-space:nowrap}
+.navlinks a:hover{background:var(--line)}
+
+section.blk{background:var(--card);border:1px solid var(--line);border-radius:4px;padding:32px 30px;margin-top:30px}
+.bhead{border-bottom:2px solid var(--ink);padding-bottom:11px;margin-bottom:20px}
+.bhead .num{font-family:ui-sans-serif,system-ui,sans-serif;font-size:11px;letter-spacing:.22em;
+ text-transform:uppercase;color:var(--brass);font-weight:700}
+.bhead h2{margin:5px 0 0;font-size:24px;font-weight:600;line-height:1.2}
+.bhead .aim{font-family:ui-sans-serif,system-ui,sans-serif;font-size:12.5px;color:var(--grey);margin-top:6px}
+p.lead{color:var(--ink2);font-size:16.5px}
+.note{font-family:ui-sans-serif,system-ui,sans-serif;font-size:13.5px;background:#F6F2E8;
+ border-left:3px solid var(--brass);padding:11px 15px;color:#5A5147;margin:14px 0}
+
+.item{border:1px solid var(--line);border-radius:4px;padding:16px 18px;margin:14px 0;background:var(--bone2)}
+.item .q{font-size:16.5px;margin:0 0 4px}
+.item .ctx{font-family:ui-sans-serif,system-ui,sans-serif;font-size:12.5px;color:var(--petrol);
+ letter-spacing:.06em;text-transform:uppercase;margin-bottom:7px}
+.utt{font-size:17px;background:var(--card);border-left:3px solid var(--petrol);padding:9px 14px;margin:9px 0}
+.utt em{color:var(--brass);font-style:normal;font-weight:700}
+
+.opts{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.opt{font-family:ui-sans-serif,system-ui,sans-serif;font-size:14px;background:var(--card);
+ border:1px solid var(--line);padding:8px 14px;border-radius:3px;cursor:pointer;transition:.12s}
+.opt:hover{border-color:var(--petrol)}
+.opt.sel{border-width:2px;padding:7px 13px}
+.opt.t1.sel{border-color:var(--ok);background:var(--ok-bg);color:var(--ok)}
+.opt.t2.sel{border-color:var(--mid);background:var(--mid-bg);color:var(--mid)}
+.opt.t3.sel{border-color:var(--low);background:var(--low-bg);color:var(--low)}
+.fb{display:none;margin-top:11px;font-family:ui-sans-serif,system-ui,sans-serif;font-size:14px;
+ padding:11px 14px;border-radius:3px;line-height:1.55}
+.fb.on{display:block}
+.fb.t1{background:var(--ok-bg);border-left:3px solid var(--ok)}
+.fb.t2{background:var(--mid-bg);border-left:3px solid var(--mid)}
+.fb.t3{background:var(--low-bg);border-left:3px solid var(--low)}
+.fb b.tag{display:block;font-size:11px;letter-spacing:.14em;text-transform:uppercase;margin-bottom:4px}
+.fb.t1 b.tag{color:var(--ok)} .fb.t2 b.tag{color:var(--mid)} .fb.t3 b.tag{color:var(--low)}
+
+textarea{width:100%;min-height:74px;font-family:ui-sans-serif,system-ui,sans-serif;font-size:15px;
+ padding:11px 13px;border:1px solid var(--line);border-radius:3px;background:var(--card);
+ resize:vertical;line-height:1.55;color:var(--ink)}
+textarea:focus{outline:2px solid var(--brass-l);border-color:var(--brass)}
+textarea.short{min-height:52px}
+
+button{font-family:ui-sans-serif,system-ui,sans-serif;cursor:pointer;font-size:13px}
+.btn{background:var(--petrol);color:var(--bone);border:0;padding:8px 16px;border-radius:3px}
+.btn:hover{background:var(--petrol-l)}
+.btn.ghost{background:transparent;color:var(--ink2);border:1px solid var(--line)}
+.btn.ghost:hover{border-color:var(--ink2)}
+.btn.brass{background:var(--brass)} .btn.brass:hover{background:var(--brass-l)}
+.btnrow{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px;align-items:center}
+
+.sol{display:none;margin-top:10px;background:#EFF3F2;border-left:3px solid var(--petrol);
+ padding:12px 15px;font-family:ui-sans-serif,system-ui,sans-serif;font-size:14.5px;line-height:1.6}
+.sol.on{display:block}
+.sol ul{margin:6px 0 0;padding-left:19px} .sol li{margin:5px 0}
+.sol .var{display:block;margin:4px 0;color:var(--plum);font-weight:600}
+
+.pchips{display:flex;flex-wrap:wrap;gap:7px;margin:12px 0}
+.pchip{font-family:ui-sans-serif,system-ui,sans-serif;font-size:14px;background:var(--card);
+ border:1px solid var(--line);border-bottom:3px solid var(--brass);padding:7px 14px;border-radius:3px}
+.pchip small{display:block;font-size:11px;color:var(--grey);margin-top:2px}
+
+table.grid{width:100%;border-collapse:collapse;margin:12px 0;font-size:15px}
+table.grid th,table.grid td{border:1px solid var(--line);padding:9px 11px;text-align:left;vertical-align:top}
+table.grid th{background:var(--ink);color:var(--bone);font-family:ui-sans-serif,system-ui,sans-serif;
+ font-size:12px;letter-spacing:.05em;font-weight:600}
+table.grid td:first-child{width:34%;background:#F6F2E8}
+
+.match{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.mcol h5{font-family:ui-sans-serif,system-ui,sans-serif;font-size:12px;letter-spacing:.12em;
+ text-transform:uppercase;color:var(--grey);margin:0 0 8px}
+.mitem{background:var(--card);border:1px solid var(--line);padding:10px 13px;margin-bottom:7px;
+ border-radius:3px;cursor:pointer;font-size:15px;transition:.12s}
+.mitem:hover{border-color:var(--petrol)}
+.mitem.act{border-color:var(--brass);border-width:2px;padding:9px 12px}
+.mitem.done{background:var(--ok-bg);border-color:var(--ok);color:var(--ok);cursor:default}
+.mitem .tagno{font-family:ui-sans-serif,system-ui,sans-serif;font-size:11px;color:var(--brass);
+ display:block;letter-spacing:.1em}
+@media(max-width:640px){.match{grid-template-columns:1fr}}
+
+.chat{background:var(--bone2);border:1px solid var(--line);border-radius:4px;padding:16px;max-height:460px;overflow-y:auto}
+.msg{max-width:82%;padding:11px 15px;border-radius:12px;margin-bottom:11px;font-size:15.5px;line-height:1.55}
+.msg.them{background:var(--card);border:1px solid var(--line);border-bottom-left-radius:3px}
+.msg.me{background:var(--petrol);color:var(--bone);margin-left:auto;border-bottom-right-radius:3px}
+.msg .who{font-family:ui-sans-serif,system-ui,sans-serif;font-size:11px;letter-spacing:.12em;
+ text-transform:uppercase;opacity:.72;display:block;margin-bottom:3px}
+.chatin{display:flex;gap:8px;margin-top:12px;align-items:flex-end}
+.chatin textarea{min-height:60px}
+.chattip{font-family:ui-sans-serif,system-ui,sans-serif;font-size:12.5px;color:var(--grey);margin-top:7px}
+
+.case{background:#F6F2E8;border:1px solid var(--line);border-left:4px solid var(--brass);padding:18px 20px;margin:14px 0}
+.case h4{margin:0 0 8px;font-size:17px;color:var(--plum)}
+.case p{margin:7px 0;font-size:16px}
+
+.speak{background:var(--petrol);color:var(--bone2);padding:30px;border-radius:4px;margin-top:30px}
+.speak h2{color:#fff;margin:0 0 8px;font-size:25px}
+.speak .sub{color:#AFC6C9;font-family:ui-sans-serif,system-ui,sans-serif;font-size:13.5px;margin-bottom:18px}
+.speak .card2{background:rgba(255,255,255,.08);padding:16px 19px;border-left:3px solid var(--brass-l);margin:12px 0}
+.speak .card2 h4{margin:0 0 6px;font-size:16px;color:var(--brass-l)}
+.speak ul{margin:8px 0;padding-left:20px} .speak li{margin:6px 0;font-size:15.5px}
+.check{display:flex;align-items:flex-start;gap:10px;background:rgba(0,0,0,.16);padding:10px 14px;margin-bottom:7px}
+.check input{margin-top:5px;width:16px;height:16px;accent-color:var(--brass-l);flex:none}
+.check label{font-size:15px;cursor:pointer}
+.tg{background:var(--brass);color:#fff;padding:15px 19px;margin-top:18px;font-size:16.5px;border-radius:3px}
+
+footer{text-align:center;color:var(--grey);font-family:ui-sans-serif,system-ui,sans-serif;
+ font-size:12.5px;padding:38px 0 0}
+.bigprint{display:block;width:100%;background:var(--ink);color:var(--bone);border:0;padding:18px;
+ font-size:17px;border-radius:4px;margin-top:26px;letter-spacing:.03em}
+.bigprint:hover{background:var(--plum)}
+.reset{margin-top:12px;text-align:center}
+.hidden{display:none}
+
+#conf{position:fixed;inset:0;pointer-events:none;z-index:999}
+.cfp{position:absolute;width:9px;height:14px;opacity:.95}
+
+@media print{
+  @page{margin:14mm}
+  body{background:#fff;font-size:11.5pt;line-height:1.42}
+  nav.bar,.btnrow,.btn,.bigprint,.reset,#conf,.chatin,.navlinks,.chattip,.no-print{display:none !important}
+  header.top{background:#fff;color:#000;padding:0 0 10px;border-bottom:2px solid #000}
+  header.top .sub,.kicker{color:#444}
+  .idbar input{border:0;border-bottom:1px solid #000;background:#fff;color:#000;font-size:12pt}
+  .idbar label{color:#666}
+  section.blk{border:0;border-top:1px solid #999;padding:12px 0;margin:0;break-inside:avoid;page-break-inside:avoid}
+  .item{background:#fff;border:0;border-left:2px solid #ccc;padding:6px 0 6px 10px;margin:8px 0;
+        break-inside:avoid;page-break-inside:avoid}
+  textarea{border:0;border-bottom:1px solid #bbb;background:#fff;min-height:0;height:auto;
+   overflow:visible;resize:none;font-size:11pt;padding:2px 0}
+  .sol,.fb{display:none !important}
+  .sol.on,.fb.on{display:block !important;background:#f4f4f4;border-left:2px solid #999;font-size:10.5pt}
+  .opt{border:1px solid #ddd;color:#999;padding:3px 8px;font-size:10pt}
+  .opt.sel{border:2px solid #000;color:#000;font-weight:700}
+  .speak{background:#fff;color:#000;border:1px solid #000}
+  .speak h2,.speak .card2 h4{color:#000}
+  .speak .sub{color:#555}
+  .speak .card2,.check{background:#f6f6f6;color:#000}
+  .tg{background:#eee;color:#000;border:1px solid #000}
+  .chat{max-height:none;overflow:visible;border:1px solid #ccc}
+  .msg{max-width:100%;border-radius:3px}
+  .msg.me{background:#eee;color:#000;border:1px solid #999}
+  .pchip{border:1px solid #ccc}
+  a{text-decoration:none;color:#000}
+}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="in">
+    <div class="kicker">Hausaufgabe · Stunde 3 · Deutsch C1+</div>
+    <h1>Modalpartikeln im Museumsprojekt</h1>
+    <p class="sub">Nicht erkennen, sondern benutzen. Alle Partikeln in dieser Aufgabe stammen aus unseren letzten beiden Stunden und aus dem Kapitel „Kunst und Kultur" – es kommt nichts Neues dazu.</p>
+    <div class="idbar">
+      <div><label for="nm">Name</label><input id="nm" placeholder="Name"></div>
+      <div><label for="dt">Datum</label><input id="dt" placeholder="TT.MM.JJJJ"></div>
+    </div>
+  </div>
+</header>
+
+<nav class="bar"><div class="in">
+  <div class="progwrap">
+    <div class="progbar"><div class="progfill" id="pf"></div></div>
+    <div class="progtxt" id="pt">0 von 0 bearbeitet</div>
+  </div>
+  <div class="streak" id="stk">Serie: 0</div>
+  <div class="navlinks">
+    <a href="#b1">1</a><a href="#b2">2</a><a href="#b3">3</a><a href="#b4">4</a><a href="#b5">5</a>
+    <a href="#b6">6</a><a href="#b7">7</a><a href="#b8">8</a><a href="#b9">9</a><a href="#b10">10</a><a href="#b11">🎙️</a>
+  </div>
+</div></nav>
+
+<div class="wrap">
+
+<section class="blk" id="inv">
+  <div class="bhead">
+    <div class="num">Unser Bestand</div>
+    <h2>Diese neun Modalpartikeln arbeiten wir aus</h2>
+    <div class="aim">Aus Stunde 1 und 2 sowie aus dem Kapitel „Kunst und Kultur". Mehr brauchen wir nicht.</div>
+  </div>
+  <div class="pchips">
+    <div class="pchip">doch<small>gegen eine Annahme</small></div>
+    <div class="pchip">ja<small>das wissen wir beide</small></div>
+    <div class="pchip">eben<small>das ist nun mal so</small></div>
+    <div class="pchip">halt<small>dasselbe, noch mündlicher</small></div>
+    <div class="pchip">mal<small>macht die Bitte klein</small></div>
+    <div class="pchip">eigentlich<small>Frage mit Nebenton</small></div>
+    <div class="pchip">wohl<small>Vermutung, kein Wissen</small></div>
+    <div class="pchip">schon<small>Zugeständnis vor dem Aber</small></div>
+    <div class="pchip">denn<small>Frage wird weicher</small></div>
+  </div>
+  <div class="note"><b>Abgrenzung, die uns letzte Stunde beschäftigt hat:</b> <i>durchaus</i> („Das kann man durchaus so sehen") und <i>allerdings</i> („Man muss allerdings auch sehen, dass …") stehen im Buch bei den Redemitteln – sie sind Adverb bzw. Konnektor, <b>keine</b> Modalpartikeln. Du darfst sie natürlich benutzen. Aber in dieser Hausaufgabe geht es um die neun oben.</div>
+</section>
+
+<section class="blk" id="b1">
+  <div class="bhead">
+    <div class="num">Block 1</div>
+    <h2>Wie wirkt die Aussage?</h2>
+    <div class="aim">Erst die Haltung hören, dann über die Partikel reden. Wähle, was die Sprecherin tut.</div>
+  </div>
+
+  <div class="item" data-mc="1a">
+    <div class="ctx">Konzeptbesprechung</div>
+    <div class="utt">„Die Texte sind <em>ja</em> noch gar nicht freigegeben."</div>
+    <div class="opts">
+      <div class="opt" data-t="1" data-fb="Genau. <b>ja</b> markiert: Das ist kein neuer Einwand, das liegt für uns alle auf dem Tisch. Deshalb klingt der Satz nicht wie Kritik, sondern wie ein gemeinsamer Ausgangspunkt.">verweist auf gemeinsames Wissen</div>
+      <div class="opt" data-t="3" data-fb="Nicht ganz. Für eine echte Überraschung bräuchte es eine ganz andere Intonation – <b>ja</b> tut hier das Gegenteil: Es setzt voraus, dass alle das schon wissen.">reagiert überrascht</div>
+      <div class="opt" data-t="2" data-fb="Möglich, aber das ist eine Nebenwirkung. Der Kern von <b>ja</b> ist der Verweis auf geteiltes Wissen; dass sich daraus eine Rechtfertigung ergibt, folgt erst daraus.">rechtfertigt sich</div>
+      <div class="opt" data-t="3" data-fb="Nein. Ein Widerspruch würde eine Gegenposition brauchen. Hier wird nichts bestritten, sondern etwas als bekannt vorausgesetzt.">widerspricht</div>
+    </div>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-mc="1b">
+    <div class="ctx">Feedbackrunde im Team</div>
+    <div class="utt">„Das Konzept ist <em>schon</em> gut – nur die Nutzerführung überzeugt mich noch nicht."</div>
+    <div class="opts">
+      <div class="opt" data-t="1" data-fb="Ja. <b>schon</b> ist hier das Zugeständnis vor dem Einwand: erst anerkennen, dann einschränken. Genau die Bewegung, die im Buch hinter „Das klingt zwar überzeugend, aber …" steckt.">gibt zu und schränkt dann ein</div>
+      <div class="opt" data-t="3" data-fb="Nein. Ohne <b>schon</b> wäre das Lob stärker. Die Partikel schwächt es ab, weil klar ist: Ein Aber kommt gleich.">lobt uneingeschränkt</div>
+      <div class="opt" data-t="2" data-fb="Der Zweifel steckt eher im zweiten Satzteil. <b>schon</b> selbst zweifelt nicht, es räumt ein – und kündigt damit den Zweifel an.">äußert Zweifel</div>
+      <div class="opt" data-t="3" data-fb="Für eine Korrektur müsste eine falsche Annahme im Raum stehen. Das ist hier nicht der Fall.">korrigiert eine Erwartung</div>
+    </div>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-mc="1c">
+    <div class="ctx">Gespräch mit dem Museum</div>
+    <div class="utt">„Wir müssen <em>eben</em> auch die Leihgaben berücksichtigen."</div>
+    <div class="opts">
+      <div class="opt" data-t="1" data-fb="Richtig. <b>eben</b> stellt die Sache als unabänderlich dar: Das ist die Lage, darüber diskutieren wir nicht mehr. Erklärend, nicht vorwurfsvoll.">stellt etwas als unvermeidbar dar</div>
+      <div class="opt" data-t="2" data-fb="Ein bisschen ja – aber der Ton ist nicht fordernd, sondern hinnehmend. <b>eben</b> sagt: So ist es nun mal.">fordert etwas ein</div>
+      <div class="opt" data-t="3" data-fb="Nein, ganz im Gegenteil. Ein Vorschlag wäre offen; <b>eben</b> schließt die Diskussion eher.">macht einen Vorschlag</div>
+      <div class="opt" data-t="3" data-fb="Nein. Überraschung passt nicht zu <b>eben</b> – die Partikel behandelt den Sachverhalt als längst bekannt.">ist überrascht</div>
+    </div>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-mc="1d">
+    <div class="ctx">Interne Runde, jemand hält die App für gesetzt</div>
+    <div class="utt">„Brauchen wir die App <em>eigentlich</em> noch?"</div>
+    <div class="opts">
+      <div class="opt" data-t="1" data-fb="Ja. <b>eigentlich</b> öffnet eine Frage, die eigentlich schon entschieden schien – vorsichtig, fast beiläufig, aber inhaltlich durchaus grundsätzlich. Genau der Satz aus deinem Beobachtungsauftrag.">stellt etwas Selbstverständliches leise infrage</div>
+      <div class="opt" data-t="3" data-fb="Nein. Eine reine Sachfrage käme ohne Partikel aus: „Brauchen wir die App noch?" Genau der Unterschied ist der Punkt.">stellt eine reine Sachfrage</div>
+      <div class="opt" data-t="2" data-fb="Der Vorwurf schwingt höchstens ganz leise mit. <b>eigentlich</b> ist eher tastend als anklagend – das macht es im Meeting so brauchbar.">macht einen Vorwurf</div>
+      <div class="opt" data-t="3" data-fb="Nein, dafür ist die Frage zu grundsätzlich. Um Zustimmung geht es hier gerade nicht.">holt Zustimmung ein</div>
+    </div>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-mc="1e">
+    <div class="ctx">Über einen fremden Projektbericht</div>
+    <div class="utt">„Es handelt sich <em>wohl</em> um eines der aufwendigsten Digitalprojekte des Hauses."</div>
+    <div class="opts">
+      <div class="opt" data-t="1" data-fb="Genau. <b>wohl</b> markiert: Ich schließe das, ich weiß es nicht. Im Buch steht derselbe Zug bei „Es handelt sich wohl um einen der spektakulärsten Kunstraube" und „Der Fall Gurlitt war wohl einer der brisantesten Fälle".">signalisiert Distanz zur eigenen Aussage</div>
+      <div class="opt" data-t="3" data-fb="Nein – umgekehrt. Ohne <b>wohl</b> wäre es eine Behauptung; mit <b>wohl</b> ist es eine Einschätzung.">bestätigt eine sichere Information</div>
+      <div class="opt" data-t="2" data-fb="Das kann man heraushören, ist aber Kontextsache. Grammatisch tut <b>wohl</b> nur eines: Es senkt den Gewissheitsgrad.">bewertet das Projekt positiv</div>
+      <div class="opt" data-t="3" data-fb="Nein. Für eine Nachfrage bräuchte es eine Frageform.">fragt vorsichtig nach</div>
+    </div>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-mc="1f">
+    <div class="ctx">Kollegin hat gerade eine Idee abgeräumt</div>
+    <div class="utt">„Das funktioniert <em>doch</em> – wir haben es im Foyer schon so gemacht."</div>
+    <div class="opts">
+      <div class="opt" data-t="1" data-fb="Ja. <b>doch</b> richtet sich gegen eine Annahme, die gerade geäußert wurde. Es ist die Partikel des Widerspruchs mit Beleg.">widerspricht einer eben geäußerten Annahme</div>
+      <div class="opt" data-t="2" data-fb="Bestätigen tut der Nachsatz. <b>doch</b> selbst arbeitet gegen die Gegenposition – ohne Gegenposition wäre es sinnlos.">bestätigt die eigene Position</div>
+      <div class="opt" data-t="3" data-fb="Nein. Abschwächen würde man mit <b>schon</b> oder <b>wohl</b>. <b>doch</b> macht die Aussage stärker.">schwächt die Aussage ab</div>
+      <div class="opt" data-t="3" data-fb="Nein. Ohne einen Widerspruch im Raum wirkt <b>doch</b> merkwürdig – das ist die Bedingung für seinen Gebrauch.">stellt neutral fest</div>
+    </div>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-mc="1g">
+    <div class="ctx">Projektleitung zur Entwicklerin</div>
+    <div class="utt">„Schau dir das <em>mal</em> an, bevor wir es dem Museum zeigen."</div>
+    <div class="opts">
+      <div class="opt" data-t="1" data-fb="Richtig. <b>mal</b> macht die Aufforderung klein und beiläufig – aus einer Anweisung wird eine Bitte unter Kolleginnen.">macht die Aufforderung beiläufig</div>
+      <div class="opt" data-t="3" data-fb="Umgekehrt. Ohne <b>mal</b> klingt der Satz deutlich direktiver.">verschärft die Anweisung</div>
+      <div class="opt" data-t="2" data-fb="Nur indirekt. Dringlichkeit käme über die Zeitangabe, nicht über <b>mal</b>.">betont die Dringlichkeit</div>
+      <div class="opt" data-t="3" data-fb="Nein. <b>mal</b> in der Aufforderung hat keine zeitliche Bedeutung mehr.">gibt einen Zeitpunkt an</div>
+    </div>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-mc="1h">
+    <div class="ctx">Rückfrage in der Präsentation</div>
+    <div class="utt">„Wäre es <em>denn</em> nicht sinnvoll, die Inhalte zuerst zu verdichten?"</div>
+    <div class="opts">
+      <div class="opt" data-t="1" data-fb="Ja. <b>denn</b> in der Frage nimmt die Härte heraus und knüpft an das Gesagte an. Im Buch steht genau diese Wendung unter „eine Diskussion führen".">macht die kritische Frage weicher</div>
+      <div class="opt" data-t="3" data-fb="Nein, es begründet nichts – das wäre die Konjunktion <i>denn</i>. Als Modalpartikel steht es unbetont in der Frage.">begründet den Vorschlag</div>
+      <div class="opt" data-t="2" data-fb="Ein Vorschlag steckt inhaltlich drin, aber das leistet die Konjunktivform, nicht <b>denn</b>.">formuliert einen Vorschlag</div>
+      <div class="opt" data-t="3" data-fb="Nein. Ungeduldig klingt eher die Variante ohne Partikel und mit scharfer Intonation.">drückt Ungeduld aus</div>
+    </div>
+    <div class="fb"></div>
+  </div>
+</section>
+
+<section class="blk" id="b2">
+  <div class="bhead">
+    <div class="num">Block 2</div>
+    <h2>Mit oder ohne Modalpartikel?</h2>
+    <div class="aim">Beide Sätze sind korrekt. Beschreibe selbst, was sich pragmatisch verändert – ganze Sätze, nicht Stichwörter.</div>
+  </div>
+
+  <div class="item" data-open="2a">
+    <div class="ctx">Teammeeting</div>
+    <div class="utt">A: Das haben wir letztes Jahr anders gelöst.</div>
+    <div class="utt">B: Das haben wir letztes Jahr <em>ja</em> anders gelöst.</div>
+    <p class="q sans" style="font-size:14px;color:var(--grey)">Was verändert sich? Wen setzt B voraus, und was tut die Sprecherin dadurch mit der Verantwortung?</p>
+    <textarea class="short" placeholder="…"></textarea>
+    <div class="btnrow"><button class="btn ghost" onclick="sol(this)">Kommentar zeigen</button></div>
+    <div class="sol">A ist eine Information: Vielleicht weiß der andere es nicht. B behauptet, dass beide es wissen – die Aussage wird damit zum <b>gemeinsamen Besitz</b>. Wer <b>ja</b> benutzt, nimmt die andere Person mit ins Boot und macht die Erinnerung zum Argument, ohne sie explizit auszusprechen. Riskant, wenn das Gegenüber es tatsächlich <i>nicht</i> weiß: Dann wirkt es leicht herablassend.</div>
+  </div>
+
+  <div class="item" data-open="2b">
+    <div class="ctx">Gespräch mit der Museumsdirektion</div>
+    <div class="utt">A: Der Aufwand ist höher, als er im Angebot steht.</div>
+    <div class="utt">B: Der Aufwand ist <em>wohl</em> höher, als er im Angebot steht.</div>
+    <p class="q sans" style="font-size:14px;color:var(--grey)">Welche Verantwortung übernimmt die Sprecherin in A – und welche in B?</p>
+    <textarea class="short" placeholder="…"></textarea>
+    <div class="btnrow"><button class="btn ghost" onclick="sol(this)">Kommentar zeigen</button></div>
+    <div class="sol">A ist eine Feststellung, für die die Sprecherin geradesteht. B ist eine <b>Einschätzung</b>: <b>wohl</b> baut Distanz zwischen Person und Aussage. Im Kundengespräch ist das oft klug – man benennt ein Problem, ohne sich schon festzulegen, und lässt Raum für die Zahlen, die noch kommen. Umgekehrt: Wer Sicherheit ausstrahlen will, lässt <b>wohl</b> weg.</div>
+  </div>
+
+  <div class="item" data-open="2c">
+    <div class="ctx">Kollege zweifelt an der Barrierefreiheit</div>
+    <div class="utt">A: Das haben wir berücksichtigt.</div>
+    <div class="utt">B: Das haben wir <em>doch</em> berücksichtigt.</div>
+    <p class="q sans" style="font-size:14px;color:var(--grey)">Was setzt B über den Gesprächsverlauf voraus? Und wie verändert sich der Ton gegenüber der Person?</p>
+    <textarea class="short" placeholder="…"></textarea>
+    <div class="btnrow"><button class="btn ghost" onclick="sol(this)">Kommentar zeigen</button></div>
+    <div class="sol">B ist nur möglich, wenn vorher jemand das Gegenteil angenommen hat – <b>doch</b> braucht diesen Widerspruch. Der Ton wird spürbar schärfer: Es klingt schnell nach <i>Das hatten wir doch längst geklärt</i>. Möchtest du dieselbe Korrektur weicher, hilft eher <b>ja</b> („Das haben wir ja berücksichtigt") – dann wirkt es wie eine Erinnerung statt wie eine Zurechtweisung.</div>
+  </div>
+
+  <div class="item" data-open="2d">
+    <div class="ctx">Interne Abstimmung</div>
+    <div class="utt">A: Können wir die Führung nicht anders lösen?</div>
+    <div class="utt">B: Können wir die Führung <em>denn</em> nicht anders lösen?</div>
+    <p class="q sans" style="font-size:14px;color:var(--grey)">Welche Vorgeschichte hat B, die A nicht hat?</p>
+    <textarea class="short" placeholder="…"></textarea>
+    <div class="btnrow"><button class="btn ghost" onclick="sol(this)">Kommentar zeigen</button></div>
+    <div class="sol">B knüpft an etwas an, das gerade gesagt wurde – <b>denn</b> macht aus der Frage eine <b>Reaktion</b> statt eines Neuanfangs. Die Frage wirkt dadurch interessierter und weniger konfrontativ; sie wächst aus dem Gespräch heraus, statt es zu unterbrechen.</div>
+  </div>
+
+  <div class="item" data-open="2e">
+    <div class="ctx">Über einen Vorschlag der Kundenseite</div>
+    <div class="utt">A: Die Idee ist interessant, aber technisch aufwendig.</div>
+    <div class="utt">B: Die Idee ist <em>schon</em> interessant, aber technisch aufwendig.</div>
+    <p class="q sans" style="font-size:14px;color:var(--grey)">Wie viel Lob bleibt in B übrig – und warum ist das manchmal genau richtig?</p>
+    <textarea class="short" placeholder="…"></textarea>
+    <div class="btnrow"><button class="btn ghost" onclick="sol(this)">Kommentar zeigen</button></div>
+    <div class="sol">In A steht das Lob für sich; in B ist es von vornherein als Vorstufe zum Einwand markiert. <b>schon</b> nimmt dem Lob Gewicht – dafür wird der folgende Einwand erwartbar und trifft weniger hart. Vor Kundschaft kann genau das der Punkt sein: Man kündigt den Widerspruch an, statt ihn überraschend zu setzen.</div>
+  </div>
+</section>
+<section class="blk" id="b3">
+  <div class="bhead">
+    <div class="num">Block 3</div>
+    <h2>Gleicher Satzrahmen, andere Partikel</h2>
+    <div class="aim">Nur die Partikel wechselt. Beschreibe pro Zeile, welche Haltung entsteht und wer im Raum wie reagiert.</div>
+  </div>
+
+  <div class="item" data-open="3a">
+    <div class="ctx">Konzeptbesprechung · das Museum hat kurzfristig die Zielgruppe geändert</div>
+    <table class="grid">
+      <tr><th>Variante</th><th>Welche Haltung? Wie reagiert die Kundenseite?</th></tr>
+      <tr><td>Dann müssen wir die Inhalte <b>eben</b> neu aufbereiten.</td><td><textarea class="short" placeholder="…"></textarea></td></tr>
+      <tr><td>Dann müssen wir die Inhalte <b>halt</b> neu aufbereiten.</td><td><textarea class="short" placeholder="…"></textarea></td></tr>
+      <tr><td>Dann müssen wir die Inhalte <b>ja</b> neu aufbereiten.</td><td><textarea class="short" placeholder="…"></textarea></td></tr>
+      <tr><td>Dann müssen wir die Inhalte <b>wohl</b> neu aufbereiten.</td><td><textarea class="short" placeholder="…"></textarea></td></tr>
+    </table>
+    <div class="btnrow"><button class="btn ghost" onclick="sol(this)">Kommentar zeigen</button></div>
+    <div class="sol">
+      <span class="var">eben</span> Sachlich-hinnehmend: So ist die Lage, das ist die Konsequenz. Für die Kundenseite gut verträglich, weil niemand beschuldigt wird.
+      <span class="var">halt</span> Dasselbe, aber deutlich mündlicher und salopper – süddeutsch/österreichisch sehr verbreitet. Intern völlig normal, im formellen Kundengespräch kann es ein wenig achselzuckend wirken.
+      <span class="var">ja</span> Verweist darauf, dass diese Konsequenz allen klar ist. Kann angenehm sein („wir sind uns einig") – oder leicht spitz, wenn die Kundenseite die Folgen gerade nicht auf dem Schirm hatte.
+      <span class="var">wohl</span> Vermutend, nicht entschieden: Ich rechne damit, aber ich lege mich nicht fest. Nützlich, wenn du den Mehraufwand ankündigen willst, ohne ihn schon zu beziffern.
+    </div>
+  </div>
+
+  <div class="item" data-open="3b">
+    <div class="ctx">Feedbackrunde · eine Kollegin hält den zweiten Vermittlungspfad für überflüssig</div>
+    <table class="grid">
+      <tr><th>Variante</th><th>Wie verändert sich der Widerspruch?</th></tr>
+      <tr><td>Der zweite Pfad bringt <b>doch</b> etwas.</td><td><textarea class="short" placeholder="…"></textarea></td></tr>
+      <tr><td>Der zweite Pfad bringt <b>schon</b> etwas.</td><td><textarea class="short" placeholder="…"></textarea></td></tr>
+      <tr><td>Der zweite Pfad bringt <b>ja</b> etwas.</td><td><textarea class="short" placeholder="…"></textarea></td></tr>
+    </table>
+    <div class="btnrow"><button class="btn ghost" onclick="sol(this)">Kommentar zeigen</button></div>
+    <div class="sol">
+      <span class="var">doch</span> Offener Widerspruch: Du hast das Gegenteil behauptet, ich halte dagegen. Am stärksten, kann konfrontativ wirken.
+      <span class="var">schon</span> Halber Widerspruch: Ja, er bringt etwas – aber du ahnst schon, dass gleich eine Einschränkung folgt. Am diplomatischsten.
+      <span class="var">ja</span> Kein Widerspruch, sondern die Behauptung, das sei ohnehin unstrittig. Elegant, aber riskant: Wer gerade das Gegenteil gesagt hat, kann sich übergangen fühlen.
+    </div>
+  </div>
+
+  <div class="item" data-open="3c">
+    <div class="ctx">Präsentation · du fragst nach, ob eine Funktion wirklich gebraucht wird</div>
+    <table class="grid">
+      <tr><th>Variante</th><th>Wie klingt die Frage?</th></tr>
+      <tr><td>Wer nutzt diese Funktion <b>eigentlich</b>?</td><td><textarea class="short" placeholder="…"></textarea></td></tr>
+      <tr><td>Wer nutzt diese Funktion <b>denn</b>?</td><td><textarea class="short" placeholder="…"></textarea></td></tr>
+      <tr><td>Schau <b>mal</b>, wer diese Funktion nutzt.</td><td><textarea class="short" placeholder="…"></textarea></td></tr>
+    </table>
+    <div class="btnrow"><button class="btn ghost" onclick="sol(this)">Kommentar zeigen</button></div>
+    <div class="sol">
+      <span class="var">eigentlich</span> Öffnet ein Thema, das schon abgehakt schien. Beiläufig im Ton, grundsätzlich in der Sache – die höflichste Art, etwas Selbstverständliches zu erschüttern.
+      <span class="var">denn</span> Knüpft an das gerade Gesagte an, wirkt interessiert statt prüfend. Die Frage bleibt an der Oberfläche, sie stellt nichts infrage.
+      <span class="var">mal</span> Keine Frage mehr, sondern eine kleine Aufforderung. Der Zweifel wird zur Aufgabe – oft der praktischste Ausweg, wenn niemand die Antwort hat.
+    </div>
+  </div>
+</section>
+
+<section class="blk" id="b4">
+  <div class="bhead">
+    <div class="num">Block 4</div>
+    <h2>Mikrokontext: Welche Partikel passt hier?</h2>
+    <div class="aim">Mehrere Optionen sind grammatisch möglich. Entscheide pragmatisch – die Rückmeldung erklärt, was du mit jeder Wahl anrichtest.</div>
+  </div>
+
+  <div class="item" data-mc="4a">
+    <div class="ctx">Situation</div>
+    <p class="q">Das Museum möchte den Audioguide behalten, obwohl die Nutzungszahlen seit Jahren fallen. Du willst das Thema öffnen, ohne die Entscheidung offen anzugreifen.</p>
+    <div class="utt">„Wird der Audioguide ___ noch genutzt?"</div>
+    <div class="opts">
+      <div class="opt" data-t="1" data-fb="Sehr passend. <b>eigentlich</b> stellt genau das infrage, was als gesetzt gilt – tastend im Ton, grundsätzlich in der Sache. Der ideale Zug, wenn du niemanden bloßstellen willst.">eigentlich</div>
+      <div class="opt" data-t="2" data-fb="Möglich, andere Nuance: <b>denn</b> würde die Frage weicher machen, aber nur, wenn sie unmittelbar an etwas anknüpft. Hier eröffnest du das Thema – dafür ist <b>eigentlich</b> das schärfere Werkzeug.">denn</div>
+      <div class="opt" data-t="3" data-fb="Grammatisch möglich, pragmatisch heikel: Mit <b>doch</b> unterstellst du, dass jemand gerade das Gegenteil behauptet hat, und klingst schnell vorwurfsvoll.">doch</div>
+      <div class="opt" data-t="3" data-fb="Passt hier nicht. <b>ja</b> steht kaum in echten Fragen – es setzt Wissen voraus, statt danach zu fragen.">ja</div>
+    </div>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-mc="4b">
+    <div class="ctx">Situation</div>
+    <p class="q">Eine Kollegin sagt, ihr könntet den zweiten Raum ohne Weiteres bespielen. Du weißt, dass dort eine Leihgabe steht, deren Rechte nicht geklärt sind – und dass ihr das im letzten Meeting besprochen habt.</p>
+    <div class="utt">„Im zweiten Raum steht ___ die Leihgabe aus Wien."</div>
+    <div class="opts">
+      <div class="opt" data-t="1" data-fb="Sehr passend. <b>ja</b> erinnert an gemeinsam Besprochenes, ohne die Kollegin zu korrigieren. Der Vorwurf bleibt unausgesprochen – das ist im Team meistens die klügere Wahl.">ja</div>
+      <div class="opt" data-t="2" data-fb="Möglich, aber schärfer. <b>doch</b> stellt den Widerspruch aus: Du hast es vergessen, ich erinnere dich. Wähle es, wenn du wirklich korrigieren willst.">doch</div>
+      <div class="opt" data-t="2" data-fb="Möglich, andere Nuance: <b>eben</b> würde die Lage als unabänderlich darstellen. Das passt eher zur Konsequenz („Dann geht das eben nicht") als zur Erinnerung an die Tatsache selbst.">eben</div>
+      <div class="opt" data-t="3" data-fb="Unpassend: <b>wohl</b> macht daraus eine Vermutung. Du weißt es aber genau – dadurch untergräbst du deine eigene Autorität.">wohl</div>
+    </div>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-mc="4c">
+    <div class="ctx">Situation</div>
+    <p class="q">Die Kundenseite ändert kurz vor Abgabe die Zielgruppe. Du bist nicht begeistert, willst aber sachlich bleiben und die Konsequenz benennen, ohne zu klagen.</p>
+    <div class="utt">„Dann verschiebt sich der Zeitplan ___."</div>
+    <div class="opts">
+      <div class="opt" data-t="1" data-fb="Sehr passend. <b>eben</b> zieht nüchtern die Konsequenz: Das ist die logische Folge, nicht mein Ärger. Sachlich und trotzdem unmissverständlich.">eben</div>
+      <div class="opt" data-t="2" data-fb="Möglich, klingt aber mündlicher und ein wenig achselzuckend. Intern völlig in Ordnung, im Kundengespräch würde ich <b>eben</b> vorziehen.">halt</div>
+      <div class="opt" data-t="2" data-fb="Möglich, andere Nuance: <b>wohl</b> lässt offen, ob sich der Zeitplan wirklich verschiebt. Gut, wenn du noch verhandeln willst – schwach, wenn du eine Tatsache setzen musst.">wohl</div>
+      <div class="opt" data-t="3" data-fb="Pragmatisch schwierig. <b>ja</b> würde behaupten, die Verschiebung sei allen längst klar – genau das ist sie der Kundenseite in diesem Moment nicht.">ja</div>
+    </div>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-mc="4d">
+    <div class="ctx">Situation</div>
+    <p class="q">Ein Kollege behauptet im Meeting, immersive Formate würden die Exponate immer überlagern. Du hast im letzten Projekt das Gegenteil erlebt und willst das klar sagen.</p>
+    <div class="utt">„Das hängt ___ vom Konzept ab – bei uns im Foyer hat es funktioniert."</div>
+    <div class="opts">
+      <div class="opt" data-t="1" data-fb="Sehr passend. <b>doch</b> stellt sich frontal gegen die Pauschalaussage und wird durch das Beispiel sofort gedeckt. Genau die Bewegung aus dem Buch: „Das verstehe ich, aber …" – nur in einem Wort.">doch</div>
+      <div class="opt" data-t="2" data-fb="Möglich, andere Nuance: <b>ja</b> würde behaupten, das sei ohnehin unstrittig – wodurch die Position des Kollegen einfach übergangen wird. Eleganter, aber auch etwas ausweichend.">ja</div>
+      <div class="opt" data-t="3" data-fb="Zu schwach: <b>schon</b> würde einräumen statt widersprechen. Du willst hier aber gerade dagegenhalten.">schon</div>
+      <div class="opt" data-t="3" data-fb="Passt nicht: Du berufst dich auf eigene Erfahrung, <b>wohl</b> würde das zur bloßen Vermutung machen.">wohl</div>
+    </div>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-mc="4e">
+    <div class="ctx">Situation</div>
+    <p class="q">Du bittest eine Entwicklerin, sich einen Prototyp anzusehen, bevor er zum Museum geht. Ihr kennt euch gut, es ist keine förmliche Anweisung.</p>
+    <div class="utt">„Klick dich da ___ durch, bevor wir das rausgeben."</div>
+    <div class="opts">
+      <div class="opt" data-t="1" data-fb="Sehr passend. <b>mal</b> macht die Bitte klein und unaufdringlich – die Standardpartikel für kollegiale Aufforderungen.">mal</div>
+      <div class="opt" data-t="3" data-fb="Grammatisch möglich, pragmatisch schräg: <b>eben</b> würde signalisieren, das sei ohnehin unvermeidlich – bei einer Bitte klingt das nach Zwang.">eben</div>
+      <div class="opt" data-t="3" data-fb="Passt nicht in die Aufforderung. <b>eigentlich</b> gehört in Fragen und Feststellungen.">eigentlich</div>
+      <div class="opt" data-t="2" data-fb="Möglich, aber nur mit Vorgeschichte: <b>doch</b> in der Aufforderung („Klick dich doch mal durch") klingt drängender – als hättest du schon einmal darum gebeten.">doch</div>
+    </div>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-mc="4f">
+    <div class="ctx">Situation</div>
+    <p class="q">In der Feedbackrunde soll ein Entwurf besprochen werden. Du findest ihn ordentlich, aber die Besucherführung überzeugt dich nicht. Du willst zuerst anerkennen, dann einwenden.</p>
+    <div class="utt">„Der Entwurf ist ___ stimmig – nur beim Rundgang komme ich nicht mit."</div>
+    <div class="opts">
+      <div class="opt" data-t="1" data-fb="Sehr passend. <b>schon</b> ist die Partikel des Zugeständnisses: Sie macht das Lob ehrlich und kündigt zugleich den Einwand an. Höflich und trotzdem klar.">schon</div>
+      <div class="opt" data-t="2" data-fb="Möglich, andere Nuance: <b>ja</b> behauptet, alle fänden ihn stimmig. Das kann verbindend wirken – oder so, als würdest du dich hinter dem Team verstecken.">ja</div>
+      <div class="opt" data-t="3" data-fb="Passt nicht: <b>doch</b> setzt voraus, dass jemand den Entwurf gerade schlechtgeredet hat. Das ist hier nicht der Fall.">doch</div>
+      <div class="opt" data-t="3" data-fb="Schwächt das Lob zu stark: Mit <b>wohl</b> klingt es, als hättest du den Entwurf gar nicht richtig angesehen.">wohl</div>
+    </div>
+    <div class="fb"></div>
+  </div>
+</section>
+<section class="blk" id="b5">
+  <div class="bhead">
+    <div class="num">Block 5</div>
+    <h2>Ton verändern – umformulieren</h2>
+    <div class="aim">Der Kern des Ganzen. Schreib den Satz neu, mit passender Modalpartikel. Nicht raten, welche „richtig" ist – entscheiden, was du erreichen willst.</div>
+  </div>
+  <div class="note">Die Musterlösungen sind <b>eine</b> Möglichkeit, nicht <b>die</b> Lösung. Wenn deine Variante eine andere Haltung transportiert, ist sie deshalb nicht falsch – notier dir, worin der Unterschied besteht.</div>
+
+  <div class="item" data-open="5a">
+    <p class="q"><b>1.</b> Neutral: <i>„Die Inhalte müssen wir vorher aufbereiten."</i><br>
+    <span class="sans" style="font-size:14px;color:var(--petrol)">→ Formuliere so, dass du auf gemeinsames Wissen verweist und niemanden belehrst.</span></p>
+    <textarea class="short" placeholder="…"></textarea>
+    <div class="btnrow"><button class="btn ghost" onclick="sol(this)">Musterlösung</button></div>
+    <div class="sol"><span class="var">Die Inhalte müssen wir ja vorher aufbereiten.</span> <b>ja</b> macht daraus etwas, das ohnehin auf dem Tisch liegt – du erinnerst, statt zu erklären.</div>
+  </div>
+
+  <div class="item" data-open="5b">
+    <p class="q"><b>2.</b> Neutral: <i>„Das ist technisch nicht in drei Wochen zu schaffen."</i><br>
+    <span class="sans" style="font-size:14px;color:var(--petrol)">→ Formuliere so, dass du dich noch nicht endgültig festlegst.</span></p>
+    <textarea class="short" placeholder="…"></textarea>
+    <div class="btnrow"><button class="btn ghost" onclick="sol(this)">Musterlösung</button></div>
+    <div class="sol"><span class="var">Das ist technisch wohl nicht in drei Wochen zu schaffen.</span> <b>wohl</b> senkt den Gewissheitsgrad – du benennst das Problem und behältst Verhandlungsspielraum.</div>
+  </div>
+
+  <div class="item" data-open="5c">
+    <p class="q"><b>3.</b> Kollegin: <i>„Digitale Angebote sind für ältere Besucher nichts."</i><br>
+    <span class="sans" style="font-size:14px;color:var(--petrol)">→ Widersprich deutlich, aber mit Beleg statt mit Empörung.</span></p>
+    <textarea class="short" placeholder="…"></textarea>
+    <div class="btnrow"><button class="btn ghost" onclick="sol(this)">Musterlösung</button></div>
+    <div class="sol"><span class="var">Die Zahlen sagen doch etwas anderes – die längste Verweildauer hatten bei uns die über Sechzigjährigen.</span> <b>doch</b> braucht diese Gegenposition; ohne sie im Raum wäre der Satz sinnlos.</div>
+  </div>
+
+  <div class="item" data-open="5d">
+    <p class="q"><b>4.</b> Neutral: <i>„Dann können wir den zweiten Raum nicht bespielen."</i><br>
+    <span class="sans" style="font-size:14px;color:var(--petrol)">→ Formuliere so, dass die Konsequenz unvermeidbar wirkt, ohne dass du klagst.</span></p>
+    <textarea class="short" placeholder="…"></textarea>
+    <div class="btnrow"><button class="btn ghost" onclick="sol(this)">Musterlösung</button></div>
+    <div class="sol"><span class="var">Dann können wir den zweiten Raum eben nicht bespielen.</span> Intern ginge auch <b>halt</b>; im Gespräch mit dem Haus klingt <b>eben</b> etwas kontrollierter.</div>
+  </div>
+
+  <div class="item" data-open="5e">
+    <p class="q"><b>5.</b> Direkt: <i>„Sieh dir die Nutzerführung noch einmal an."</i><br>
+    <span class="sans" style="font-size:14px;color:var(--petrol)">→ Formuliere als beiläufige kollegiale Bitte.</span></p>
+    <textarea class="short" placeholder="…"></textarea>
+    <div class="btnrow"><button class="btn ghost" onclick="sol(this)">Musterlösung</button></div>
+    <div class="sol"><span class="var">Sieh dir die Nutzerführung mal noch einmal an.</span> Mit <b>doch mal</b> („Sieh sie dir doch mal an") wird daraus ein etwas nachdrücklicherer Vorschlag – nützlich, wenn du schon einmal darum gebeten hast.</div>
+  </div>
+
+  <div class="item" data-open="5f">
+    <p class="q"><b>6.</b> Neutral: <i>„Der Ansatz überzeugt mich, aber der Aufwand steht in keinem Verhältnis."</i><br>
+    <span class="sans" style="font-size:14px;color:var(--petrol)">→ Formuliere so, dass das Zugeständnis hörbar auf einen Einwand zuläuft.</span></p>
+    <textarea class="short" placeholder="…"></textarea>
+    <div class="btnrow"><button class="btn ghost" onclick="sol(this)">Musterlösung</button></div>
+    <div class="sol"><span class="var">Der Ansatz überzeugt mich schon, nur steht der Aufwand in keinem Verhältnis.</span> <b>schon</b> plus <i>nur</i> ist eine der häufigsten Kombinationen im deutschen Berufsalltag – merk sie dir als Einheit.</div>
+  </div>
+
+  <div class="item" data-open="5g">
+    <p class="q"><b>7.</b> Direkt: <i>„Warum haben wir uns damals für diese Lösung entschieden?"</i><br>
+    <span class="sans" style="font-size:14px;color:var(--petrol)">→ Formuliere so, dass die Frage an das Gesagte anknüpft und nicht wie eine Prüfung klingt.</span></p>
+    <textarea class="short" placeholder="…"></textarea>
+    <div class="btnrow"><button class="btn ghost" onclick="sol(this)">Musterlösung</button></div>
+    <div class="sol"><span class="var">Warum haben wir uns damals denn für diese Lösung entschieden?</span> Mit <b>eigentlich</b> statt <b>denn</b> würde die Frage grundsätzlicher – dann fragst du nicht nach dem Grund, sondern stellst die Entscheidung selbst zur Debatte.</div>
+  </div>
+
+  <div class="item" data-open="5h">
+    <p class="q"><b>8.</b> Die Kundenseite hält es für selbstverständlich, dass ihr die Texte schreibt.<br>
+    <span class="sans" style="font-size:14px;color:var(--petrol)">→ Korrigiere diese Erwartung freundlich, aber unmissverständlich.</span></p>
+    <textarea class="short" placeholder="…"></textarea>
+    <div class="btnrow"><button class="btn ghost" onclick="sol(this)">Musterlösung</button></div>
+    <div class="sol"><span class="var">Die Texte kommen ja von Ihrer Seite – wir bereiten sie dann für die Anwendung auf.</span> <b>ja</b> behandelt die Zuständigkeit als längst geklärt; das ist deutlich freundlicher als <b>doch</b>, das nach Zurechtweisung klänge.</div>
+  </div>
+</section>
+
+<section class="blk" id="b6">
+  <div class="bhead">
+    <div class="num">Block 6</div>
+    <h2>Dialogreparatur</h2>
+    <div class="aim">Eine Replik sitzt jeweils nicht. Schreib sie neu – du entscheidest, welche Partikel du einsetzt und warum.</div>
+  </div>
+
+  <div class="item" data-open="6a">
+    <div class="ctx">Teammeeting · B klingt schroffer, als B es meint</div>
+    <p><b>A:</b> Ich würde die Erklärtexte an den Screens komplett streichen.</p>
+    <p><b>B:</b> Nein. Ohne Text versteht niemand die Exponate.</p>
+    <p class="q sans" style="font-size:14px;color:var(--grey)">Schreib B neu, sodass der Widerspruch bleibt, aber A nicht abgekanzelt wird. Notiere danach, welche Partikel du gewählt hast und warum.</p>
+    <textarea placeholder="B: …&#10;&#10;Warum diese Partikel: …"></textarea>
+    <div class="btnrow"><button class="btn ghost" onclick="sol(this)">Kommentar</button></div>
+    <div class="sol">Zwei brauchbare Wege: <span class="var">Ohne Text versteht die Hälfte der Leute die Exponate doch gar nicht.</span> – klarer Widerspruch, aber durch das Beispielargument getragen. Oder milder: <span class="var">Ein bisschen Text brauchen wir schon, sonst steht man vor den Objekten und weiß nichts damit anzufangen.</span> – <b>schon</b> räumt A einen Teil ein und macht den Einwand verträglicher.</div>
+  </div>
+
+  <div class="item" data-open="6b">
+    <div class="ctx">Gespräch mit dem Museum · B klingt zu unverbindlich</div>
+    <p><b>A (Museum):</b> Können Sie uns die interaktive Station bis zur Eröffnung liefern?</p>
+    <p><b>B (du):</b> Ja, das machen wir.</p>
+    <p class="q sans" style="font-size:14px;color:var(--grey)">Du weißt, dass es sehr knapp wird und die Inhalte noch nicht freigegeben sind. Schreib B neu – zusagen, aber ohne dich zu verbrennen.</p>
+    <textarea placeholder="B: …&#10;&#10;Warum diese Partikel: …"></textarea>
+    <div class="btnrow"><button class="btn ghost" onclick="sol(this)">Kommentar</button></div>
+    <div class="sol"><span class="var">Die Station bekommen wir hin – die Inhalte müssen dann allerdings bis Ende März bei uns sein, sonst wird es wohl knapp.</span> <b>wohl</b> nimmt der Warnung die Schärfe und lässt dir Spielraum. Wer stattdessen <b>eben</b> setzt („dann wird es eben knapp"), klingt, als sei die Verzögerung bereits beschlossene Sache.</div>
+  </div>
+
+  <div class="item" data-open="6c">
+    <div class="ctx">Interne Runde · B geht über A hinweg</div>
+    <p><b>A:</b> Ich verstehe nicht, warum wir zwei Vermittlungsebenen brauchen.</p>
+    <p><b>B:</b> Das haben wir doch schon dreimal besprochen.</p>
+    <p class="q sans" style="font-size:14px;color:var(--grey)">B hat sachlich recht, verliert aber A. Schreib B neu, sodass die Erinnerung bleibt und A trotzdem gehört wird.</p>
+    <textarea placeholder="B: …&#10;&#10;Warum diese Partikel: …"></textarea>
+    <div class="btnrow"><button class="btn ghost" onclick="sol(this)">Kommentar</button></div>
+    <div class="sol"><span class="var">Wir hatten das ja im Februar schon einmal – der Punkt war, dass das Fachpublikum eine zweite Ebene braucht. Reicht dir das als Begründung, oder sollen wir noch mal draufschauen?</span> <b>ja</b> statt <b>doch</b> nimmt den Vorwurf heraus; die Rückfrage gibt A die Tür wieder auf.</div>
+  </div>
+
+  <div class="item" data-open="6d">
+    <div class="ctx">Präsentation · B wirkt unsicher, obwohl B es genau weiß</div>
+    <p><b>A (Museum):</b> Ist die Anwendung barrierefrei?</p>
+    <p><b>B (du):</b> Ich denke, das ist wohl weitgehend der Fall.</p>
+    <p class="q sans" style="font-size:14px;color:var(--grey)">Du hast die Anwendung selbst nach den Kriterien geprüft. Schreib B neu – und erklär, warum <b>wohl</b> hier schadet.</p>
+    <textarea placeholder="B: …&#10;&#10;Warum wohl hier schadet: …"></textarea>
+    <div class="btnrow"><button class="btn ghost" onclick="sol(this)">Kommentar</button></div>
+    <div class="sol"><span class="var">Ja, die Anwendung ist barrierefrei – wir haben sie nach den gängigen Kriterien geprüft.</span> <b>wohl</b> signalisiert Distanz zur eigenen Aussage. Bei etwas, das du selbst geprüft hast, untergräbt das deine Zuständigkeit: Die Kundenseite hört heraus, dass du dir nicht sicher bist. Modalpartikeln machen Sprache nicht generell höflicher – sie können Kompetenz auch verschenken.</div>
+  </div>
+</section>
+
+<section class="blk" id="b7">
+  <div class="bhead">
+    <div class="num">Block 7</div>
+    <h2>Welcher Subtext?</h2>
+    <div class="aim">Wähle die Lesart, die am genauesten trifft – und begründe sie in einem Satz.</div>
+  </div>
+
+  <div class="item" data-mc="7a">
+    <div class="ctx">Die Projektleiterin, nachdem die Kundenseite eine Funktion gestrichen hat</div>
+    <div class="utt">„Dann bauen wir die Station <em>halt</em> ohne den Medientisch."</div>
+    <div class="opts">
+      <div class="opt" data-t="1" data-fb="Genau. <b>halt</b> signalisiert: Ich habe meine Meinung, aber ich trage die Entscheidung mit. Es ist Zustimmung mit hörbarem Rest an Unmut – deshalb intern so verbreitet.">Ich finde es nicht gut, aber ich streite nicht mehr darüber.</div>
+      <div class="opt" data-t="3" data-fb="Nein. Für echte Begeisterung wäre <b>halt</b> die falsche Wahl – die Partikel trägt immer einen Rest Resignation.">Ich finde die Entscheidung gut und setze sie gern um.</div>
+      <div class="opt" data-t="2" data-fb="Möglich, aber zu stark. <b>halt</b> ist nicht vorwurfsvoll, es ist achselzuckend – der Unterschied ist im Team erheblich.">Ich mache euch einen Vorwurf.</div>
+    </div>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-mc="7b">
+    <div class="ctx">Ein Kollege in der Konzeptrunde</div>
+    <div class="utt">„Das machen andere Häuser <em>ja</em> auch so."</div>
+    <div class="opts">
+      <div class="opt" data-t="1" data-fb="Ja. <b>ja</b> erklärt die Information zum Allgemeinwissen und macht sie damit schwer angreifbar – wer widerspricht, muss erst einmal bestreiten, dass es alle wissen.">Das ist bekannt, darüber müssen wir nicht diskutieren.</div>
+      <div class="opt" data-t="2" data-fb="Der Sprecher will vielleicht überzeugen, aber <b>ja</b> tut das nicht durch Argumentation, sondern indem es Zustimmung voraussetzt. Das ist rhetorisch etwas ganz anderes.">Ich möchte euch von etwas Neuem überzeugen.</div>
+      <div class="opt" data-t="3" data-fb="Nein. Für einen Zweifel gäbe es <b>wohl</b>. <b>ja</b> stellt gerade nichts infrage.">Ich bin mir nicht sicher, ob das stimmt.</div>
+    </div>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-mc="7c">
+    <div class="ctx">Nach der Testphase mit Besucher:innen</div>
+    <div class="utt">„Die Nutzerführung war <em>schon</em> verständlich."</div>
+    <div class="opts">
+      <div class="opt" data-t="1" data-fb="Richtig. <b>schon</b> ohne folgendes Aber ist trotzdem eingeschränktes Lob – die Zuhörer warten unwillkürlich auf die Fortsetzung. Deshalb wirkt es nie wie volle Zustimmung.">Verständlich ja – aber da war noch etwas.</div>
+      <div class="opt" data-t="3" data-fb="Nein. Uneingeschränkt wäre nur der Satz ohne <b>schon</b>.">Sie war uneingeschränkt gut.</div>
+      <div class="opt" data-t="2" data-fb="So weit geht <b>schon</b> nicht. Es räumt ein, es bestreitet nicht – der Kern der Aussage bleibt positiv.">Sie war eigentlich unverständlich.</div>
+    </div>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-mc="7d">
+    <div class="ctx">Beim Blick in ein fremdes Ausstellungskonzept</div>
+    <div class="utt">„Die haben sich <em>wohl</em> an Hombroich orientiert."</div>
+    <div class="opts">
+      <div class="opt" data-t="1" data-fb="Ja. <b>wohl</b> markiert eine Schlussfolgerung aus Indizien. Genau so steht es im Kapitel: „Es handelt sich wohl um einen der spektakulärsten Kunstraube" – niemand war dabei, alle schließen.">Das schließe ich aus dem, was ich sehe – gesichert ist es nicht.</div>
+      <div class="opt" data-t="3" data-fb="Nein. Mit gesichertem Wissen ließe man <b>wohl</b> weg.">Ich weiß das aus erster Hand.</div>
+      <div class="opt" data-t="2" data-fb="Ein ironischer Unterton ist über die Intonation möglich, steckt aber nicht in der Partikel selbst.">Ich finde das nachgemacht und schwach.</div>
+    </div>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-mc="7e">
+    <div class="ctx">Am Ende einer langen Diskussion über den Rundgang</div>
+    <div class="utt">„Wollen wir das <em>eigentlich</em> heute noch entscheiden?"</div>
+    <div class="opts">
+      <div class="opt" data-t="1" data-fb="Genau. <b>eigentlich</b> tritt einen Schritt zurück und stellt die Rahmenbedingung infrage, statt weiter im Detail zu diskutieren. Ein sehr nützlicher Zug, wenn eine Runde sich festgefahren hat.">Ich stelle den Rahmen infrage, nicht den Inhalt.</div>
+      <div class="opt" data-t="3" data-fb="Nein. Für reines Drängen bräuchte es keine Partikel – <b>eigentlich</b> öffnet gerade die Möglichkeit, es zu verschieben.">Ich dränge auf eine schnelle Entscheidung.</div>
+      <div class="opt" data-t="2" data-fb="Das Genervtsein kann mitschwingen, ist aber Kontext und Intonation. Die Partikel selbst leistet den Perspektivwechsel.">Ich bin genervt von euch.</div>
+    </div>
+    <div class="fb"></div>
+  </div>
+</section>
+<section class="blk" id="b8">
+  <div class="bhead">
+    <div class="num">Block 8</div>
+    <h2>Fall: Digitale Erweiterung der Dauerausstellung</h2>
+    <div class="aim">Ein Projekt, vier Momente. Antworte jedes Mal in zwei bis drei Sätzen – und setz die Partikel bewusst.</div>
+  </div>
+
+  <div class="case">
+    <h4>Ausgangslage</h4>
+    <p>Ein mittelgroßes Haus möchte seine Dauerausstellung digital erweitern. Geplant sind eine Anwendung ohne Installation, zwei Vermittlungsebenen und eine interaktive Station im Foyer. Die Texte kommen aus dem Haus, ihr bereitet sie auf. Der Zeitplan ist knapp, ein Teil der Objekte sind Leihgaben.</p>
+  </div>
+
+  <div class="item" data-open="8a">
+    <p class="q"><b>Situation 1 · Zweifel im eigenen Team.</b> Eine Kollegin sagt in der Konzeptrunde: <i>„Zwei Vermittlungsebenen sind zu viel. Das nutzt am Ende niemand, und wir verdoppeln uns den Aufwand."</i></p>
+    <p class="q sans" style="font-size:14px;color:var(--petrol)">→ Du hältst die zweite Ebene für richtig. Widersprich freundlich, aber ohne deine Position weichzuspülen.</p>
+    <textarea placeholder="…"></textarea>
+    <div class="btnrow"><button class="btn ghost" onclick="sol(this)">Beispielreaktion</button></div>
+    <div class="sol"><span class="var">Den Aufwand sehe ich schon auch – nur haben wir die zweite Ebene ja gerade wegen des Fachpublikums aufgenommen. Wenn wir sie streichen, verlieren wir genau die Gruppe, die das Haus gewinnen wollte.</span> Zuerst <b>schon</b> (Zugeständnis), dann <b>ja</b> (gemeinsame Vorgeschichte) – der Widerspruch steht, wirkt aber nicht wie ein Angriff.</div>
+  </div>
+
+  <div class="item" data-open="8b">
+    <p class="q"><b>Situation 2 · Die Kundenseite ändert eine Anforderung.</b> Vier Wochen vor Abgabe schreibt das Museum: <i>„Wir möchten die Anwendung doch lieber auf jüngere Besucher zuschneiden."</i></p>
+    <p class="q sans" style="font-size:14px;color:var(--petrol)">→ Reagiere: Konsequenz benennen, Verantwortung sichtbar machen, nicht klagen.</p>
+    <textarea placeholder="…"></textarea>
+    <div class="btnrow"><button class="btn ghost" onclick="sol(this)">Beispielreaktion</button></div>
+    <div class="sol"><span class="var">Das lässt sich machen – dann müssen wir die Texte eben noch einmal neu aufbereiten, und der Zeitplan verschiebt sich wohl um zwei bis drei Wochen. Sollen wir das gemeinsam durchgehen, bevor wir es festschreiben?</span> <b>eben</b> stellt die Konsequenz als sachliche Folge dar (nicht als Vorwurf), <b>wohl</b> hält die Zahl noch offen.</div>
+  </div>
+
+  <div class="item" data-open="8c">
+    <p class="q"><b>Situation 3 · Jemand hält eine Idee für selbstverständlich.</b> Im Meeting sagt der Projektleiter: <i>„Die Bilder der Leihgaben nehmen wir natürlich mit in die Anwendung."</i></p>
+    <p class="q sans" style="font-size:14px;color:var(--petrol)">→ Du weißt, dass die digitalen Rechte bei Leihgaben gesondert geklärt werden müssen. Sag es so, dass niemand vorgeführt wird.</p>
+    <textarea placeholder="…"></textarea>
+    <div class="btnrow"><button class="btn ghost" onclick="sol(this)">Beispielreaktion</button></div>
+    <div class="sol"><span class="var">Bei den Leihgaben ist die digitale Nutzung ja gesondert zu klären – ist das schon passiert? Sonst würde ich das lieber vorher abfragen, bevor wir damit planen.</span> <b>ja</b> behandelt die Rechtslage als bekannt und lässt dem Projektleiter das Gesicht; die Rückfrage macht daraus einen Arbeitsschritt statt einer Korrektur.</div>
+  </div>
+
+  <div class="item" data-open="8d">
+    <p class="q"><b>Situation 4 · Streitfrage in der Runde.</b> Ein Kollege: <i>„Wenn die Leute am Handy sind, schauen sie die Exponate nicht mehr an. Das ist bei jedem dieser Projekte so."</i></p>
+    <p class="q sans" style="font-size:14px;color:var(--petrol)">→ Differenziere, statt zuzustimmen oder abzulehnen. Genau eine Modalpartikel, bewusst gesetzt.</p>
+    <textarea placeholder="…"></textarea>
+    <div class="btnrow"><button class="btn ghost" onclick="sol(this)">Beispielreaktion</button></div>
+    <div class="sol"><span class="var">In dieser Pauschalität würde ich das nicht unterschreiben – das hängt doch stark davon ab, ob die Anwendung zum Objekt hinführt oder davon weg. Bei unserer Foyer-Station ist die Verweildauer vor den Objekten sogar gestiegen.</span> <b>doch</b> arbeitet direkt gegen das „bei jedem dieser Projekte" und wird sofort belegt.</div>
+  </div>
+</section>
+
+<section class="blk" id="b9">
+  <div class="bhead">
+    <div class="num">Block 9</div>
+    <h2>Rollenspiel: Abstimmung mit dem Museum</h2>
+    <div class="aim">Sieben Züge. Schreib frei – die Antwort deines Gegenübers hängt davon ab, wie du reagierst.</div>
+  </div>
+  <div class="chat" id="chat"></div>
+  <div class="chatin">
+    <textarea id="chatinput" placeholder="Deine Antwort …"></textarea>
+    <button class="btn brass" onclick="sendMsg()" style="padding:14px 18px">Senden</button>
+  </div>
+  <div class="chattip">Tipp: Achte darauf, dass du im Verlauf mindestens einmal etwas <b>einräumst</b>, einmal auf <b>gemeinsames Wissen</b> verweist und einmal eine <b>Erwartung korrigierst</b>. Am Ende bekommst du eine Auswertung deiner Partikelnutzung.</div>
+  <div class="btnrow"><button class="btn ghost" onclick="resetChat()">Gespräch neu starten</button></div>
+  <div id="chateval" class="sol"></div>
+</section>
+
+<section class="blk" id="b10">
+  <div class="bhead">
+    <div class="num">Block 10</div>
+    <h2>Authentischer Input: die Texte aus dem Kapitel</h2>
+    <div class="aim">Zwei Passagen aus „Kunst und Kultur" – geschrieben für erwachsene Muttersprachler, nicht für Lernende. Analysiere, wie sich die Autoren positionieren.</div>
+  </div>
+
+  <div class="item">
+    <div class="ctx">Text 1 · aus „Fahndung unter Hochdruck"</div>
+    <p style="font-style:italic;background:var(--card);padding:13px 16px;border-left:3px solid var(--grey)">„Es handelt sich <b>wohl</b> um einen der spektakulärsten Kunstraube der Geschichte im November 2019. […] Die Sensationsware gilt aufgrund des Bekanntheitsgrades als unverkäuflich. Man hofft auf den Erhalt der Ware […] Wie die Einbrecher in das Gebäude kommen konnten, bleibt weiterhin unklar. Man geht davon aus, dass der Stromausfall im direkten Zusammenhang mit dem Tatbestand steht."</p>
+  </div>
+
+  <div class="item" data-open="10a">
+    <p class="q"><b>1.</b> Der Text ist voll von Distanzmarkierungen: <i>wohl</i>, <i>gilt als</i>, <i>man geht davon aus</i>, <i>bleibt unklar</i>. Warum schreibt eine Zeitungsmeldung so – und was hätte der Satz ohne <b>wohl</b> für Folgen?</p>
+    <textarea class="short" placeholder="…"></textarea>
+    <div class="btnrow"><button class="btn ghost" onclick="sol(this)">Kommentar</button></div>
+    <div class="sol">Journalistische Texte müssen Wissen und Vermutung trennen – auch aus rechtlichen Gründen. Ohne <b>wohl</b> wäre „einer der spektakulärsten Kunstraube der Geschichte" eine Behauptung der Redaktion; mit <b>wohl</b> ist es eine Einordnung, die niemand nachweisen muss. Dieselbe Funktion hat die Partikel in deinen Projektberichten: Sie unterscheidet, wofür du geradestehst und wofür nicht.</div>
+  </div>
+
+  <div class="item">
+    <div class="ctx">Text 2 · aus „Bestandsaufnahme Gurlitt"</div>
+    <p style="font-style:italic;background:var(--card);padding:13px 16px;border-left:3px solid var(--grey)">„Der Fall Gurlitt im Jahr 2013 war <b>wohl</b> einer der brisantesten Fälle in den letzten Jahrzehnten der Kunstgeschichte. […] Der Prozess der Restitution aber stellt sich als sehr schleppend heraus. […] Nicht zu Unrecht beschäftigt der ‚Fall Gurlitt' nach wie vor die Feuilletons […] Entsprechende Institutionen, der Kunsthandel, die Museen, <b>ja</b> gar die Experten scheinen völlig überfordert zu sein mit den immer dringlicher an sie gestellten Fragen. […] Bislang tut sich nichts."</p>
+  </div>
+
+  <div class="item" data-open="10b">
+    <p class="q"><b>2.</b> Wo ist der Autor <b>vorsichtig</b>, wo <b>kategorisch</b>? Nenne je zwei Stellen und beschreibe, woran man es sprachlich erkennt.</p>
+    <textarea placeholder="Vorsichtig: …&#10;&#10;Kategorisch: …"></textarea>
+    <div class="btnrow"><button class="btn ghost" onclick="sol(this)">Kommentar</button></div>
+    <div class="sol"><b>Vorsichtig:</b> „war wohl einer der brisantesten Fälle" (Einschätzung, keine Behauptung); „scheinen überfordert zu sein" (scheinen statt sind). <b>Kategorisch:</b> „Bislang tut sich nichts." – kein Hedging, harter Kurzsatz; „Die Kunstgeschichte steht vor einem dringenden Umbruch." Interessant ist die Mischung: Der Autor sichert die Fakten ab und lässt die Wertung ungeschützt stehen. Genau umgekehrt macht man es im Projektgespräch selten gut.</div>
+  </div>
+
+  <div class="item" data-open="10c">
+    <p class="q"><b>3.</b> Das <b>ja</b> in „die Museen, ja gar die Experten" ist <u>keine</u> Modalpartikel, sondern eine Steigerungspartikel („sogar"). Erklär den Unterschied an einem eigenen Beispielpaar aus deinem Arbeitskontext.</p>
+    <textarea class="short" placeholder="Modalpartikel: …&#10;Steigerungspartikel: …"></textarea>
+    <div class="btnrow"><button class="btn ghost" onclick="sol(this)">Kommentar</button></div>
+    <div class="sol"><span class="var">Modalpartikel: „Die Rechte müssen wir ja noch klären."</span> → unbetont, im Mittelfeld, verweist auf gemeinsames Wissen. <span class="var">Steigerungspartikel: „Die Kuratorinnen, ja das ganze Haus stand hinter dem Konzept."</span> → betont, vor einer Aufzählungsstufe, bedeutet „sogar". Gleiche Form, völlig verschiedene Grammatik – ein klassischer C1/C2-Stolperstein.</div>
+  </div>
+
+  <div class="item" data-open="10d">
+    <p class="q"><b>4.</b> Formuliere aus <i>einer</i> Stelle des Gurlitt-Textes eine gesprochene Meeting-Replik – so, wie du sie in eurer Runde sagen würdest, mit passender Modalpartikel. Erklär, was sich am Ton ändert.</p>
+    <textarea placeholder="Replik: …&#10;&#10;Was sich ändert: …"></textarea>
+    <div class="btnrow"><button class="btn ghost" onclick="sol(this)">Beispiel</button></div>
+    <div class="sol"><span class="var">Bei den Provenienzen kommen wir ja seit Monaten nicht weiter – ich würde die Objekte für die erste Ausbaustufe erst mal rausnehmen.</span> Der geschriebene Text argumentiert distanziert („stellt sich als schleppend heraus"); die gesprochene Fassung nimmt mit <b>ja</b> die Zuhörer mit hinein und macht aus der Analyse eine gemeinsame Grundlage für den Vorschlag.</div>
+  </div>
+
+  <div class="item" data-open="10e">
+    <p class="q"><b>5.</b> Der Kapiteltext fragt: <i>„Ist dieser Einfluss von Stiftern auf die Kulturpolitik nur positiv zu werten? Diktieren sie dadurch eventuell die Kulturszene einer ganzen Stadt?"</i> – Formuliere deine eigene Position in drei bis vier Sätzen, mündlich gedacht, mit mindestens zwei Modalpartikeln.</p>
+    <textarea placeholder="…"></textarea>
+  </div>
+</section>
+<section class="speak" id="b11">
+  <h2>🎙️ Sprechaufgabe: Projektbesprechung</h2>
+  <div class="sub">Das ist der eigentliche Teil dieser Hausaufgabe. Zwei bis vier Minuten, frei gesprochen.</div>
+
+  <div class="card2">
+    <h4>Die Lage</h4>
+    <p style="margin:0;font-size:15.5px">Ihr besprecht intern die digitale Erweiterung der Dauerausstellung aus Block 8. Auf dem Tisch liegen vier Dinge:</p>
+    <ul>
+      <li><b>Ein Problem:</b> Die Texte des Hauses sind noch nicht freigegeben, die Eröffnung steht.</li>
+      <li><b>Ein Einwand:</b> Eine Kollegin hält die zweite Vermittlungsebene für überflüssig.</li>
+      <li><b>Eine Änderung:</b> Das Museum will die Anwendung kurzfristig auf ein jüngeres Publikum zuschneiden.</li>
+      <li><b>Eine strittige Entscheidung:</b> Die interaktive Station im Foyer soll gestrichen werden, um Zeit zu sparen – du hältst das für falsch.</li>
+    </ul>
+  </div>
+
+  <div class="card2">
+    <h4>Was du tun sollst</h4>
+    <ul>
+      <li>Fass die Lage kurz zusammen und beziehe Position.</li>
+      <li>Reagiere auf den Einwand der Kollegin – widersprich, ohne sie abzuräumen.</li>
+      <li>Benenne die Konsequenz der kurzfristigen Änderung, ohne zu klagen.</li>
+      <li>Mach einen Vorschlag, wie ihr trotzdem zur Eröffnung fertig werdet.</li>
+      <li>Schließ mit einer klaren Empfehlung zur Foyer-Station.</li>
+    </ul>
+  </div>
+
+  <div class="card2">
+    <h4>Zu den Modalpartikeln</h4>
+    <p style="margin:0;font-size:15.5px">Keine Quote. Setz sie dort, wo sie pragmatisch wirklich hingehören – lieber vier passende als zehn erzwungene. Hak nach dem Aufnehmen ab, was dir gelungen ist:</p>
+  </div>
+
+  <div class="check"><input type="checkbox" id="k1"><label for="k1">Ich habe einmal etwas <b>eingeräumt</b>, bevor ich widersprochen habe.</label></div>
+  <div class="check"><input type="checkbox" id="k2"><label for="k2">Ich habe mich einmal auf <b>gemeinsames Wissen</b> berufen, statt zu belehren.</label></div>
+  <div class="check"><input type="checkbox" id="k3"><label for="k3">Ich habe eine <b>Erwartung korrigiert</b>, ohne jemanden vorzuführen.</label></div>
+  <div class="check"><input type="checkbox" id="k4"><label for="k4">Ich habe eine Konsequenz als <b>unvermeidbar</b> dargestellt, ohne zu klagen.</label></div>
+  <div class="check"><input type="checkbox" id="k5"><label for="k5">Ich habe mich einmal bewusst <b>nicht festgelegt</b> – und einmal bewusst schon.</label></div>
+  <div class="check"><input type="checkbox" id="k6"><label for="k6">Ich habe eine <b>Bitte</b> beiläufig formuliert statt als Anweisung.</label></div>
+  <div class="check"><input type="checkbox" id="k7"><label for="k7">Ich habe abgelesen: <b>nein</b>. Nur Stichpunkte.</label></div>
+
+  <div style="margin-top:18px">
+    <p style="font-size:15.5px;margin-bottom:7px"><b>Meine Stichpunkte</b> (keine ausformulierten Sätze!)</p>
+    <textarea id="notes" placeholder="– &#10;– &#10;– "></textarea>
+  </div>
+
+  <div class="tg">🎙️ <b>Nimm deine Antwort als Sprachnachricht auf und schick sie deiner Lehrerin in Telegram.</b><br>
+  <span style="font-size:14.5px">Zwei bis vier Minuten. Frei gesprochen, nicht abgelesen.</span></div>
+</section>
+
+<section class="blk" id="refl">
+  <div class="bhead">
+    <div class="num">Zum Schluss</div>
+    <h2>Meine Reflexion</h2>
+  </div>
+  <div class="item" data-open="r1">
+    <p class="q"><b>1.</b> Welche dieser neun Modalpartikeln benutzt du beim Sprechen noch nicht spontan – und woran liegt das deiner Meinung nach?</p>
+    <textarea class="short" placeholder="…"></textarea>
+  </div>
+  <div class="item" data-open="r2">
+    <p class="q"><b>2.</b> Bei welcher Partikel musst du über die Nuance noch nachdenken, bevor du sie einsetzt?</p>
+    <textarea class="short" placeholder="…"></textarea>
+  </div>
+  <div class="item" data-open="r3">
+    <p class="q"><b>3.</b> Welche konkrete Formulierung aus dieser Hausaufgabe würdest du tatsächlich in einem Meeting verwenden? Schreib sie wörtlich auf.</p>
+    <textarea class="short" placeholder="…"></textarea>
+  </div>
+  <div class="item" data-open="r4">
+    <p class="q"><b>4.</b> Gibt es eine Stelle, an der du beim Umformulieren gemerkt hast, dass Russisch dir eine andere Struktur nahegelegt hätte? Welche?</p>
+    <textarea class="short" placeholder="…"></textarea>
+  </div>
+</section>
+
+<button class="bigprint" onclick="window.print()">📄 Antworten als PDF speichern</button>
+<div class="reset"><button class="btn ghost" onclick="hardReset()">Alles zurücksetzen</button></div>
+
+<footer>Deutschunterricht Kate · Hausaufgabe zu Stunde 3 · Modalpartikeln im Kontext Kunst, Museum und digitale Vermittlung</footer>
+</div>
+
+<div id="conf"></div>
+<script>
+var KEY='kate_modalpartikeln_v1';
+var ST={mc:{},txt:{},sol:{},chk:{},chat:[],streak:0,best:0,meta:{}};
+try{var raw=localStorage.getItem(KEY); if(raw)ST=Object.assign(ST,JSON.parse(raw));}catch(e){}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(ST))}catch(e){}}
+function esc(s){return (s||'').replace(/[&<>]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;'}[c]})}
+
+function initMC(){
+  document.querySelectorAll('.item[data-mc]').forEach(function(it){
+    var id=it.dataset.mc;
+    var opts=it.querySelectorAll('.opt');
+    opts.forEach(function(o,i){
+      o.classList.add('t'+o.dataset.t);
+      o.addEventListener('click',function(){
+        if(o.classList.contains('sel'))return;
+        opts.forEach(function(x){x.classList.remove('sel')});
+        o.classList.add('sel');
+        showFB(it,o);
+        var wasNew = ST.mc[id]===undefined;
+        ST.mc[id]=i;
+        if(o.dataset.t==='1'){ if(wasNew){ST.streak++; if(ST.streak>ST.best)ST.best=ST.streak;} }
+        else { ST.streak=0; }
+        save(); paint();
+      });
+    });
+    if(ST.mc[id]!==undefined && opts[ST.mc[id]]){
+      opts[ST.mc[id]].classList.add('sel');
+      showFB(it,opts[ST.mc[id]]);
+    }
+  });
+}
+function showFB(it,o){
+  var fb=it.querySelector('.fb');
+  var t=o.dataset.t;
+  var tag = t==='1' ? 'sehr passend' : (t==='2' ? 'möglich, aber andere Nuance' : 'grammatisch möglich, pragmatisch hier weniger passend');
+  fb.className='fb on t'+t;
+  fb.innerHTML='<b class="tag">'+tag+'</b>'+o.dataset.fb;
+}
+
+function initTxt(){
+  document.querySelectorAll('textarea').forEach(function(ta,i){
+    if(!ta.id)ta.id='ta_'+i;
+    if(ST.txt[ta.id]!==undefined){ta.value=ST.txt[ta.id];autoGrow(ta);}
+    ta.addEventListener('input',function(){
+      ST.txt[ta.id]=ta.value; save(); paint(); autoGrow(ta);
+    });
+  });
+}
+function autoGrow(ta){ if(ta.id==='chatinput')return; ta.style.height='auto'; ta.style.height=(ta.scrollHeight+4)+'px'; }
+
+function sol(btn){
+  if(!btn.dataset.t)btn.dataset.t=btn.textContent;
+  var box=btn.closest('.btnrow').nextElementSibling;
+  var open=box.classList.toggle('on');
+  btn.textContent = open ? 'ausblenden' : btn.dataset.t;
+  var it=btn.closest('.item');
+  if(it){ var id=it.dataset.mc||it.dataset.open; if(id){ST.sol[id]=open; save();} }
+}
+function restoreSol(){
+  document.querySelectorAll('.item').forEach(function(it){
+    var id=it.dataset.mc||it.dataset.open;
+    if(id && ST.sol[id]){
+      var b=it.querySelector('.btnrow button'); var box=it.querySelector('.sol');
+      if(b&&box){ box.classList.add('on'); if(!b.dataset.t)b.dataset.t=b.textContent; b.textContent='ausblenden'; }
+    }
+  });
+}
+
+function initChk(){
+  document.querySelectorAll('.check input, .idbar input').forEach(function(el){
+    if(el.type==='checkbox'){
+      if(ST.chk[el.id])el.checked=true;
+      el.addEventListener('change',function(){ST.chk[el.id]=el.checked;save();paint()});
+    } else {
+      if(ST.meta[el.id])el.value=ST.meta[el.id];
+      el.addEventListener('input',function(){ST.meta[el.id]=el.value;save()});
+    }
+  });
+  var d=document.getElementById('dt');
+  if(!d.value){var n=new Date();d.value=String(n.getDate()).padStart(2,'0')+'.'+String(n.getMonth()+1).padStart(2,'0')+'.'+n.getFullYear();ST.meta['dt']=d.value;save();}
+}
+
+var doneOnce=false;
+function paint(){
+  var total=0,done=0;
+  document.querySelectorAll('.item[data-mc]').forEach(function(it){total++;if(ST.mc[it.dataset.mc]!==undefined)done++;});
+  document.querySelectorAll('.item[data-open]').forEach(function(it){
+    total++;
+    var tas=it.querySelectorAll('textarea'); var any=false;
+    tas.forEach(function(t){if((ST.txt[t.id]||'').trim().length>3)any=true;});
+    if(any)done++;
+  });
+  total++; if((ST.txt['notes']||'').trim().length>3)done++;
+  var pc = total? Math.round(done/total*100):0;
+  document.getElementById('pf').style.width=pc+'%';
+  document.getElementById('pt').textContent=done+' von '+total+' bearbeitet · '+pc+'%';
+  document.getElementById('stk').textContent='Serie: '+ST.streak+(ST.best>ST.streak?' (best '+ST.best+')':'');
+  if(pc>=100 && !doneOnce){doneOnce=true;confetti();}
+}
+
+function confetti(){
+  var c=document.getElementById('conf');
+  var cols=['#9A6B2F','#1F4C55','#5B2A3E','#C2924F','#2E6B52'];
+  for(var i=0;i<90;i++){
+    (function(i){
+      var d=document.createElement('div');
+      d.className='cfp';
+      d.style.background=cols[i%cols.length];
+      d.style.left=Math.random()*100+'%';
+      d.style.top='-20px';
+      d.style.transform='rotate('+Math.random()*360+'deg)';
+      c.appendChild(d);
+      var y=-20, vy=2+Math.random()*3.4, vx=(Math.random()-.5)*2.6, r=Math.random()*8;
+      var t=setInterval(function(){
+        y+=vy; r+=6;
+        d.style.top=y+'px';
+        d.style.marginLeft=(vx*y/8)+'px';
+        d.style.transform='rotate('+r+'deg)';
+        if(y>window.innerHeight+40){clearInterval(t);d.remove();}
+      },16);
+    })(i);
+  }
+}
+
+var SCRIPT=[
+ {who:'Museum · Frau Berger',
+  txt:'Guten Morgen! Wir haben intern noch einmal über die Anwendung gesprochen. Ehrlich gesagt sind wir uns nicht mehr sicher, ob wir die zweite Vermittlungsebene wirklich brauchen. Wie sehen Sie das?'},
+ {who:'Museum · Frau Berger',
+  txt:'Das verstehe ich. Aber unsere Vermittlungsabteilung sagt, das liest ohnehin niemand. Und wir müssen die Texte ja auch alle selbst schreiben.'},
+ {who:'Museum · Frau Berger',
+  txt:'Da kommen wir zum Punkt. Die Texte werden bei uns gerade nicht fertig – die Kuratorin ist bis Ende März im Depot. Können Sie die nicht einfach übernehmen?'},
+ {who:'Museum · Frau Berger',
+  txt:'Gut, verstanden. Dann noch etwas anderes: Der Vorstand möchte, dass wir die Anwendung stärker auf jüngeres Publikum zuschneiden. Das wäre für uns kein großer Unterschied, oder?'},
+ {who:'Museum · Frau Berger',
+  txt:'Zwei bis drei Wochen? Die Eröffnung steht aber fest. Was schlagen Sie vor?'},
+ {who:'Museum · Frau Berger',
+  txt:'Eine zweite Ausbaustufe – das klingt vernünftig. Und die interaktive Station im Foyer? Die könnten wir doch erst einmal weglassen, oder?'},
+ {who:'Museum · Frau Berger',
+  txt:'Also gut. Fassen Sie mir das bitte bis Freitag zusammen, dann bringe ich es in den Vorstand. Vielen Dank – das war sehr klärend.'}
+];
+var PARTS=['doch','ja','eben','halt','mal','eigentlich','wohl','schon','denn'];
+
+function renderChat(){
+  var c=document.getElementById('chat'); c.innerHTML='';
+  var n=ST.chat.length;
+  for(var i=0;i<=n;i++){
+    if(SCRIPT[i]){
+      var d=document.createElement('div'); d.className='msg them';
+      d.innerHTML='<span class="who">'+SCRIPT[i].who+'</span>'+esc(SCRIPT[i].txt);
+      c.appendChild(d);
+    }
+    if(ST.chat[i]!==undefined){
+      var m=document.createElement('div'); m.className='msg me';
+      m.innerHTML='<span class="who">Kate</span>'+esc(ST.chat[i]);
+      c.appendChild(m);
+    }
+  }
+  c.scrollTop=c.scrollHeight;
+  var ta=document.getElementById('chatinput');
+  if(n>=SCRIPT.length-1){ ta.disabled=true; ta.placeholder='Gespräch beendet.'; evalChat(); }
+  else { ta.disabled=false; ta.placeholder='Deine Antwort …'; }
+}
+function sendMsg(){
+  var ta=document.getElementById('chatinput');
+  var v=ta.value.trim(); if(!v)return;
+  ST.chat.push(v); ta.value=''; save(); renderChat(); paint();
+}
+function resetChat(){ ST.chat=[]; document.getElementById('chateval').classList.remove('on'); save(); renderChat(); }
+function evalChat(){
+  var all=ST.chat.join(' ').toLowerCase();
+  var found=PARTS.filter(function(p){return new RegExp('(^|[^a-zäöüß])'+p+'([^a-zäöüß]|$)').test(all)});
+  var box=document.getElementById('chateval');
+  var h='<b>Auswertung deines Gesprächs.</b><br>';
+  if(found.length){
+    h+='Du hast verwendet: <b>'+found.join(', ')+'</b> ('+found.length+' von 9).<br>';
+  } else {
+    h+='In deinen Antworten ist keine der neun Modalpartikeln aufgetaucht. Geh das Gespräch noch einmal durch – bei Zug 2 („das liest ohnehin niemand") bietet sich ein Zugeständnis an, bei Zug 3 („können Sie die nicht übernehmen?") eine Erwartungskorrektur.<br>';
+  }
+  var miss=PARTS.filter(function(p){return found.indexOf(p)<0});
+  if(miss.length) h+='<br>Noch nicht dabei: <i>'+miss.join(', ')+'</i>. Nicht alle müssen vorkommen – aber schau, ob eine davon an einer Stelle natürlicher gewesen wäre.';
+  h+='<br><br><b>Zum Nachdenken:</b> Bei Zug 4 („Das wäre für Sie kein großer Unterschied, oder?") setzt Frau Berger etwas als selbstverständlich voraus. Hast du das korrigiert – und wenn ja, mit welchem Mittel?';
+  box.innerHTML=h; box.classList.add('on');
+}
+
+function hardReset(){
+  if(!confirm('Wirklich alle Antworten löschen?'))return;
+  try{localStorage.removeItem(KEY)}catch(e){}
+  location.reload();
+}
+
+initMC(); initTxt(); initChk(); restoreSol(); renderChat(); paint();
+document.getElementById('chatinput').addEventListener('keydown',function(e){
+  if(e.key==='Enter'&&(e.metaKey||e.ctrlKey)){e.preventDefault();sendMsg();}
+});
+window.addEventListener('beforeprint',function(){
+  document.querySelectorAll('textarea').forEach(function(t){t.style.height='auto';t.style.height=(t.scrollHeight+6)+'px';});
+});
+</script>
+</body>
+</html>
