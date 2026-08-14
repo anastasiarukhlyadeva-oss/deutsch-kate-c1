@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kultur × Digital – Unterrichtseinheit für Kate</title>
+<style>
+:root{
+  --cream:#F6F1E7; --cream2:#FBF8F2; --paper:#FFFDF9;
+  --burgund:#6B2131; --burgund-l:#8A3446;
+  --terra:#B4572F; --terra-l:#D08A5E;
+  --petrol:#1D4A52; --petrol-l:#2E6E78;
+  --grau:#7A736B; --grau-l:#D9D2C6; --ink:#241E1B;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--cream);color:var(--ink);
+ font-family:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif;line-height:1.6}
+.wrap{max-width:1080px;margin:0 auto;padding:0 22px 90px}
+header.top{background:var(--burgund);color:var(--cream);padding:52px 22px 44px;border-bottom:6px solid var(--terra)}
+header.top .in{max-width:1080px;margin:0 auto}
+.kicker{font-family:ui-sans-serif,system-ui,-apple-system,"Helvetica Neue",sans-serif;
+ letter-spacing:.22em;text-transform:uppercase;font-size:11.5px;color:var(--terra-l);font-weight:700}
+h1{font-size:clamp(30px,5vw,46px);margin:.25em 0 .2em;line-height:1.1;font-weight:600}
+header.top p{max-width:640px;color:#EBDDD5;margin:0;font-size:17px}
+.meta{margin-top:22px;display:flex;flex-wrap:wrap;gap:8px}
+.meta span{font-family:ui-sans-serif,system-ui,sans-serif;font-size:12px;letter-spacing:.06em;
+ border:1px solid rgba(246,241,231,.42);padding:5px 12px;border-radius:999px}
+
+nav.sticky{position:sticky;top:0;z-index:50;background:rgba(246,241,231,.96);
+ backdrop-filter:blur(8px);border-bottom:1px solid var(--grau-l)}
+nav.sticky .in{max-width:1080px;margin:0 auto;display:flex;gap:4px;overflow-x:auto;padding:9px 22px}
+nav.sticky a{font-family:ui-sans-serif,system-ui,sans-serif;font-size:12.5px;white-space:nowrap;
+ text-decoration:none;color:var(--petrol);padding:6px 11px;border-radius:6px}
+nav.sticky a:hover{background:var(--grau-l)}
+
+section.station{background:var(--paper);border:1px solid var(--grau-l);border-radius:3px;
+ padding:34px 32px;margin-top:34px;box-shadow:0 1px 0 rgba(0,0,0,.03)}
+.stnum{display:flex;align-items:baseline;gap:14px;border-bottom:2px solid var(--burgund);padding-bottom:12px;margin-bottom:22px}
+.stnum b{font-size:13px;font-family:ui-sans-serif,system-ui,sans-serif;letter-spacing:.2em;
+ text-transform:uppercase;color:var(--terra)}
+.stnum h2{margin:0;font-size:26px;font-weight:600;color:var(--burgund);flex:1}
+.stnum em{font-family:ui-sans-serif,system-ui,sans-serif;font-style:normal;font-size:12px;color:var(--grau)}
+h3{font-size:17.5px;color:var(--petrol);margin:26px 0 10px;font-weight:600}
+p.lead{font-size:16.5px;color:#443B36}
+.hint{font-family:ui-sans-serif,system-ui,sans-serif;font-size:13.5px;background:#F4EBDD;
+ border-left:3px solid var(--terra);padding:11px 15px;color:#57493E;margin:14px 0}
+
+button{font-family:ui-sans-serif,system-ui,sans-serif;cursor:pointer;font-size:13px}
+.btn{background:var(--petrol);color:#F6F1E7;border:0;padding:8px 16px;border-radius:4px}
+.btn:hover{background:var(--petrol-l)}
+.btn.ghost{background:transparent;color:var(--burgund);border:1px solid var(--burgund)}
+.btn.ghost:hover{background:var(--burgund);color:var(--cream)}
+.btn.terra{background:var(--terra)} .btn.terra:hover{background:var(--terra-l)}
+
+.rev{margin:10px 0 4px}
+.revbox{display:none;margin-top:10px;background:#F1F4F2;border-left:3px solid var(--petrol);
+ padding:13px 16px;font-size:15px}
+.revbox.open{display:block}
+.revbox ul{margin:6px 0 0;padding-left:20px} .revbox li{margin:5px 0}
+
+.grid{display:grid;gap:14px}
+.g2{grid-template-columns:repeat(auto-fit,minmax(300px,1fr))}
+.g3{grid-template-columns:repeat(auto-fit,minmax(228px,1fr))}
+.card{background:var(--cream2);border:1px solid var(--grau-l);border-radius:3px;padding:16px 18px}
+.card h4{margin:0 0 7px;font-size:16px;color:var(--burgund)}
+.card p{margin:0;font-size:14.5px;color:#4A423C}
+
+.wf{display:grid;grid-template-columns:repeat(auto-fit,minmax(215px,1fr));gap:11px;margin:12px 0}
+.wfitem{background:#fff;border:1px solid var(--grau-l);border-left:4px solid var(--terra);padding:12px 14px;cursor:pointer;transition:.15s}
+.wfitem:hover{border-left-color:var(--burgund);transform:translateY(-1px)}
+.wfitem b{display:block;font-size:16px;color:var(--burgund)}
+.wfitem span{display:none;font-family:ui-sans-serif,system-ui,sans-serif;font-size:13px;color:#4A423C;margin-top:7px}
+.wfitem.on span{display:block}
+.wfitem.on{border-left-color:var(--petrol);background:#F3F6F4}
+
+.dndsrc{display:flex;flex-wrap:wrap;gap:9px;margin:14px 0;min-height:52px;padding:10px;
+ background:#F1EDE3;border:1px dashed var(--grau)}
+.chip{background:#fff;border:1px solid var(--grau-l);border-radius:3px;padding:8px 13px;
+ font-family:ui-sans-serif,system-ui,sans-serif;font-size:13.5px;cursor:grab;user-select:none}
+.chip:active{cursor:grabbing}
+.chip.sel{outline:2px solid var(--terra)}
+.buckets{display:grid;grid-template-columns:repeat(auto-fit,minmax(215px,1fr));gap:13px}
+.bucket{background:#fff;border:1px solid var(--grau-l);border-top:4px solid var(--petrol);min-height:150px;padding:12px}
+.bucket.over{background:#EEF3F1;border-color:var(--petrol)}
+.bucket h5{margin:0 0 4px;font-size:14px;color:var(--petrol);font-family:ui-sans-serif,system-ui,sans-serif}
+.bucket .sub{font-family:ui-sans-serif,system-ui,sans-serif;font-size:11.5px;color:var(--grau);margin-bottom:9px}
+.bucket .drop{display:flex;flex-direction:column;gap:7px}
+
+table.colloc{width:100%;border-collapse:collapse;margin:12px 0;font-size:14.5px}
+table.colloc th,table.colloc td{border:1px solid var(--grau-l);padding:9px 11px;text-align:left;vertical-align:top}
+table.colloc th{background:var(--burgund);color:var(--cream);font-family:ui-sans-serif,system-ui,sans-serif;
+ font-size:12.5px;letter-spacing:.05em;font-weight:600}
+table.colloc td:first-child{background:#F4EBDD;font-weight:600;color:var(--burgund);width:180px}
+.vb{display:inline-block;background:#fff;border:1px solid var(--grau-l);padding:4px 9px;margin:3px 4px 0 0;
+ border-radius:3px;font-family:ui-sans-serif,system-ui,sans-serif;font-size:12.5px;cursor:pointer}
+.vb.good{background:#E7EFEA;border-color:var(--petrol);color:var(--petrol)}
+.vb.bad{background:#F6E4E4;border-color:#A34848;color:#8A2C2C;text-decoration:line-through}
+
+.ladder{border-left:3px solid var(--grau-l);padding-left:18px;margin:16px 0}
+.rung{margin:0 0 14px}
+.rung .lbl{font-family:ui-sans-serif,system-ui,sans-serif;font-size:11px;letter-spacing:.16em;
+ text-transform:uppercase;color:var(--grau)}
+.rung .txt{font-size:16px;margin-top:3px}
+.rung.a .txt{color:#6E645C} .rung.b .txt{color:var(--terra)} .rung.c .txt{color:var(--burgund);font-weight:600}
+
+.dlg{background:#fff;border:1px solid var(--grau-l);padding:16px 18px;margin:12px 0}
+.dlg p{margin:7px 0;font-size:15.5px}
+.dlg .sp{font-family:ui-sans-serif,system-ui,sans-serif;font-weight:700;color:var(--petrol);font-size:13px}
+select.gap,input.gap{font-family:ui-sans-serif,system-ui,sans-serif;font-size:14px;padding:3px 7px;
+ border:1px solid var(--terra);background:#FDF6EE;border-radius:3px;color:var(--burgund)}
+textarea{width:100%;min-height:78px;font-family:ui-sans-serif,system-ui,sans-serif;font-size:14.5px;
+ padding:11px;border:1px solid var(--grau-l);border-radius:3px;background:#FFFDF9;resize:vertical;line-height:1.55}
+textarea:focus{outline:2px solid var(--terra-l);border-color:var(--terra)}
+
+.tabbar{display:flex;flex-wrap:wrap;gap:5px;border-bottom:2px solid var(--grau-l);margin:16px 0 0}
+.tabbar button{background:transparent;border:0;border-bottom:3px solid transparent;padding:9px 15px;
+ color:var(--grau);font-size:13.5px;font-weight:600;margin-bottom:-2px}
+.tabbar button.act{color:var(--burgund);border-bottom-color:var(--burgund)}
+.tabpane{display:none;padding-top:18px} .tabpane.act{display:block}
+
+.deck{background:var(--burgund);color:var(--cream);padding:32px 28px;border-radius:3px;text-align:center;min-height:170px;
+ display:flex;flex-direction:column;justify-content:center;gap:14px}
+.deck .q{font-size:22px;line-height:1.35;font-style:italic}
+.deck .task{font-family:ui-sans-serif,system-ui,sans-serif;font-size:12.5px;color:var(--terra-l);letter-spacing:.05em}
+.deckbtns{display:flex;gap:9px;justify-content:center;margin-top:14px;flex-wrap:wrap}
+.timer{font-family:ui-sans-serif,system-ui,sans-serif;font-size:34px;color:var(--terra-l);font-variant-numeric:tabular-nums}
+
+.collect{background:var(--petrol);color:var(--cream2);padding:32px;border-radius:3px;margin-top:34px}
+.collect h2{color:#fff;margin:0 0 6px;font-size:26px}
+.collect .sub{color:#B9CFCF;font-family:ui-sans-serif,system-ui,sans-serif;font-size:13.5px;margin-bottom:20px}
+.chunk{display:flex;align-items:flex-start;gap:11px;background:rgba(255,255,255,.07);padding:11px 14px;margin-bottom:8px;border-left:3px solid var(--terra)}
+.chunk input{margin-top:5px;accent-color:var(--terra);width:16px;height:16px;flex:none}
+.chunk label{font-size:15.5px;cursor:pointer}
+.chunk .de{display:block} .chunk .use{display:block;font-family:ui-sans-serif,system-ui,sans-serif;
+ font-size:12.5px;color:#A9C4C4;margin-top:3px}
+#mylist{background:rgba(0,0,0,.22);padding:16px 20px;margin-top:16px;min-height:60px;font-size:15.5px}
+#mylist li{margin:6px 0}
+footer{text-align:center;color:var(--grau);font-family:ui-sans-serif,system-ui,sans-serif;font-size:12.5px;padding:40px 0 0}
+.pill{display:inline-block;background:#F4EBDD;color:var(--terra);font-family:ui-sans-serif,system-ui,sans-serif;
+ font-size:11px;letter-spacing:.12em;text-transform:uppercase;padding:3px 9px;border-radius:3px}
+ul.tight{margin:8px 0;padding-left:20px} ul.tight li{margin:6px 0;font-size:15.5px}
+.small{font-family:ui-sans-serif,system-ui,sans-serif;font-size:13px;color:var(--grau)}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="in">
+    <div class="kicker">Deutsch für den Beruf · Stunde 2 · 10. August 2026</div>
+    <h1>Kultur, Museum und digitale Erlebnisse</h1>
+    <p>Von der Ausstellung zum Produkt: präzise Lexik, professionelle Register und die „kleinen Wörter" dort, wo sie im Arbeitsalltag wirklich gebraucht werden.</p>
+    <div class="meta"><span>Niveau C1+ → C2</span><span>60–75 Minuten</span><span>Wortschatz · Kollokationen · Register</span><span>Anschluss an „Kleine Wörter"</span></div>
+  </div>
+</header>
+
+<nav class="sticky"><div class="in">
+  <a href="#s1">1 · Einstieg</a><a href="#s2">2 · Präzision</a><a href="#s3">3 · Register</a>
+  <a href="#s4">4 · Kollokationen</a><a href="#s5">5 · Upgrade</a><a href="#s6">6 · Kleine Wörter</a>
+  <a href="#s7">7 · Szenarien</a><a href="#s8">8 · Registerwechsel</a><a href="#s9">9 · Reaktion</a>
+  <a href="#s10">10 · Transfer</a><a href="#s11">Meine Sätze</a>
+</div></nav>
+
+<div class="wrap">
+
+<section class="station" id="s1">
+  <div class="stnum"><b>Station 1</b><h2>Einstieg: Worüber reden wir eigentlich?</h2><em>ca. 7 Min · frei sprechen</em></div>
+  <p class="lead">Zwei Fragen, die genau an der Schnittstelle liegen, an der du ab September arbeiten wirst. Kein Museumsbesuch – ein Projektgespräch.</p>
+  <div class="grid g2">
+    <div class="card"><h4>Frage A</h4><p>Ein Museum sagt: „Wir möchten unsere <b>Dauerausstellung digital erweitern</b>." – Was kann damit alles gemeint sein? Nenne drei völlig unterschiedliche Lesarten dieses Satzes.</p></div>
+    <div class="card"><h4>Frage B</h4><p>Wann <b>trägt</b> Technologie ein Museumserlebnis – und wann <b>überlagert</b> sie den eigentlichen Inhalt? Woran würdest du das im Projekt konkret festmachen?</p></div>
+  </div>
+  <div class="hint">Achte beim Sprechen bewusst darauf, wo du „<b>eigentlich</b>", „<b>letztlich</b>" und „<b>durchaus</b>" unterbringen könntest – wir kommen in Station 6 darauf zurück.</div>
+  <button class="btn ghost rev" onclick="rv(this)">Sprachliches Gerüst einblenden</button>
+  <div class="revbox">
+    <ul>
+      <li>Das lässt sich <b>in mehrere Richtungen lesen</b>: …</li>
+      <li>Im einen Fall geht es um X, im anderen <b>im Grunde</b> um etwas ganz anderes, nämlich …</li>
+      <li>Entscheidend ist <b>letztlich</b>, ob die Anwendung <b>zum Exponat hinführt</b> oder <b>davon wegführt</b>.</li>
+      <li>Technik wird dann zum Selbstzweck, wenn sie <b>die Aufmerksamkeit auf sich zieht</b> statt sie <b>zu lenken</b>.</li>
+    </ul>
+  </div>
+</section>
+
+<section class="station" id="s2">
+  <div class="stnum"><b>Station 2</b><h2>Lexikalische Präzision: fast synonym, aber nicht austauschbar</h2><em>ca. 12 Min</em></div>
+  <p class="lead">Tippe jeden Begriff an. Erst überlegen, dann aufdecken – und danach jeweils ein Beispiel aus <b>deinem</b> künftigen Projektalltag bilden.</p>
+
+  <h3>Wortfeld 1 · Was macht man mit einer Ausstellung?</h3>
+  <div class="wf">
+    <div class="wfitem" onclick="this.classList.toggle('on')"><b>eine Ausstellung konzipieren</b><span>die inhaltliche Grundidee entwickeln – Thema, Erzählung, Aufbau. Frühe Phase, noch am Reißbrett.</span></div>
+    <div class="wfitem" onclick="this.classList.toggle('on')"><b>eine Ausstellung kuratieren</b><span>auswählen, gewichten, in Beziehung setzen – die fachliche Autorenschaft. Macht die Kuratorin, nicht der Dienstleister.</span></div>
+    <div class="wfitem" onclick="this.classList.toggle('on')"><b>eine Ausstellung gestalten</b><span>die visuelle und räumliche Form geben: Szenografie, Grafik, Licht, Vitrinen.</span></div>
+    <div class="wfitem" onclick="this.classList.toggle('on')"><b>eine Ausstellung inszenieren</b><span>dramaturgisch aufladen – Atmosphäre, Spannungsbogen, Wirkung. Kann positiv wie kritisch gemeint sein.</span></div>
+    <div class="wfitem" onclick="this.classList.toggle('on')"><b>eine Ausstellung umsetzen</b><span>das fertige Konzept technisch und organisatorisch realisieren. Genau hier sitzt dein Job.</span></div>
+    <div class="wfitem" onclick="this.classList.toggle('on')"><b>eine Ausstellung bespielen</b><span>einen vorhandenen Raum mit wechselnden Inhalten füllen – „Wir bespielen die Fläche im Erdgeschoss neu."</span></div>
+  </div>
+  <div class="hint">Sprechaufgabe: Formuliere einen Satz, in dem du dich klar <b>abgrenzt</b>: „Das Kuratorische liegt selbstverständlich bei Ihnen – wir …"</div>
+
+  <h3>Wortfeld 2 · Was macht man mit Inhalten?</h3>
+  <div class="wf">
+    <div class="wfitem" onclick="this.classList.toggle('on')"><b>Inhalte aufbereiten</b><span>Rohmaterial in eine nutzbare Form bringen – kürzen, strukturieren, zielgruppengerecht schreiben. Sehr häufiges Wort im Projektdeutsch.</span></div>
+    <div class="wfitem" onclick="this.classList.toggle('on')"><b>Inhalte vermitteln</b><span>Kernbegriff des Kulturbereichs: verständlich machen, Anschluss an Vorwissen schaffen. → die Vermittlung, Kulturvermittlung.</span></div>
+    <div class="wfitem" onclick="this.classList.toggle('on')"><b>Inhalte zugänglich machen</b><span>Hürden abbauen – sprachlich, technisch, körperlich. Nahe an Barrierefreiheit und Teilhabe.</span></div>
+    <div class="wfitem" onclick="this.classList.toggle('on')"><b>Inhalte erfahrbar machen</b><span>nicht nur informieren, sondern sinnlich erlebbar – das Lieblingswort in Pitches für immersive Formate.</span></div>
+    <div class="wfitem" onclick="this.classList.toggle('on')"><b>Inhalte einbinden / einpflegen</b><span>technisch integrieren bzw. ins CMS eintragen. „Wer pflegt die Texte ein?" ist eine sehr reale Projektfrage.</span></div>
+    <div class="wfitem" onclick="this.classList.toggle('on')"><b>Inhalte bespielen / ausspielen</b><span>ausspielen = auf einem Kanal oder Gerät ausgeben: „Die Inhalte werden auch auf den Screens im Foyer ausgespielt."</span></div>
+  </div>
+
+  <h3>Wortfeld 3 · Museumsbetrieb – Begriffe, die man kennen muss</h3>
+  <div class="wf">
+    <div class="wfitem" onclick="this.classList.toggle('on')"><b>der Bestand / die Sammlung</b><span>Bestand = alles, was das Haus besitzt (auch im Depot). Sammlung = das kuratorisch zusammengehörige Ganze.</span></div>
+    <div class="wfitem" onclick="this.classList.toggle('on')"><b>die Leihgabe</b><span>Objekt eines anderen Hauses – mit Laufzeit, Auflagen und oft eigenen Rechtefragen für digitale Nutzung.</span></div>
+    <div class="wfitem" onclick="this.classList.toggle('on')"><b>die Provenienz</b><span>Herkunftsgeschichte eines Objekts. Politisch heikel – und ein häufiger Grund, warum Bilder <b>nicht</b> digital gezeigt werden dürfen.</span></div>
+    <div class="wfitem" onclick="this.classList.toggle('on')"><b>die Besucherführung</b><span>räumlich: wie Menschen durch das Haus geleitet werden. Verwandt, aber nicht gleich: <b>Nutzerführung</b> (im Interface).</span></div>
+    <div class="wfitem" onclick="this.classList.toggle('on')"><b>die Teilhabe</b><span>mehr als Zugang: Menschen sollen mitgestalten, nicht nur konsumieren. Förderanträge leben von diesem Wort.</span></div>
+    <div class="wfitem" onclick="this.classList.toggle('on')"><b>die Vermittlungsebene</b><span>die inhaltliche Tiefenstufe eines Angebots: „Wir brauchen eine zweite Vermittlungsebene für Fachpublikum."</span></div>
+  </div>
+  <button class="btn terra rev" onclick="rv(this)">Fallen &amp; Feinheiten</button>
+  <div class="revbox">
+    <ul>
+      <li><b>Exponat</b> = gezeigtes Objekt · <b>Werk</b> = künstlerische Arbeit · <b>Objekt</b> = neutraler Oberbegriff im Betrieb.</li>
+      <li><b>Zugänglichkeit</b> (allgemein) vs. <b>Barrierefreiheit</b> (normiert, prüfbar, BITV/WCAG) – im Angebot niemals verwechseln.</li>
+      <li><b>immersiv</b> bitte sparsam: als Adjektiv seriös, als Substantivmode („das Immersive") schnell Marketingsprech.</li>
+      <li><b>Besucherströme lenken</b> ist ein feststehender Ausdruck – nicht „Besucher leiten".</li>
+    </ul>
+  </div>
+</section>
+
+<section class="station" id="s3">
+  <div class="stnum"><b>Station 3</b><h2>Was klingt wie? Register sortieren</h2><em>ca. 10 Min · Drag &amp; Drop</em></div>
+  <p class="lead">Alle Sätze sind korrekt. Aber sie gehören in unterschiedliche Situationen. Zieh sie in die passende Spalte – am Handy: erst antippen, dann Spalte antippen.</p>
+  <div class="dndsrc" id="src3"></div>
+  <div class="buckets">
+    <div class="bucket" data-b="intern"><h5>Intern, mündlich</h5><div class="sub">Kollegin, Slack, Flurgespräch</div><div class="drop"></div></div>
+    <div class="bucket" data-b="meeting"><h5>Kundengespräch</h5><div class="sub">Museum am Tisch, verbindlich</div><div class="drop"></div></div>
+    <div class="bucket" data-b="konzept"><h5>Konzeptpapier / Angebot</h5><div class="sub">schriftlich, nominal, formell</div><div class="drop"></div></div>
+  </div>
+  <div style="margin-top:14px"><button class="btn" onclick="check3()">Auswertung</button>
+  <button class="btn ghost rev" onclick="rv(this)">Warum? Kommentar</button></div>
+  <div class="revbox">
+    <ul>
+      <li><b>Intern</b> lebt von Kurzformen, Modalpartikeln und Wertung: <i>„Die wollen halt …" / „Das kriegen wir hin."</i></li>
+      <li><b>Kundengespräch</b> ist mündlich, aber vorsichtig: Konjunktiv II, abschwächende Formulierungen (<i>„Da müssten wir vorher klären …"</i>).</li>
+      <li><b>Konzeptpapier</b> ist nominal und agenslos: <i>„Ziel ist die Erweiterung …", „Vorgesehen ist …"</i> – hier sind Partikeln fehl am Platz.</li>
+      <li>C2-Signal: Du erkennst nicht nur den Unterschied, sondern kannst <b>bewusst wechseln</b>, z. B. um Distanz oder Nähe herzustellen.</li>
+    </ul>
+  </div>
+</section>
+
+<section class="station" id="s4">
+  <div class="stnum"><b>Station 4</b><h2>Kollokationsraster</h2><em>ca. 10 Min</em></div>
+  <p class="lead">Tippe die Verben an, die mit dem Substantiv wirklich zusammengehen. Ein Klick markiert grün, ein zweiter rot – entscheide selbst und begründe laut.</p>
+  <table class="colloc">
+    <tr><th>Substantiv</th><th>mögliche Verben – welche passen?</th></tr>
+    <tr><td>Anforderungen</td><td><span class="vb">erheben</span><span class="vb">abstimmen</span><span class="vb">konkretisieren</span><span class="vb">herunterbrechen</span><span class="vb">machen</span><span class="vb">formulieren</span><span class="vb">erfüllen</span></td></tr>
+    <tr><td>Erwartungen</td><td><span class="vb">klären</span><span class="vb">steuern</span><span class="vb">dämpfen</span><span class="vb">erfüllen</span><span class="vb">bauen</span><span class="vb">zurechtrücken</span></td></tr>
+    <tr><td>ein Konzept</td><td><span class="vb">tragen</span><span class="vb">schärfen</span><span class="vb">umsetzen</span><span class="vb">verwerfen</span><span class="vb">mittragen</span><span class="vb">machen</span></td></tr>
+    <tr><td>eine Lösung</td><td><span class="vb">entwickeln</span><span class="vb">vorschlagen</span><span class="vb">tragfähig gestalten</span><span class="vb">bauen</span><span class="vb">skizzieren</span><span class="vb">erzählen</span></td></tr>
+    <tr><td>Feedback</td><td><span class="vb">einholen</span><span class="vb">einarbeiten</span><span class="vb">berücksichtigen</span><span class="vb">machen</span><span class="vb">zurückspielen</span></td></tr>
+    <tr><td>Prioritäten</td><td><span class="vb">setzen</span><span class="vb">verschieben</span><span class="vb">aushandeln</span><span class="vb">nehmen</span><span class="vb">gemeinsam festlegen</span></td></tr>
+    <tr><td>Besucher:innen</td><td><span class="vb">einbinden</span><span class="vb">abholen</span><span class="vb">lenken</span><span class="vb">ansprechen</span><span class="vb">bedienen</span><span class="vb">erreichen</span></td></tr>
+    <tr><td>Inhalte</td><td><span class="vb">aufbereiten</span><span class="vb">kuratieren</span><span class="vb">ausspielen</span><span class="vb">einpflegen</span><span class="vb">zeigen</span><span class="vb">verdichten</span></td></tr>
+  </table>
+  <button class="btn ghost rev" onclick="rv(this)">Kommentar zu den Zweifelsfällen</button>
+  <div class="revbox">
+    <ul>
+      <li><b>Anforderungen erheben</b> (Requirements Engineering) ist Fachsprache, <b>abstimmen</b> ist das Alltagswort. „Anforderungen machen" geht nie.</li>
+      <li><b>Erwartungen dämpfen</b> / <b>zurechtrücken</b> – sehr nützlich, wenn das Museum zu viel erwartet; „Erwartungen bauen" ist ein Anglizismus-Unfall.</li>
+      <li><b>ein Konzept mittragen</b> = die Beteiligten stehen dahinter. Starkes Wort in Abstimmungen mit der Museumsdirektion.</li>
+      <li><b>Feedback zurückspielen</b> = zurückgeben, aber projektsprachlich natürlicher.</li>
+      <li><b>Besucher:innen abholen</b> = beim vorhandenen Vorwissen ansetzen. Idiomatisch und typisch für den Vermittlungsdiskurs.</li>
+      <li><b>Inhalte verdichten</b> = kürzen, ohne zu verflachen – das Wort, das du im Streit um Textlängen brauchst.</li>
+    </ul>
+  </div>
+  <div class="hint">Produktionsaufgabe: Baue vier dieser Verbindungen in <b>einen</b> zusammenhängenden Absatz über ein fiktives Projekt.</div>
+  <textarea placeholder="Mein Absatz …"></textarea>
+</section>
+<section class="station" id="s5">
+  <div class="stnum"><b>Station 5</b><h2>Natural German Upgrade</h2><em>ca. 10 Min</em></div>
+  <p class="lead">Drei Stufen: <span class="pill">korrekt</span> → <span class="pill">natürlich</span> → <span class="pill">professionell</span>. Lies laut und spür den Unterschied.</p>
+  <div class="ladder">
+    <div class="rung a"><div class="lbl">korrekt</div><div class="txt">Wir müssen zuerst verstehen, was der Kunde will.</div></div>
+    <div class="rung b"><div class="lbl">natürlich</div><div class="txt">Wir müssten erst mal klären, was das Museum eigentlich braucht.</div></div>
+    <div class="rung c"><div class="lbl">professionell</div><div class="txt">Zunächst sollten wir gemeinsam klären, welche Anforderungen und Erwartungen auf Kundenseite tatsächlich bestehen.</div></div>
+  </div>
+  <div class="ladder">
+    <div class="rung a"><div class="lbl">korrekt</div><div class="txt">Wir machen eine App für die Ausstellung.</div></div>
+    <div class="rung b"><div class="lbl">natürlich</div><div class="txt">Wir entwickeln eine Anwendung, die die Ausstellung inhaltlich ergänzt.</div></div>
+    <div class="rung c"><div class="lbl">professionell</div><div class="txt">Die Anwendung soll den Besucher:innen einen zusätzlichen Zugang zu den Ausstellungsinhalten eröffnen, ohne die Exponate zu überlagern.</div></div>
+  </div>
+  <div class="ladder">
+    <div class="rung a"><div class="lbl">korrekt</div><div class="txt">Das ist technisch schwer und teuer.</div></div>
+    <div class="rung b"><div class="lbl">natürlich</div><div class="txt">Machbar wäre das schon, nur wird es aufwendig.</div></div>
+    <div class="rung c"><div class="lbl">professionell</div><div class="txt">Aus technischer Sicht wäre das durchaus umsetzbar; allerdings müssten wir den Aufwand dem erwarteten Nutzen gegenüberstellen.</div></div>
+  </div>
+  <h3>Jetzt du – aus deiner eigenen Sprache</h3>
+  <p class="small">Diese Ausgangssätze greifen Formulierungen auf, die in deiner Hausaufgabe und im letzten Gespräch aufgetaucht sind.</p>
+  <div class="grid g2">
+    <div class="card"><h4>1</h4><p>„Es ist eher ungewöhnlich, dass man so etwas gesondert schützt." → mach daraus eine <b>Projektaussage</b> über Rechte an digitalen Bildern.</p><textarea></textarea></div>
+    <div class="card"><h4>2</h4><p>„Im Endeffekt ist es einfach für einen ganz anderen Bereich." → mach daraus eine <b>höfliche Abgrenzung</b> gegenüber dem Kunden.</p><textarea></textarea></div>
+    <div class="card"><h4>3</h4><p>„So ein Institut aufzubauen ist zwar wahnsinnig reizvoll, aber …" → übertrage das Muster <b>zwar … aber</b> auf ein digitales Großprojekt.</p><textarea></textarea></div>
+    <div class="card"><h4>4</h4><p>„Braucht man das eigentlich noch?" → mach daraus eine <b>kritische Nachfrage im Meeting</b>, die niemanden vor den Kopf stößt.</p><textarea></textarea></div>
+  </div>
+  <button class="btn ghost rev" onclick="rv(this)">Musterlösungen</button>
+  <div class="revbox">
+    <ul>
+      <li>Bei Leihgaben ist die digitale Nutzung <b>rechtlich häufig gesondert zu klären</b> – das wird im Zeitplan gern unterschätzt.</li>
+      <li>Das liegt <b>im Grunde</b> außerhalb unseres Leistungsumfangs; wir können Ihnen aber gern jemanden empfehlen, der das abdeckt.</li>
+      <li>Ein Projekt in dieser Größenordnung ist <b>zwar</b> ausgesprochen reizvoll, <b>bindet aber</b> über Monate erhebliche Ressourcen.</li>
+      <li>Darf ich da noch mal nachhaken: <b>Wofür genau</b> brauchen wir diese Funktion – <b>beziehungsweise</b> was fiele weg, wenn wir sie streichen?</li>
+    </ul>
+  </div>
+</section>
+
+<section class="station" id="s6">
+  <div class="stnum"><b>Station 6</b><h2>Kleine Wörter – jetzt im Meeting</h2><em>ca. 12 Min</em></div>
+  <p class="lead">Aus der letzten Stunde sitzen bereits: <b>tatsächlich · eben · halt · im Prinzip · im Endeffekt · letztlich · im Nachhinein</b>. Neu dazu kommen heute die <b>argumentierenden</b> Partikeln: <b>durchaus · allerdings · ohnehin · jedenfalls · zumal · wohl · eher</b>.</p>
+  <div class="dlg">
+    <p><span class="sp">Entwickler:</span> Technisch könnten wir die Funktion ohne Weiteres ergänzen.</p>
+    <p><span class="sp">Du:</span> Ja, nur müssen wir
+      <select class="gap" data-a="eben"><option value="">…</option><option>eben</option><option>ohnehin</option><option>jedenfalls</option><option>wohl</option></select>
+      auch berücksichtigen, dass viele Besucher die App gar nicht erst herunterladen.</p>
+    <p><span class="sp">Entwickler:</span> Stimmt. Dann bräuchten wir
+      <select class="gap" data-a="ohnehin"><option value="">…</option><option>ohnehin</option><option>eigentlich</option><option>durchaus</option><option>halt</option></select>
+      eine Lösung, die ohne Installation funktioniert.</p>
+    <p><span class="sp">Du:</span> Genau. Machbar ist das
+      <select class="gap" data-a="durchaus"><option value="">…</option><option>durchaus</option><option>eben</option><option>ohnehin</option><option>tatsächlich</option></select>,
+      <select class="gap" data-a="allerdings"><option value="">…</option><option>allerdings</option><option>jedenfalls</option><option>zumal</option><option>wohl</option></select>
+      müssten wir vorher klären, wie die Inhalte gepflegt werden.</p>
+  </div>
+  <div class="dlg">
+    <p><span class="sp">Museum:</span> Können wir bis zur Eröffnung im Mai fertig sein?</p>
+    <p><span class="sp">Du:</span> Das wird
+      <select class="gap" data-a="wohl"><option value="">…</option><option>wohl</option><option>eben</option><option>durchaus</option><option>ohnehin</option></select>
+      knapp –
+      <select class="gap" data-a="zumal"><option value="">…</option><option>zumal</option><option>allerdings</option><option>jedenfalls</option><option>eigentlich</option></select>
+      die Texte noch gar nicht freigegeben sind. Den Kernbereich schaffen wir
+      <select class="gap" data-a="jedenfalls"><option value="">…</option><option>jedenfalls</option><option>eher</option><option>wohl</option><option>eben</option></select>,
+      alles Weitere würde ich
+      <select class="gap" data-a="eher"><option value="">…</option><option>eher</option><option>durchaus</option><option>zumal</option><option>ohnehin</option></select>
+      in eine zweite Ausbaustufe legen.</p>
+  </div>
+  <div style="margin:12px 0"><button class="btn" onclick="check6()">Prüfen</button>
+  <button class="btn ghost" onclick="reset6()">Zurücksetzen</button>
+  <span id="res6" class="small" style="margin-left:12px"></span></div>
+  <button class="btn ghost rev" onclick="rv(this)">Bedeutungsprofile der neuen Partikeln</button>
+  <div class="revbox">
+    <ul>
+      <li><b>eben / halt</b> – „das ist nun mal so". Resignativ-erklärend, sehr mündlich. (Kennst du schon.)</li>
+      <li><b>durchaus</b> – konzessive Zustimmung mit Vorbehalt im Anmarsch: „Machbar ist das durchaus, <i>aber</i> …". Klingt souverän, nie beleidigend.</li>
+      <li><b>allerdings</b> – der elegante Einwand nach einem Zugeständnis. Stärker als „aber", höflicher als „jedoch".</li>
+      <li><b>ohnehin</b> – „sowieso", nur schriftfähig. Ein Argument, das die Sache erledigt: „Das steht ohnehin auf der Roadmap."</li>
+      <li><b>jedenfalls</b> – grenzt ein, was du zusagen kannst: „Den Kernbereich schaffen wir jedenfalls." Sehr nützlich beim Verhandeln.</li>
+      <li><b>zumal</b> – schiebt ein verstärkendes Zusatzargument nach (Konjunktion!): „…, zumal die Texte fehlen."</li>
+      <li><b>wohl</b> – abgeschwächte Vermutung: „Das wird wohl knapp." Nicht mit „wohl" = gesund verwechseln.</li>
+      <li><b>eher</b> – verschiebt sanft eine Einschätzung: „Ich würde das eher in Stufe zwei legen." Konfliktvermeidend, sehr deutsch.</li>
+    </ul>
+  </div>
+  <div class="hint">Diskussion: Was ändert sich in Dialog 1, wenn du statt <b>eben</b> das Wort <b>allerdings</b>, <b>doch</b> oder <b>eigentlich</b> setzt? Wer wird kritisiert, wer wird geschont?</div>
+</section>
+
+<section class="station" id="s7">
+  <div class="stnum"><b>Station 7</b><h2>Drei Situationen aus deinem neuen Job</h2><em>ca. 15 Min · Rollenspiel</em></div>
+  <div class="tabbar">
+    <button class="act" onclick="tab(this,'sA')">A · Museum</button>
+    <button onclick="tab(this,'sB')">B · Entwicklung</button>
+    <button onclick="tab(this,'sC')">C · Intern</button>
+  </div>
+  <div class="tabpane act" id="sA">
+    <h3>„Wir hätten gern etwas Immersives."</h3>
+    <p class="lead">Die Museumsdirektion wünscht sich ein „immersives digitales Erlebnis", kann aber nicht sagen, was das inhaltlich bedeuten soll. Deine Aufgabe: durch Fragen die Anforderungen konkretisieren, ohne den Wunsch abzuwerten.</p>
+    <ul class="tight">
+      <li>Frag nach <b>Zielgruppe</b>, <b>Ort im Rundgang</b>, <b>Verweildauer</b> und <b>Betrieb nach der Eröffnung</b>.</li>
+      <li>Bring mindestens einmal: „Darf ich da kurz nachhaken …" und „Verstehe ich Sie richtig, dass …"</li>
+    </ul>
+    <button class="btn ghost rev" onclick="rv(this)">Frageformeln</button>
+    <div class="revbox"><ul>
+      <li>Was soll die Besucherin am Ende <b>mitnehmen</b> – inhaltlich, nicht technisch?</li>
+      <li>An welcher Stelle im Rundgang würde das <b>ansetzen</b>?</li>
+      <li>Wer <b>pflegt die Inhalte</b>, wenn wir im Sommer raus sind?</li>
+      <li>Wenn wir das Budget halbieren müssten – <b>worauf käme es Ihnen dann an</b>?</li>
+    </ul></div>
+    <textarea placeholder="Meine drei stärksten Fragen …"></textarea>
+  </div>
+  <div class="tabpane" id="sB">
+    <h3>Die Idee ist technisch unrealistisch</h3>
+    <p class="lead">Das Museum möchte Live-Gesichtserkennung, die Besucher:innen personalisierte Inhalte zuspielt. Datenschutz, Aufwand und Akzeptanz sprechen dagegen. Du musst: die Idee ernst nehmen, Einschränkungen benennen, eine Alternative anbieten, Prioritäten aushandeln.</p>
+    <ul class="tight">
+      <li>Struktur: <b>Anliegen spiegeln</b> → <b>Einschränkung</b> → <b>Alternative</b> → <b>Entscheidungsfrage</b>.</li>
+      <li>Pflicht: einmal <b>durchaus</b>, einmal <b>allerdings</b>, einmal <b>eher</b>.</li>
+    </ul>
+    <button class="btn ghost rev" onclick="rv(this)">Gerüst</button>
+    <div class="revbox"><ul>
+      <li>Der Gedanke dahinter <b>leuchtet mir völlig ein</b> – Sie wollen Inhalte, die zur jeweiligen Person passen.</li>
+      <li>Technisch wäre das <b>durchaus</b> darstellbar; <b>allerdings</b> bewegen wir uns damit datenschutzrechtlich auf sehr dünnem Eis.</li>
+      <li>Ich würde <b>eher</b> vorschlagen, die Personalisierung über eine <b>bewusste Auswahl am Einstieg</b> zu lösen – ohne jede Erfassung.</li>
+      <li>Was wäre Ihnen wichtiger: die <b>technische Innovationswirkung</b> oder die <b>inhaltliche Passgenauigkeit</b>?</li>
+    </ul></div>
+    <textarea placeholder="Meine Version …"></textarea>
+  </div>
+  <div class="tabpane" id="sC">
+    <h3>Zwei Minuten intern</h3>
+    <p class="lead">Erkläre im Teammeeting: <b>Wie setzt man digitale Technologien im Museum sinnvoll ein, ohne dass sie die Ausstellung dominieren?</b> Zwei Minuten, freie Rede, mit Position.</p>
+    <ul class="tight">
+      <li>Mindestens drei Kollokationen aus Station 2 und 4.</li>
+      <li>Eine klare These, ein Gegenargument, ein Fazit („Mein persönliches Fazit lautet: …").</li>
+    </ul>
+    <div class="deckbtns" style="justify-content:flex-start">
+      <button class="btn terra" onclick="startTimer(120)">2 Minuten starten</button>
+      <span class="timer" id="tmr" style="color:#6B2131">2:00</span>
+    </div>
+  </div>
+</section>
+
+<section class="station" id="s8">
+  <div class="stnum"><b>Station 8</b><h2>Registerwechsel</h2><em>ca. 8 Min</em></div>
+  <p class="lead">Eine Aussage, drei Situationen. Schreib oder sag jeweils alle drei Varianten – der Sprung dazwischen ist die eigentliche C2-Kompetenz.</p>
+  <div class="grid g3">
+    <div class="card"><h4>Das Museum will mehr junge Leute erreichen.</h4>
+      <p class="small" style="margin-top:8px">intern · Kundengespräch · Konzeptpapier</p><textarea></textarea></div>
+    <div class="card"><h4>Der Audioguide ist alt und benutzt kaum jemand.</h4>
+      <p class="small" style="margin-top:8px">intern · Kundengespräch · Konzeptpapier</p><textarea></textarea></div>
+    <div class="card"><h4>Wir schaffen das bis Mai nicht.</h4>
+      <p class="small" style="margin-top:8px">intern · Kundengespräch · Konzeptpapier</p><textarea></textarea></div>
+  </div>
+  <button class="btn ghost rev" onclick="rv(this)">Beispiel: Variante 1</button>
+  <div class="revbox"><ul>
+    <li><b>intern:</b> Die wollen offenbar stärker an ein jüngeres Publikum ran.</li>
+    <li><b>Kundengespräch:</b> Wenn ich Sie richtig verstehe, möchten Sie insbesondere jüngere Zielgruppen stärker ansprechen.</li>
+    <li><b>Konzeptpapier:</b> Ein zentrales Ziel des Vorhabens besteht darin, neue und insbesondere jüngere Besuchergruppen zu erschließen.</li>
+  </ul></div>
+</section>
+
+<section class="station" id="s9">
+  <div class="stnum"><b>Station 9</b><h2>Reaction Cards</h2><em>ca. 8 Min · spontan</em></div>
+  <p class="lead">Karte ziehen, 45 Sekunden reagieren. Pflicht in jeder Antwort: ein <b>Diskursmarker</b>, eine <b>neue Kollokation</b>, eine <b>differenzierende Formulierung</b>.</p>
+  <div class="deck">
+    <div class="task" id="cardtask">Karte ziehen →</div>
+    <div class="q" id="cardq">Bereit?</div>
+    <div class="timer" id="tmr2">0:45</div>
+  </div>
+  <div class="deckbtns">
+    <button class="btn terra" onclick="draw()">Karte ziehen</button>
+    <button class="btn" onclick="startTimer2(45)">45 Sekunden</button>
+  </div>
+  <div class="hint">Differenzieren heißt: nicht zustimmen oder ablehnen, sondern <b>unterscheiden</b>. „Das kommt sehr darauf an, ob …" · „In dieser Pauschalität würde ich das nicht unterschreiben." · „Das gilt allenfalls für …"</div>
+</section>
+
+<section class="station" id="s10">
+  <div class="stnum"><b>Station 10</b><h2>Transfer</h2><em>ca. 5 Min</em></div>
+  <div class="grid g2">
+    <div class="card"><h4>In welchen Situationen wird dir diese Sprache ab September konkret fehlen?</h4><textarea></textarea></div>
+    <div class="card"><h4>Mit wem wirst du am häufigsten über Anforderungen, Inhalte und technische Machbarkeit sprechen?</h4><textarea></textarea></div>
+    <div class="card"><h4>Welche fünf Formulierungen willst du bis zum ersten Arbeitstag aktiv beherrschen?</h4><textarea></textarea></div>
+    <div class="card"><h4>Was war heute die Formulierung, die du sofort geklaut hättest?</h4><textarea></textarea></div>
+  </div>
+</section>
+
+<section class="collect" id="s11">
+  <h2>Meine Sätze für den neuen Job</h2>
+  <div class="sub">Zwölf Chunks aus dieser Stunde. Häkchen setzen – unten entsteht deine persönliche Liste zum Mitnehmen.</div>
+  <div id="chunks"></div>
+  <div style="margin-top:16px"><button class="btn terra" onclick="mklist()">Liste erzeugen</button>
+  <button class="btn ghost" style="color:#F6F1E7;border-color:#F6F1E7" onclick="copyList()">Kopieren</button></div>
+  <ol id="mylist"><li class="small" style="color:#A9C4C4">Noch nichts ausgewählt.</li></ol>
+</section>
+
+<footer>Deutschunterricht Kate · Stunde 2 · Museen, Kulturinstitutionen und digitale Erlebnisse</footer>
+</div>
+<script>
+function rv(b){if(!b.dataset.t)b.dataset.t=b.textContent;var x=b.nextElementSibling;x.classList.toggle('open');b.textContent=x.classList.contains('open')?'ausblenden':b.dataset.t;}
+function tab(btn,id){var bar=btn.parentElement;[].forEach.call(bar.children,function(c){c.classList.remove('act')});btn.classList.add('act');var sec=bar.parentElement;[].forEach.call(sec.querySelectorAll('.tabpane'),function(p){p.classList.remove('act')});document.getElementById(id).classList.add('act');}
+var S3=[
+ {t:"Die wollen halt was Modernes, wissen aber selbst noch nicht genau, was.",b:"intern"},
+ {t:"Das kriegen wir bis Mai hin, wenn die Texte rechtzeitig kommen.",b:"intern"},
+ {t:"Ehrlich gesagt finde ich den Ansatz eher schwierig.",b:"intern"},
+ {t:"Da müssten wir vorab klären, wie die Inhalte gepflegt werden sollen.",b:"meeting"},
+ {t:"Wenn ich Sie richtig verstehe, geht es Ihnen vor allem um die Verweildauer im Raum.",b:"meeting"},
+ {t:"Technisch wäre das durchaus möglich; allerdings sollten wir den Aufwand gegenrechnen.",b:"meeting"},
+ {t:"Ziel des Vorhabens ist die inhaltliche Erweiterung der Dauerausstellung um digitale Vermittlungsangebote.",b:"konzept"},
+ {t:"Vorgesehen ist eine barrierefreie Anwendung, die ohne Installation nutzbar ist.",b:"konzept"},
+ {t:"Die Umsetzung erfolgt in zwei Ausbaustufen; der Betrieb wird durch das Haus selbst sichergestellt.",b:"konzept"}];
+var sel=null;
+function build3(){var src=document.getElementById('src3');
+ S3.map(function(o){return {o:o,r:Math.random()}}).sort(function(a,b){return a.r-b.r}).forEach(function(x){
+   var d=document.createElement('div');d.className='chip';d.draggable=true;d.textContent=x.o.t;d.dataset.b=x.o.b;
+   d.addEventListener('dragstart',function(e){sel=d;e.dataTransfer.setData('text','x')});
+   d.addEventListener('click',function(){if(sel)sel.classList.remove('sel');sel=d;d.classList.add('sel')});
+   src.appendChild(d);});
+ document.querySelectorAll('.bucket').forEach(function(bk){var dz=bk.querySelector('.drop');
+   bk.addEventListener('dragover',function(e){e.preventDefault();bk.classList.add('over')});
+   bk.addEventListener('dragleave',function(){bk.classList.remove('over')});
+   bk.addEventListener('drop',function(e){e.preventDefault();bk.classList.remove('over');if(sel){dz.appendChild(sel);sel.classList.remove('sel');sel=null}});
+   bk.addEventListener('click',function(){if(sel){dz.appendChild(sel);sel.classList.remove('sel');sel=null}});});
+ var s=document.getElementById('src3');
+ s.addEventListener('dragover',function(e){e.preventDefault()});
+ s.addEventListener('drop',function(e){e.preventDefault();if(sel){s.appendChild(sel);sel.classList.remove('sel');sel=null}});}
+function check3(){var ok=0,all=0;
+ document.querySelectorAll('.bucket').forEach(function(bk){bk.querySelectorAll('.chip').forEach(function(c){all++;
+   if(c.dataset.b===bk.dataset.b){c.style.borderLeft='4px solid #2E6E78';ok++}else{c.style.borderLeft='4px solid #A34848'}});});
+ alert(ok+' von '+all+' einsortierten Sätzen sitzen richtig. (Insgesamt gibt es 9 Sätze.)');}
+document.addEventListener('click',function(e){if(e.target.classList.contains('vb')){var v=e.target;
+ if(v.classList.contains('good')){v.classList.remove('good');v.classList.add('bad')}
+ else if(v.classList.contains('bad')){v.classList.remove('bad')}else{v.classList.add('good')}}});
+function check6(){var s=document.querySelectorAll('#s6 select.gap'),ok=0;
+ s.forEach(function(x){if(!x.value){x.style.borderColor='#B4572F';x.style.background='#FDF6EE';return}
+  if(x.value===x.dataset.a){x.style.borderColor='#2E6E78';x.style.background='#E7EFEA';ok++}
+  else{x.style.borderColor='#A34848';x.style.background='#F6E4E4'}});
+ document.getElementById('res6').textContent=ok+' von '+s.length+' – Rot heißt nicht falsch, sondern: begründe deine Wahl!';}
+function reset6(){document.querySelectorAll('#s6 select.gap').forEach(function(x){x.value='';x.style.borderColor='#B4572F';x.style.background='#FDF6EE'});document.getElementById('res6').textContent='';}
+var t1=null,t2=null;
+function fmt(s){return Math.floor(s/60)+':'+String(s%60).padStart(2,'0')}
+function startTimer(n){clearInterval(t1);var s=n,e=document.getElementById('tmr');e.textContent=fmt(s);t1=setInterval(function(){s--;e.textContent=fmt(s);if(s<=0){clearInterval(t1);e.textContent='Zeit!'}},1000)}
+function startTimer2(n){clearInterval(t2);var s=n,e=document.getElementById('tmr2');e.textContent=fmt(s);t2=setInterval(function(){s--;e.textContent=fmt(s);if(s<=0){clearInterval(t2);e.textContent='Zeit!'}},1000)}
+var CARDS=["Museen brauchen keine Apps – sie brauchen bessere Texte an der Wand.",
+"Immersive Erlebnisse machen aus Museen im Grunde Freizeitparks.",
+"Wer im Museum am Handy hängt, setzt sich mit den Exponaten weniger auseinander.",
+"Digitale Angebote verbessern automatisch die Barrierefreiheit.",
+"Ein Museum, das seine Sammlung vollständig digitalisiert, macht sich selbst überflüssig.",
+"Kuratorinnen sollten über Technik gar nicht mitentscheiden müssen.",
+"Jedes digitale Projekt im Kulturbereich scheitert am Betrieb nach der Eröffnung.",
+"Fördergelder erzwingen digitale Projekte, die niemand braucht.",
+"Wenn die Technik gut ist, merkt der Besucher sie gar nicht.",
+"Museen sollten ihre Inhalte grundsätzlich frei zur Verfügung stellen."];
+var TASKS=["Widersprich differenziert.","Stimm zu – aber mit einer Einschränkung.","Antworte, als säße die Museumsdirektion vor dir.","Antworte intern, im Kollegengespräch.","Nimm eine klare Gegenposition ein.","Beantworte es mit einer Rückfrage plus eigener Einschätzung."];
+function draw(){document.getElementById('cardq').textContent='„'+CARDS[Math.floor(Math.random()*CARDS.length)]+'"';
+ document.getElementById('cardtask').textContent=TASKS[Math.floor(Math.random()*TASKS.length)];startTimer2(45);}
+var CH=[
+["Anforderungen mit allen Beteiligten abstimmen","statt „besprechen" – das Projektwort schlechthin"],
+["Inhalte zielgruppengerecht aufbereiten","Kernformel deines künftigen Jobs"],
+["eine digitale Lösung ins Ausstellungskonzept integrieren","zeigt, dass du Kultur und IT zusammendenkst"],
+["Erwartungen frühzeitig klären und behutsam dämpfen","wenn das Museum zu viel erwartet"],
+["Das hängt letztlich davon ab, welche Zielgruppe Sie erreichen möchten.","Rückfrage statt vorschnelle Zusage"],
+["Dabei müsste man allerdings berücksichtigen, dass …","der elegante Einwand"],
+["Aus technischer Sicht wäre das durchaus umsetzbar, …","Zustimmung mit angekündigtem Vorbehalt"],
+["Darf ich da kurz nachhaken: Wofür genau brauchen wir das?","höflich, aber unnachgiebig"],
+["Den Kernbereich schaffen wir jedenfalls; alles Weitere eher in Stufe zwei.","Verhandeln ohne Gesichtsverlust"],
+["Besucher:innen dort abholen, wo sie inhaltlich stehen","Vermittlungssprache, die im Kulturbereich Türen öffnet"],
+["Wir sollten den Aufwand dem erwarteten Nutzen gegenüberstellen.","sachlich Prioritäten setzen"],
+["Das Kuratorische liegt selbstverständlich bei Ihnen – wir sorgen für die Umsetzung.","saubere Rollenabgrenzung"]];
+function buildCh(){var w=document.getElementById('chunks');
+ CH.forEach(function(c,i){var d=document.createElement('div');d.className='chunk';
+  d.innerHTML='<input type="checkbox" id="c'+i+'"><label for="c'+i+'"><span class="de">'+c[0]+'</span><span class="use">'+c[1]+'</span></label>';w.appendChild(d);});}
+function mklist(){var l=document.getElementById('mylist');l.innerHTML='';var n=0;
+ CH.forEach(function(c,i){if(document.getElementById('c'+i).checked){var li=document.createElement('li');li.textContent=c[0];l.appendChild(li);n++}});
+ if(!n)l.innerHTML='<li class="small" style="color:#A9C4C4">Noch nichts ausgewählt.</li>';}
+function copyList(){var t=[].map.call(document.querySelectorAll('#mylist li'),function(li){return '– '+li.textContent}).join('\n');navigator.clipboard&&navigator.clipboard.writeText(t);}
+build3();buildCh();
+</script>
+</body>
+</html>
