@@ -1,0 +1,838 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Stunde 4 — Zahlen, Produkt, Entwicklung</title>
+<style>
+:root{
+  --aub:#150E25;          /* fluxguide Hintergrund */
+  --aub2:#1E1536;         /* Karte auf dunkel */
+  --aub3:#2A1E47;         /* Karte heller */
+  --vio:#8B3FD9;          /* Akzent violett */
+  --vio2:#B07AF0;
+  --light:#F1F1F1;        /* helle Sektion */
+  --white:#FFFFFF;
+  --ink:#150E25;
+  --grey:#8B84A0;
+  --greyd:#5B5470;
+  --line:rgba(255,255,255,.14);
+  --lineD:#DCDCDC;
+  --up:#4FD69C;
+  --down:#FF7A6B;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--aub);color:var(--white);
+ font-family:"Muoto","Inter","Helvetica Neue",Helvetica,Arial,sans-serif;
+ font-size:18px;line-height:1.5;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1080px;margin:0 auto;padding:0 26px 110px}
+.plus{color:var(--vio2);font-weight:700;letter-spacing:.18em;font-size:20px;margin:34px 0 0}
+
+/* ---------- header ---------- */
+header.hero{padding:70px 26px 56px;border-bottom:1px solid var(--line)}
+header.hero .in{max-width:1080px;margin:0 auto}
+.logo{font-weight:700;font-size:21px;letter-spacing:-.01em}
+.logo span{color:var(--vio2)}
+.kick{margin-top:44px;font-size:13px;letter-spacing:.2em;text-transform:uppercase;color:var(--vio2);font-weight:700}
+h1{font-size:clamp(38px,6.6vw,66px);font-weight:700;line-height:1.02;letter-spacing:-.02em;margin:.18em 0 .3em}
+header.hero p{font-size:clamp(18px,2.2vw,22px);font-weight:400;color:#CFC9DE;max-width:720px;margin:0;line-height:1.42}
+.tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:30px}
+.tags span{font-size:12.5px;letter-spacing:.04em;border:1px solid var(--line);padding:6px 13px;border-radius:99px;color:#BDB6D0}
+
+/* ---------- nav ---------- */
+nav.bar{position:sticky;top:0;z-index:80;background:rgba(21,14,37,.94);backdrop-filter:blur(10px);
+ border-bottom:1px solid var(--line)}
+nav.bar .in{max-width:1080px;margin:0 auto;padding:9px 26px;display:flex;gap:14px;align-items:center;flex-wrap:wrap}
+.pw{flex:1;min-width:140px}
+.pb{height:3px;background:rgba(255,255,255,.13);overflow:hidden}
+.pf{height:100%;width:0;background:var(--vio);transition:width .35s}
+.pt{font-size:11px;color:var(--grey);margin-top:4px;letter-spacing:.05em}
+.nl{display:flex;gap:0;overflow-x:auto}
+.nl a{font-size:12px;color:#BDB6D0;text-decoration:none;padding:6px 10px;letter-spacing:.03em;white-space:nowrap}
+.nl a:hover{color:var(--vio2)}
+
+/* ---------- sections ---------- */
+section.blk{padding:52px 0 8px;border-top:1px solid var(--line)}
+section.blk:first-of-type{border-top:0}
+.bn{font-size:12.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--vio2);font-weight:700}
+section.blk h2{font-size:clamp(28px,4.2vw,44px);font-weight:700;line-height:1.06;letter-spacing:-.02em;margin:.2em 0 .28em}
+.sub{font-size:clamp(17px,2vw,22px);font-weight:400;color:#CFC9DE;max-width:760px;line-height:1.42;margin:0 0 6px}
+.meta{font-size:12.5px;color:var(--grey);letter-spacing:.05em;margin-top:14px}
+p.body{color:#CFC9DE;font-weight:400;max-width:800px}
+
+/* light panel */
+.panel{background:var(--light);color:var(--ink);padding:34px 32px;margin-top:26px;border-radius:2px}
+.panel h3{margin:0 0 6px;font-size:23px;font-weight:700;letter-spacing:-.01em}
+.panel h4{margin:24px 0 8px;font-size:15px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--greyd)}
+.panel p{color:#3A3450}
+.panel .hint{font-size:14.5px;color:#5B5470;background:var(--white);border-left:3px solid var(--vio);padding:11px 15px;margin:14px 0}
+
+/* dark card */
+.card{background:var(--aub2);border:1px solid var(--line);padding:24px 26px;margin-top:18px}
+.card h3{margin:0 0 8px;font-size:21px;font-weight:700}
+.card .lbl{font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--vio2);font-weight:700;margin-bottom:10px}
+
+/* fluxguide-Zitatkarte */
+.fx{background:var(--aub3);border:1px solid rgba(139,63,217,.4);padding:30px 30px 24px;margin:20px 0}
+.fx .pname{font-size:clamp(30px,4.6vw,50px);font-weight:700;line-height:1;letter-spacing:-.02em;margin:0 0 14px}
+.fx .claim{font-size:clamp(19px,2.4vw,26px);font-weight:400;line-height:1.3;color:#EDE9F6;margin:0 0 12px}
+.fx .cpy{font-size:17px;font-weight:400;color:#C6BFD9;line-height:1.5;margin:0}
+.fx cite{display:block;font-style:normal;font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;
+ color:var(--greyd);margin-top:18px;border-top:1px solid var(--line);padding-top:12px}
+
+/* bloom */
+.bloom{margin:6px 0 0}
+.bstep{border-left:2px solid var(--lineD);padding:0 0 2px 16px;margin-bottom:18px}
+.bstep .bl{font-size:11.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--vio);font-weight:700}
+.bstep .bq{font-size:16.5px;margin:4px 0 8px;color:var(--ink)}
+
+/* buttons */
+button{font-family:inherit;cursor:pointer;font-size:13.5px;letter-spacing:.03em}
+.btn{background:var(--vio);color:#fff;border:0;padding:10px 18px;border-radius:99px}
+.btn:hover{background:var(--vio2)}
+.btn.o{background:transparent;color:var(--vio2);border:1px solid var(--vio)}
+.btn.o:hover{background:var(--vio);color:#fff}
+.btn.dk{background:transparent;color:#5B5470;border:1px solid #C9C9C9}
+.btn.dk:hover{border-color:var(--ink);color:var(--ink)}
+.row{display:flex;gap:9px;flex-wrap:wrap;margin-top:14px;align-items:center}
+
+/* reveal */
+.rev{display:none;margin-top:14px;padding:16px 18px;font-size:15.5px;line-height:1.55}
+.rev.on{display:block}
+.rev.dark{background:rgba(139,63,217,.13);border-left:3px solid var(--vio);color:#DCD6EA}
+.rev.lite{background:var(--white);border-left:3px solid var(--vio);color:#3A3450}
+.rev ul{margin:8px 0 0;padding-left:20px}.rev li{margin:6px 0}
+.rev .v{display:block;color:var(--vio);font-weight:700;margin:7px 0}
+.rev.dark .v{color:var(--vio2)}
+
+/* discussion questions */
+.dq{list-style:none;padding:0;margin:10px 0 0}
+.dq li{position:relative;padding-left:30px;margin:11px 0;font-size:16.5px;color:var(--ink)}
+.dq li:before{content:"→";position:absolute;left:0;color:var(--vio);font-weight:700}
+
+/* speaking marker */
+.say{background:rgba(139,63,217,.14);border-left:3px solid var(--vio2);padding:14px 18px;margin:18px 0;font-size:16px;color:#E4DEF2}
+.say b{color:var(--vio2);letter-spacing:.04em}
+.panel .say{background:var(--white);color:#3A3450}
+.panel .say b{color:var(--vio)}
+
+/* inputs */
+textarea{width:100%;font-family:inherit;font-size:15.5px;padding:10px 12px;border:1px solid var(--lineD);
+ border-radius:2px;background:var(--white);resize:vertical;line-height:1.5;color:var(--ink);min-height:46px}
+textarea:focus{outline:2px solid var(--vio2);border-color:var(--vio)}
+textarea.dk{background:rgba(255,255,255,.06);border-color:var(--line);color:var(--white)}
+textarea.dk:focus{outline:2px solid var(--vio)}
+textarea.big{min-height:120px}
+
+/* tables */
+table.t{width:100%;border-collapse:collapse;margin:14px 0;font-size:15.5px}
+table.t th,table.t td{border:1px solid var(--lineD);padding:9px 11px;text-align:left;vertical-align:top}
+table.t th{background:var(--ink);color:#fff;font-size:12px;letter-spacing:.06em;text-transform:uppercase;font-weight:700}
+table.t td.n{background:#E7E7E7;font-weight:700;width:34%;font-variant-numeric:tabular-nums}
+table.t td.p{background:#FFF;width:30%}
+table.t td.chunk{background:rgba(139,63,217,.09);color:#5A2E8C;font-weight:700;font-size:14px;width:26%}
+table.t td.x{background:#F6E4E1;color:#A03A2A}
+table.t td.o{background:#E2F6EC;color:#1E7A55}
+.num{font-variant-numeric:tabular-nums;color:var(--vio);font-weight:700;font-size:13px;padding-right:6px}
+
+/* verb cards */
+.vgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:11px;margin:18px 0}
+.vc{background:var(--aub2);border:1px solid var(--line);border-top:3px solid var(--vio);padding:15px 16px;cursor:pointer}
+.vc:hover{background:var(--aub3)}
+.vc b{display:block;font-size:17px;font-weight:700}
+.vc .ar{font-size:12.5px;letter-spacing:.05em;margin-top:3px;color:var(--grey)}
+.vc.u .ar{color:var(--up)}.vc.d .ar{color:var(--down)}
+.vc .df{display:none;font-size:14.5px;color:#C6BFD9;margin-top:10px;line-height:1.5}
+.vc.open .df{display:block}
+.vc.open{border-top-color:var(--vio2);background:var(--aub3)}
+
+/* drag & drop */
+.pool{display:flex;flex-wrap:wrap;gap:8px;padding:14px;background:rgba(255,255,255,.05);
+ border:1px dashed var(--greyd);min-height:56px;margin:18px 0}
+.chip{background:var(--aub2);border:1px solid var(--line);padding:9px 13px;font-size:14px;cursor:grab;user-select:none}
+.chip:hover{border-color:var(--vio)}
+.chip.pick{border-color:var(--vio2);box-shadow:0 0 0 2px rgba(139,63,217,.5)}
+.bins{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+.bin{background:rgba(255,255,255,.04);border:1px solid var(--line);border-top:3px solid var(--vio);min-height:150px;padding:14px}
+.bin.over{background:rgba(139,63,217,.16)}
+.bin h5{margin:0 0 3px;font-size:15px;font-weight:700}
+.bin .s{font-size:12.5px;color:var(--grey);margin-bottom:11px;line-height:1.35}
+.bin .drop{display:flex;flex-direction:column;gap:7px}
+
+/* deck */
+.deck{background:var(--aub3);border:1px solid rgba(139,63,217,.4);padding:34px 30px;text-align:center;
+ min-height:200px;display:flex;flex-direction:column;justify-content:center;gap:13px;margin-top:20px}
+.deck .r{font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--vio2);font-weight:700}
+.deck .p{font-size:clamp(19px,2.6vw,26px);font-weight:400;line-height:1.32}
+.deck .tk{font-size:14.5px;color:#B5ADCB}
+.tm{font-size:34px;color:var(--vio2);font-variant-numeric:tabular-nums;font-weight:700}
+.dbtn{display:flex;gap:9px;justify-content:center;flex-wrap:wrap;margin-top:14px}
+.cnt{font-size:12px;color:var(--greyd);letter-spacing:.05em;text-align:center;margin-top:10px}
+
+footer{border-top:1px solid var(--line);margin-top:60px;padding-top:26px;
+ font-size:12.5px;color:var(--greyd);letter-spacing:.04em}
+@media(max-width:620px){
+  table.t,table.t tbody,table.t tr,table.t td,table.t th{display:block;width:100%}
+  table.t td.n,table.t td.chunk,table.t td.p{width:100%}
+  table.t th{margin-top:10px}
+  .panel{padding:24px 18px}
+}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="in">
+    <div class="logo">deutsch<span>kurs</span></div>
+    <div class="kick">Stunde 4 · C1+ · Kate</div>
+    <h1>Zahlen, Produkt,<br>Entwicklung</h1>
+    <p>Die Sprache zwischen Geschäftsführung und Entwicklerteam — geübt an den Originaltexten deines künftigen Arbeitgebers. Ab September bist du die, die zwischen beiden übersetzt.</p>
+    <div class="tags"><span>Kennzahlen</span><span>Softwareentwicklung</span><span>Technik → Nutzen</span><span>Aufwand verhandeln</span><span>Projektleitungsregister</span><span>60–75 Min</span></div>
+  </div>
+</header>
+
+<nav class="bar"><div class="in">
+  <div class="pw"><div class="pb"><div class="pf" id="pf"></div></div><div class="pt" id="pt">0 %</div></div>
+  <div class="nl">
+    <a href="#b2">1 Originaltexte</a><a href="#b3">2 Zahlen</a><a href="#b4">3 Bewerten</a>
+    <a href="#b5">4 Register</a><a href="#b6">5 Verhandeln</a><a href="#b7">6 Statusrunde</a>
+    <a href="#b8">7 Finale</a><a href="#b9">Mitnehmen</a>
+  </div>
+</div></nav>
+
+<div class="wrap">
+<!-- ══════════ 1 ══════════ -->
+<section class="blk" id="b2">
+  <div class="bn">Block 1 · Originaltexte</div>
+  <h2>Was verspricht dieser Satz?</h2>
+  <p class="sub">Drei Passagen von fluxguide.com. Marketingdeutsch ist verdichtet: Jedes Adjektiv ist eine Zusage — und jede Zusage erzeugt später eine Rückfrage im Projekt. Wir arbeiten sie stufenweise durch.</p>
+  <div class="meta">ca. 16 Min · Verstehen → Anwenden → Analysieren → Bewerten → Formulieren</div>
+
+  <div class="fx">
+    <div class="pname">the guide</div>
+    <p class="claim">Mit „the guide“ starten Museen mit minimalem Aufwand ins Mediaguiding</p>
+    <p class="cpy"><b>Kostengünstig. Skalierbar. Schnell einsatzbereit.</b><br>
+    „the guide“ ist unsere zukunftsfähige Plattform zur digitalen Vermittlung von Inhalten für Museen. Sie erhalten ein umfangreiches Set an Kernmodulen, das Sie jederzeit bedarfsweise erweitern können. Für den reibungslosen Einsatz im Museumsalltag sorgt das intuitive CMS wie unser zuverlässiger Support.</p>
+    <cite>fluxguide.com / Produkte &amp; Services</cite>
+  </div>
+
+  <div class="panel">
+    <div class="bloom">
+      <div class="bstep">
+        <div class="bl">1 · Verstehen</div>
+        <div class="bq">Erklär in eigenen Worten, ohne die Wörter des Textes zu benutzen: <b>skalierbar</b>, <b>bedarfsweise</b>, <b>einsatzbereit</b>, <b>reibungslos</b>, <b>Kernmodul</b>, <b>zukunftsfähig</b>.</div>
+        <textarea placeholder="skalierbar = … / bedarfsweise = … / einsatzbereit = …"></textarea>
+      </div>
+      <div class="bstep">
+        <div class="bl">2 · Anwenden</div>
+        <div class="bq">Bau vier eigene Sätze über ein Projekt, das du kennst — je einen mit <b>skalierbar</b>, <b>bedarfsweise erweitern</b>, <b>schnell einsatzbereit</b> und <b>reibungsloser Betrieb</b>.</div>
+        <textarea class="" placeholder="1. …&#10;2. …&#10;3. …&#10;4. …"></textarea>
+      </div>
+      <div class="bstep">
+        <div class="bl">3 · Analysieren</div>
+        <div class="bq">Was steht in diesem Absatz bewusst <i>nicht</i>? Zerlege drei der Wörter: Welche Zusage machen sie — und welche machen sie ausdrücklich nicht?</div>
+        <textarea placeholder="„bedarfsweise erweitern“ sagt … / sagt nicht …"></textarea>
+      </div>
+      <div class="bstep">
+        <div class="bl">4 · Bewerten</div>
+        <div class="bq">Du sitzt jetzt auf der Museumsseite und liest diesen Text. Ist er seriös oder überverkauft? Begründe mit zwei konkreten Stellen.</div>
+        <textarea placeholder="…"></textarea>
+      </div>
+      <div class="bstep">
+        <div class="bl">5 · Formulieren</div>
+        <div class="bq">Schreib die drei Rückfragen, die ein erfahrenes Museum im Erstgespräch stellen müsste — höflich, aber unbequem.</div>
+        <textarea placeholder="1. …&#10;2. …&#10;3. …"></textarea>
+      </div>
+    </div>
+
+    <h4>Diskussionsfragen</h4>
+    <ul class="dq">
+      <li>„Minimaler Aufwand“ — für wen eigentlich? Für das Museum oder für euch?</li>
+      <li>Ein Baukasten aus Kernmodulen ist günstig und schnell. Was verliert ein Museum dadurch?</li>
+      <li>Wann würdest du einem Haus von „the guide“ <b>abraten</b> und ein individuelles Projekt empfehlen?</li>
+      <li>„Zuverlässiger Support“ steht im Marketingtext. Wer definiert, was zuverlässig heißt — und wie schreibt man das in einen Vertrag?</li>
+    </ul>
+
+    <div class="row"><button class="btn dk" onclick="rv(this)">Lexik-Kommentar</button></div>
+    <div class="rev lite">
+      <ul>
+        <li><b>schnell einsatzbereit</b> — betrifft die Inbetriebnahme, nicht die Inhalte. Die Plattform steht in Tagen; die Texte des Hauses brauchen Monate.</li>
+        <li><b>bedarfsweise erweitern</b> — das eleganteste Wort im Absatz. Es sagt <i>dass</i> erweitert werden kann, nicht <i>zu welchem Preis</i>.</li>
+        <li><b>skalierbar</b> — technisch: verträgt Wachstum ohne Neubau. Keine Aussage darüber, was im Grundpaket enthalten ist.</li>
+        <li><b>ein Set an Kernmodulen</b> — Kern = Standard. Alles Hausspezifische liegt definitionsgemäß außerhalb.</li>
+        <li><b>zukunftsfähig</b> — nicht prüfbar. Genau deshalb steht es da.</li>
+      </ul>
+      <span class="v">Rückfragen: „Was fällt unter die Kernmodule, und was wird gesondert beauftragt?“ · „Was kostet uns der laufende Betrieb im ersten Jahr nach dem Go-Live?“ · „Welche Reaktionszeiten sichern Sie im Support zu?“</span>
+    </div>
+  </div>
+
+  <div class="fx">
+    <div class="pname">daialogue</div>
+    <p class="claim">Unser KI-Chatbot für Online-Sammlungen verbessert Vermittlung und Kuration im digitalen Raum.</p>
+    <p class="cpy"><b>Aus Daten wird Dialog. daialogue eröffnet einen neuen Zugang zu digitalen Sammlungen.</b><br>
+    Wie wäre es, wenn Besucher*innen in ein lebendiges Gespräch mit Ihrer Online-Sammlung treten könnten? Mit daialogue heben wir die Vermittlung von Kontext im digitalen Ausstellungsraum auf ein neues Level. Nutzen Sie bestehende Sammlungsdaten und starten Sie jetzt den Dialog mit Ihrer Sammlung.</p>
+    <cite>fluxguide.com / Produkte &amp; Services</cite>
+  </div>
+
+  <div class="panel">
+    <div class="bloom">
+      <div class="bstep">
+        <div class="bl">1 · Verstehen</div>
+        <div class="bq">Was bedeuten hier genau: <b>Kuration</b>, <b>Vermittlung von Kontext</b>, <b>bestehende Sammlungsdaten</b>, <b>digitaler Ausstellungsraum</b>? Zwei davon kennst du aus Stunde 2 — welche?</div>
+        <textarea placeholder="…"></textarea>
+      </div>
+      <div class="bstep">
+        <div class="bl">2 · Anwenden</div>
+        <div class="bq">„Aus Daten wird Dialog“ ist eine Formel: aus X wird Y. Bilde drei eigene solcher Formeln für digitale Museumsprojekte.</div>
+        <textarea placeholder="Aus … wird … / Aus … wird … / Aus … wird …"></textarea>
+      </div>
+      <div class="bstep">
+        <div class="bl">3 · Analysieren</div>
+        <div class="bq">„Nutzen Sie bestehende Sammlungsdaten“ klingt nach null Aufwand. Was liegt in der Realität zwischen bestehenden Daten und einem funktionierenden Chatbot? Nenne vier Arbeitsschritte.</div>
+        <textarea placeholder="…"></textarea>
+      </div>
+      <div class="bstep">
+        <div class="bl">4 · Bewerten</div>
+        <div class="bq">Ein KI-Chatbot auf einer Museumssammlung — wo liegt der echte Vermittlungsgewinn, und wo ist es Technikmode? Nimm klar Position ein.</div>
+        <textarea placeholder="…"></textarea>
+      </div>
+      <div class="bstep">
+        <div class="bl">5 · Formulieren</div>
+        <div class="bq">Formuliere freundlich, aber klar, was du dem Haus im Erstgespräch über die Datenqualität sagen musst — bevor irgendetwas zugesagt wird.</div>
+        <textarea placeholder="…"></textarea>
+      </div>
+    </div>
+
+    <h4>Diskussionsfragen</h4>
+    <ul class="dq">
+      <li>Wer haftet, wenn der Chatbot einem Besucher etwas fachlich Falsches über ein Werk erzählt?</li>
+      <li>Ein Kurator sagt: „Meine Sammlung ist kein Chatpartner.“ Was antwortest du?</li>
+      <li>Bei Leihgaben ist die digitale Nutzung gesondert zu klären — das hatten wir in Stunde 2. Wie wirkt sich das auf einen Chatbot aus, der die ganze Sammlung durchsucht?</li>
+      <li>Würdest du dieses Produkt einem kleinen Haus mit drei Mitarbeiterinnen verkaufen? Begründe.</li>
+    </ul>
+
+    <div class="row"><button class="btn dk" onclick="rv(this)">Lexik-Kommentar</button></div>
+    <div class="rev lite">
+      <ul>
+        <li><b>die Kuration</b> (das Kuratieren als Prozess) vs. <b>die Vermittlung</b> (verständlich machen) — der Unterschied aus Stunde 2, hier im Produkttext.</li>
+        <li><b>Kontext vermitteln</b> — nicht Fakten liefern, sondern Zusammenhang herstellen. Das Kernversprechen digitaler Vermittlung.</li>
+        <li><b>bestehende Daten nutzen</b> — die freundlichste Formulierung für „wir bauen auf dem auf, was Sie haben, und Sie haben leider ein Datenproblem“.</li>
+        <li><b>etwas auf ein neues Level heben</b> — Marketingfloskel. Im Projektgespräch würdest du sie nicht verwenden.</li>
+      </ul>
+      <span class="v">„Aus technischer Sicht ist die Anbindung unkritisch — der Aufwand liegt erfahrungsgemäß bei der Datenqualität. Die Felder müssten wir uns vorher gemeinsam ansehen.“</span>
+    </div>
+  </div>
+
+  <div class="fx">
+    <div class="pname">der Prozess</div>
+    <p class="claim">Wir begleiten anspruchsvolle Projekte von Beratung, Konzeption und UX-Design bis zum Go-Live.</p>
+    <p class="cpy">fluxguide entwickelt individuelle digitale Lösungen für Museen und Kulturinstitutionen sowie Unternehmen und Tourismusorganisationen, die mehr als eine Standardlösung suchen.</p>
+    <cite>fluxguide.com / Startseite</cite>
+  </div>
+
+  <div class="panel">
+    <div class="bloom">
+      <div class="bstep">
+        <div class="bl">1 · Verstehen &amp; Anordnen</div>
+        <div class="bq">Das ist ab September deine Projektstruktur. Bring die Phasen in die richtige Reihenfolge und ergänze, was im Satz fehlt: <i>Betrieb · Konzeption · Wartung · Beratung · UX-Design · Umsetzung · Go-Live · Inhaltspflege</i></div>
+        <textarea placeholder="… → … → … → …"></textarea>
+      </div>
+      <div class="bstep">
+        <div class="bl">2 · Analysieren</div>
+        <div class="bq">Der Satz endet <b>beim</b> Go-Live. Warum ist das aus Firmensicht klug formuliert — und warum ist es genau der Punkt, an dem Projekte später kippen?</div>
+        <textarea placeholder="…"></textarea>
+      </div>
+      <div class="bstep">
+        <div class="bl">3 · Bewerten</div>
+        <div class="bq">„… die mehr als eine Standardlösung suchen.“ Wer ist damit ausgeschlossen — und ist das eine gute Positionierung? Was wäre das Risiko?</div>
+        <textarea placeholder="…"></textarea>
+      </div>
+      <div class="bstep">
+        <div class="bl">4 · Formulieren</div>
+        <div class="bq">Erklär einem Museum in drei Sätzen, was nach dem Go-Live passiert und warum es dafür eine eigene Vereinbarung braucht.</div>
+        <textarea placeholder="…"></textarea>
+      </div>
+    </div>
+
+    <h4>Diskussionsfragen</h4>
+    <ul class="dq">
+      <li>An welcher Stelle dieser Kette entstehen die meisten Missverständnisse mit dem Kunden — und warum genau dort?</li>
+      <li>In welcher Phase ist die Rolle der Projektleiterin am wichtigsten? Und in welcher wird sie am meisten unterschätzt?</li>
+      <li>Ein Museum will Beratung und Konzeption überspringen und direkt umsetzen. Was sagst du?</li>
+    </ul>
+
+    <div class="row"><button class="btn dk" onclick="rv(this)">Lexik-Kommentar</button></div>
+    <div class="rev lite">
+      <b>Beratung → Konzeption → UX-Design → Umsetzung → Go-Live → Betrieb &amp; Wartung → Inhaltspflege</b>
+      <ul>
+        <li><b>ein Projekt begleiten</b> — bewusst weicher als „durchführen“: schafft Partnerschaft, verteilt aber auch Verantwortung.</li>
+        <li><b>den Go-Live halten</b> · <b>in den Betrieb übergeben</b> · <b>den Betrieb sicherstellen</b> — die drei Wendungen, die du im ersten Jahr täglich brauchen wirst.</li>
+        <li><b>anspruchsvolle Projekte</b> — höfliche Selbstpositionierung im Premiumsegment.</li>
+      </ul>
+      <span class="v">„Nach dem Go-Live geht das Projekt in den Betrieb über — dafür brauchen wir eine eigene Vereinbarung, sonst bleibt die Inhaltspflege ungeklärt.“</span>
+    </div>
+  </div>
+</section>
+
+<div class="plus">+++</div>
+<!-- ══════════ 2 ══════════ -->
+<section class="blk" id="b3">
+  <div class="bn">Block 2 · Kennzahlen</div>
+  <h2>Zahlen in Bewegung</h2>
+  <p class="sub">„Die Zahlen sind besser geworden“ ist auf deinem Niveau zu wenig. Deutsch hat für jede Bewegungsrichtung ein eigenes, ziemlich festes Verb. Karten antippen.</p>
+  <div class="meta">ca. 16 Min · 10 Verben, dann 20 Rohnotizen</div>
+
+  <div class="vgrid">
+    <div class="vc u" onclick="this.classList.toggle('open')"><b>zulegen</b><div class="ar">↗ deutlich mehr</div><div class="df">„Die Nutzungszahlen haben im zweiten Quartal spürbar zugelegt.“ Sehr idiomatisch, etwas mündlicher als „steigen“.</div></div>
+    <div class="vc u" onclick="this.classList.toggle('open')"><b>steigen / ansteigen</b><div class="ar">↗ neutral</div><div class="df">Das Standardverb. „Die Betriebskosten sind um rund zwölf Prozent gestiegen.“ Perfekt immer mit <i>sein</i>.</div></div>
+    <div class="vc d" onclick="this.classList.toggle('open')"><b>zurückgehen</b><div class="ar">↘ sanft weniger</div><div class="df">Das freundlichste Verb für schlechte Nachrichten. „Die Downloadzahlen sind leicht zurückgegangen.“</div></div>
+    <div class="vc d" onclick="this.classList.toggle('open')"><b>einbrechen</b><div class="ar">↓↓ dramatisch</div><div class="df">Stark, fast alarmierend. „Nach dem Update ist die Nutzung regelrecht eingebrochen.“ Sparsam — es erzeugt Panik.</div></div>
+    <div class="vc" onclick="this.classList.toggle('open')"><b>stagnieren</b><div class="ar">→ Stillstand</div><div class="df">„Seit Monaten stagnieren die Zahlen.“ Klingt kritisch: Stillstand, obwohl Wachstum erwartet war.</div></div>
+    <div class="vc" onclick="this.classList.toggle('open')"><b>sich einpendeln</b><div class="ar">→ stabil auf Niveau</div><div class="df">„Die Nutzung hat sich bei etwa 400 Sessions pro Woche eingependelt.“ Neutral bis positiv: Normalzustand erreicht.</div></div>
+    <div class="vc" onclick="this.classList.toggle('open')"><b>sich belaufen auf</b><div class="ar">= exakter Betrag</div><div class="df">„Die Lizenzkosten belaufen sich auf 14.000 Euro im Jahr.“ Formell — für Angebote und Berichte.</div></div>
+    <div class="vc" onclick="this.classList.toggle('open')"><b>ausfallen</b><div class="ar">= Ergebnis war …</div><div class="df">„Das Quartal ist schwächer ausgefallen als geplant.“ Die elegante Art, ein Ergebnis zu bewerten, ohne jemanden zu beschuldigen.</div></div>
+    <div class="vc u" onclick="this.classList.toggle('open')"><b>gut angenommen werden</b><div class="ar">↗ Akzeptanz</div><div class="df">„Die App wird von den Besucher:innen gut angenommen.“ Kein Zahlenverb — aber der Satz, den Museen hören wollen.</div></div>
+    <div class="vc" onclick="this.classList.toggle('open')"><b>über/unter den Erwartungen liegen</b><div class="ar">= Vergleich</div><div class="df">„Die Nutzung liegt klar über unseren Erwartungen.“ / „… bleibt hinter den Erwartungen zurück.“</div></div>
+  </div>
+
+  <div class="panel">
+    <h3>20 Rohnotizen</h3>
+    <p style="margin-top:4px">So stehen Zahlen in echten Protokollen. Mach aus jeder Notiz einen vollständigen, sprechbaren Satz — mit <b>Verb</b> <i>und</i> <b>Bezugsrahmen</b>.</p>
+    <div class="hint"><b>Bezugsrahmen, ohne den eine Zahl nichts bedeutet:</b> im Vergleich zum Vorjahr · gegenüber dem Vorquartal · ein Plus/Minus von acht Prozent · bei rund 3.000 Sessions · im Schnitt · hochgerechnet auf das Jahr · gemessen an der Zielgröße</div>
+    <table class="t">
+      <tr><th>Rohnotiz</th><th>Dein Satz</th></tr>
+      <tr><td class="n"><span class="num">01</span>App-Nutzung Q2: +18 % ggü. Q1</td><td><textarea placeholder="…"></textarea></td></tr>
+      <tr><td class="n"><span class="num">02</span>Downloads nach Sommerpause: −40 %</td><td><textarea placeholder="…"></textarea></td></tr>
+      <tr><td class="n"><span class="num">03</span>Verweildauer im Raum: seit Eröffnung unverändert, ~7 Min</td><td><textarea placeholder="…"></textarea></td></tr>
+      <tr><td class="n"><span class="num">04</span>Wartungskosten: 9.500 € pro Jahr</td><td><textarea placeholder="…"></textarea></td></tr>
+      <tr><td class="n"><span class="num">05</span>Projektmarge: 22 %, geplant waren 30 %</td><td><textarea placeholder="…"></textarea></td></tr>
+      <tr><td class="n"><span class="num">06</span>Nur 34 % der Besucher starten die App überhaupt</td><td><textarea placeholder="…"></textarea></td></tr>
+      <tr><td class="n"><span class="num">07</span>Betriebskosten: +12 % ggü. Vorjahr</td><td><textarea placeholder="…"></textarea></td></tr>
+      <tr><td class="n"><span class="num">08</span>Sessions/Woche: schwankt zwischen 380 und 420</td><td><textarea placeholder="…"></textarea></td></tr>
+      <tr><td class="n"><span class="num">09</span>Jahresumsatz: 2,4 Mio. €, Vorjahr 2,1</td><td><textarea placeholder="…"></textarea></td></tr>
+      <tr><td class="n"><span class="num">10</span>Abbruchquote im Onboarding: 51 %</td><td><textarea placeholder="…"></textarea></td></tr>
+      <tr><td class="n"><span class="num">11</span>Lizenzkosten pro Haus: 14.000 € p. a.</td><td><textarea placeholder="…"></textarea></td></tr>
+      <tr><td class="n"><span class="num">12</span>Teamauslastung: 96 % — dauerhaft zu hoch</td><td><textarea placeholder="…"></textarea></td></tr>
+      <tr><td class="n"><span class="num">13</span>Support-Tickets seit dem Update: halbiert</td><td><textarea placeholder="…"></textarea></td></tr>
+      <tr><td class="n"><span class="num">14</span>Zweite Sprachversion: 4 % Nutzung</td><td><textarea placeholder="…"></textarea></td></tr>
+      <tr><td class="n"><span class="num">15</span>AR-Station: 1.200 Starts im 1. Monat, dann 300</td><td><textarea placeholder="…"></textarea></td></tr>
+      <tr><td class="n"><span class="num">16</span>Kosten pro erreichtem Besucher: 0,80 €</td><td><textarea placeholder="…"></textarea></td></tr>
+      <tr><td class="n"><span class="num">17</span>Angebot vs. Abrechnung: 8 Personentage Mehraufwand</td><td><textarea placeholder="…"></textarea></td></tr>
+      <tr><td class="n"><span class="num">18</span>Go-Live: zwei Wochen später als geplant</td><td><textarea placeholder="…"></textarea></td></tr>
+      <tr><td class="n"><span class="num">19</span>Store-Bewertung: 4,6 bei 210 Bewertungen</td><td><textarea placeholder="…"></textarea></td></tr>
+      <tr><td class="n"><span class="num">20</span>Anteil Wiederkehrer: 6 %, Vorjahr 5 %</td><td><textarea placeholder="…"></textarea></td></tr>
+    </table>
+    <div class="row"><button class="btn dk" onclick="rv(this)">Beispielsätze zu 01–06</button></div>
+    <div class="rev lite">
+      <span class="v">01 · Die App-Nutzung hat im zweiten Quartal um 18 Prozent zugelegt — gegenüber dem Vorquartal ein deutlicher Sprung.</span>
+      <span class="v">02 · Nach der Sommerpause sind die Downloads um 40 Prozent eingebrochen. Das würde ich mir ansehen, bevor wir daraus Schlüsse ziehen.</span>
+      <span class="v">03 · Die Verweildauer hat sich seit der Eröffnung bei rund sieben Minuten eingependelt; da bewegt sich schlicht nichts mehr.</span>
+      <span class="v">04 · Die Wartungskosten belaufen sich auf 9.500 Euro im Jahr — der Posten, den das Haus dauerhaft tragen muss.</span>
+      <span class="v">05 · Die Marge liegt bei 22 Prozent und fällt damit schwächer aus als geplant; gerechnet hatten wir mit 30.</span>
+      <span class="v">06 · Nur rund ein Drittel der Besucher startet die App überhaupt — gemessen an unserer Zielgröße bleibt das klar hinter den Erwartungen zurück.</span>
+    </div>
+    <div class="say"><b>Sprechen:</b> Wähle drei Notizen, die zusammen eine Geschichte erzählen, und trag sie als kurzen mündlichen Befund vor. Nicht vorlesen — deuten.</div>
+  </div>
+</section>
+
+<div class="plus">+++</div>
+
+<!-- ══════════ 3 ══════════ -->
+<section class="blk" id="b4">
+  <div class="bn">Block 3 · Bewerten</div>
+  <h2>So kann man es sagen — so sagt man es</h2>
+  <p class="sub">Alles links ist grammatisch richtig. Nur würde es so niemand im Meeting sagen. Danach musst du selbst begründen und abwägen.</p>
+  <div class="meta">ca. 12 Min · Kontraste, dann Vorteile/Nachteile</div>
+
+  <div class="panel">
+    <table class="t">
+      <tr><th>grammatisch möglich</th><th>so klingt es im Büro</th></tr>
+      <tr><td class="x">Die Zahlen sind besser geworden.</td><td class="o">Die Nutzungszahlen haben deutlich zugelegt.</td></tr>
+      <tr><td class="x">Wir haben bei dem Projekt viel Geld verdient.</td><td class="o">Das Projekt war deutlich profitabler als kalkuliert.</td></tr>
+      <tr><td class="x">Das Projekt hat 20 % Profit gemacht.</td><td class="o">Das Projekt lag bei einer Marge von rund 20 Prozent.</td></tr>
+      <tr><td class="x">Die Kosten sind hochgegangen.</td><td class="o">Die Betriebskosten sind spürbar gestiegen.</td></tr>
+      <tr><td class="x">Die App wird viel benutzt.</td><td class="o">Die App wird gut angenommen.</td></tr>
+      <tr><td class="x">Wir haben keine Zeit für das Feature.</td><td class="o">Das Feature bekommen wir in diesem Release nicht mehr unter.</td></tr>
+      <tr><td class="x">Ich weiß nicht, wie lange das dauert.</td><td class="o">Da müsste ich den Aufwand erst mit der Entwicklung abschätzen.</td></tr>
+      <tr><td class="x">Der Kunde will immer neue Sachen.</td><td class="o">Auf Kundenseite kommen laufend neue Anforderungen dazu.</td></tr>
+    </table>
+
+    <h4>Aufgabe A · Begründen</h4>
+    <p>Wähle vier Zeilen. Sag zu jeder, <b>woran</b> es liegt, dass die rechte Variante professioneller wirkt — an der Genauigkeit, am Register, an der Sachlichkeit oder daran, wer die Verantwortung trägt. Nicht „klingt besser“.</p>
+    <textarea class="big" placeholder="Zeile … — weil …&#10;Zeile … — weil …&#10;Zeile … — weil …&#10;Zeile … — weil …"></textarea>
+
+    <h4>Aufgabe B · Vorteile und Nachteile abwägen</h4>
+    <p>Diese vorsichtige, nominale Bürosprache hat auch einen Preis. Trag beide Seiten zusammen und entscheide dich am Ende.</p>
+    <table class="t">
+      <tr><th>Vorteile der rechten Spalte</th><th>Nachteile / Risiken</th></tr>
+      <tr><td class="p"><textarea placeholder="1. …&#10;2. …&#10;3. …"></textarea></td><td class="p"><textarea placeholder="1. …&#10;2. …&#10;3. …"></textarea></td></tr>
+    </table>
+    <ul class="dq">
+      <li>„Auf Kundenseite kommen laufend neue Anforderungen dazu“ — wo ist diese Formulierung <b>ehrlicher</b> als die linke, und wo <b>verschleiert</b> sie etwas?</li>
+      <li>In welcher Situation wäre die <b>linke</b>, direkte Variante die bessere Wahl? Nenne ein konkretes Beispiel aus deiner Arbeit.</li>
+      <li>Wenn eine Projektleiterin nur noch nominal und abgesichert spricht — wie wirkt sie nach zwei Monaten auf ihr Team?</li>
+      <li>Gibt es im Russischen dieselbe Distanz zwischen „privat“ und „Firmensprache“? Wo ist sie größer?</li>
+    </ul>
+    <div class="say"><b>Sprechen:</b> Verteidige eine Minute lang die These „Diese Sprache ist Feigheit“ — und danach eine Minute die Gegenthese. Du musst beide Seiten überzeugend vertreten.</div>
+    <div class="row"><button class="btn dk" onclick="rv(this)">Meine Lesart</button></div>
+    <div class="rev lite">
+      <ul>
+        <li><b>Genauigkeit:</b> „besser geworden“ → welche Zahl, um wie viel? Rechts steht immer ein prüfbarer Inhalt.</li>
+        <li><b>Verantwortung:</b> „Ich weiß nicht“ macht dich unwissend; „Da müsste ich den Aufwand abschätzen“ macht daraus einen Arbeitsschritt, den du steuerst. Derselbe Inhalt, völlig andere Rolle.</li>
+        <li><b>Sachlichkeit statt Wertung:</b> „Der Kunde will immer neue Sachen“ ist eine Beschwerde. „Auf Kundenseite kommen laufend neue Anforderungen dazu“ ist ein Befund — und den kann man managen.</li>
+        <li><b>Der Preis:</b> Nominalstil kostet Tempo und Nähe. Wer im Team dauerhaft so spricht, wirkt distanziert und schwer angreifbar — und bekommt irgendwann keine offene Rückmeldung mehr. Intern darf es direkter sein; nach außen zahlt sich die Vorsicht aus.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<div class="plus">+++</div>
+<!-- ══════════ 4 ══════════ -->
+<section class="blk" id="b5">
+  <div class="bn">Block 4 · Register</div>
+  <h2>Sag es als Projektleiterin</h2>
+  <p class="sub">Links steht, was man denkt oder im Flur sagt. Rechts steht, was du ab September in einem Meeting sagen wirst. Der Pflicht-Chunk muss vorkommen.</p>
+  <div class="meta">ca. 18 Min · 25 Sätze · in Auswahl mündlich, den Rest schriftlich</div>
+
+  <div class="panel">
+    <div class="hint"><b>Die Bewegung ist immer dieselbe:</b> Wertung raus → Sachverhalt rein → Verantwortung sichtbar machen → nächster Schritt benennen. Wer ein Problem meldet, ohne einen Schritt anzubieten, hat kein Problem gemeldet, sondern sich beschwert.</div>
+    <table class="t">
+      <tr><th>gedacht / im Flur gesagt</th><th>Pflicht-Chunk</th><th>Als Projektleiterin</th></tr>
+      <tr><td class="n"><span class="num">01</span>Ich weiß nicht, wie lange das dauert.</td><td class="chunk">den Aufwand abschätzen</td><td class="p"><textarea placeholder="…"></textarea></td></tr>
+      <tr><td class="n"><span class="num">02</span>Das Museum will jetzt was anderes.</td><td class="chunk">eine Anforderung hat sich verändert</td><td class="p"><textarea placeholder="…"></textarea></td></tr>
+      <tr><td class="n"><span class="num">03</span>Wir sind zu spät dran.</td><td class="chunk">den Zeitplan nicht halten</td><td class="p"><textarea placeholder="…"></textarea></td></tr>
+      <tr><td class="n"><span class="num">04</span>Die Entwickler sagen, das geht nicht.</td><td class="chunk">technisch nicht abbildbar</td><td class="p"><textarea placeholder="…"></textarea></td></tr>
+      <tr><td class="n"><span class="num">05</span>Wir haben zu wenig Geld eingeplant.</td><td class="chunk">zu knapp kalkuliert</td><td class="p"><textarea placeholder="…"></textarea></td></tr>
+      <tr><td class="n"><span class="num">06</span>Ich frag mal die Entwickler.</td><td class="chunk">mit der Entwicklung rückkoppeln</td><td class="p"><textarea placeholder="…"></textarea></td></tr>
+      <tr><td class="n"><span class="num">07</span>Das machen wir später.</td><td class="chunk">in die nächste Ausbaustufe verschieben</td><td class="p"><textarea placeholder="…"></textarea></td></tr>
+      <tr><td class="n"><span class="num">08</span>Die App wird kaum benutzt.</td><td class="chunk">hinter den Erwartungen zurückbleiben</td><td class="p"><textarea placeholder="…"></textarea></td></tr>
+      <tr><td class="n"><span class="num">09</span>Der Kunde nervt mit Extrawünschen.</td><td class="chunk">zusätzliche Anforderungen kommen dazu</td><td class="p"><textarea placeholder="…"></textarea></td></tr>
+      <tr><td class="n"><span class="num">10</span>Wir müssen mal reden.</td><td class="chunk">einen Abstimmungstermin ansetzen</td><td class="p"><textarea placeholder="…"></textarea></td></tr>
+      <tr><td class="n"><span class="num">11</span>Keiner weiß, wer das später pflegt.</td><td class="chunk">die Zuständigkeit ist ungeklärt</td><td class="p"><textarea placeholder="…"></textarea></td></tr>
+      <tr><td class="n"><span class="num">12</span>Das kostet mehr als gedacht.</td><td class="chunk">über der Kalkulation liegen</td><td class="p"><textarea placeholder="…"></textarea></td></tr>
+      <tr><td class="n"><span class="num">13</span>Ich bin dagegen.</td><td class="chunk">davon würde ich abraten</td><td class="p"><textarea placeholder="…"></textarea></td></tr>
+      <tr><td class="n"><span class="num">14</span>Wir haben das nicht getestet.</td><td class="chunk">ein Testdurchlauf fehlt noch</td><td class="p"><textarea placeholder="…"></textarea></td></tr>
+      <tr><td class="n"><span class="num">15</span>Die Daten sind Müll.</td><td class="chunk">die Datenqualität ist uneinheitlich</td><td class="p"><textarea placeholder="…"></textarea></td></tr>
+      <tr><td class="n"><span class="num">16</span>Ich brauche mehr Leute.</td><td class="chunk">zusätzliche Kapazität einplanen</td><td class="p"><textarea placeholder="…"></textarea></td></tr>
+      <tr><td class="n"><span class="num">17</span>Das ist nicht mein Job.</td><td class="chunk">außerhalb des Leistungsumfangs liegen</td><td class="p"><textarea placeholder="…"></textarea></td></tr>
+      <tr><td class="n"><span class="num">18</span>Wir haben es einfach vergessen.</td><td class="chunk">bei der Planung untergehen</td><td class="p"><textarea placeholder="…"></textarea></td></tr>
+      <tr><td class="n"><span class="num">19</span>Wir müssen irgendwas streichen.</td><td class="chunk">den Umfang eingrenzen</td><td class="p"><textarea placeholder="…"></textarea></td></tr>
+      <tr><td class="n"><span class="num">20</span>Es läuft eigentlich ganz gut.</td><td class="chunk">im Plan liegen</td><td class="p"><textarea placeholder="…"></textarea></td></tr>
+      <tr><td class="n"><span class="num">21</span>Wir wissen nicht, ob die Besucher das wollen.</td><td class="chunk">die Annahme ist nicht belegt</td><td class="p"><textarea placeholder="…"></textarea></td></tr>
+      <tr><td class="n"><span class="num">22</span>Das ist viel zu kompliziert gebaut.</td><td class="chunk">technische Schulden aufbauen</td><td class="p"><textarea placeholder="…"></textarea></td></tr>
+      <tr><td class="n"><span class="num">23</span>Das will ich jetzt nicht versprechen.</td><td class="chunk">sich noch nicht festlegen</td><td class="p"><textarea placeholder="…"></textarea></td></tr>
+      <tr><td class="n"><span class="num">24</span>Die Kollegin hat einen Fehler gemacht.</td><td class="chunk">im Prozess ist etwas schiefgelaufen</td><td class="p"><textarea placeholder="…"></textarea></td></tr>
+      <tr><td class="n"><span class="num">25</span>Wir sind fertig, jetzt ist das Museum dran.</td><td class="chunk">in den Betrieb übergeben</td><td class="p"><textarea placeholder="…"></textarea></td></tr>
+    </table>
+    <div class="say"><b>Sprechen:</b> Ich nenne eine Nummer, du antwortest sofort mündlich — ohne auf deinen geschriebenen Satz zu schauen. Danach vergleichen wir.</div>
+  </div>
+</section>
+
+<div class="plus">+++</div>
+
+<!-- ══════════ 5 ══════════ -->
+<section class="blk" id="b6">
+  <div class="bn">Block 5 · Verhandeln</div>
+  <h2>Was tust du mit diesem Satz?</h2>
+  <p class="sub">Sechzehn Wendungen, vier Absichten. Sortiere nach dem, was der Satz im Projekt <i>bewirkt</i> — nicht nach dem Wortschatzfeld. Am Handy: Chip antippen, dann Spalte antippen.</p>
+  <div class="meta">ca. 12 Min · Drag &amp; Drop, dann verhandeln</div>
+
+  <div class="pool" id="pool"></div>
+  <div class="bins">
+    <div class="bin" data-b="A"><h5>Ich lege mich fest</h5><div class="s">verbindliche Zusage, an der man mich messen kann</div><div class="drop"></div></div>
+    <div class="bin" data-b="B"><h5>Ich knüpfe eine Bedingung</h5><div class="s">ja — aber nur, wenn etwas anderes gilt</div><div class="drop"></div></div>
+    <div class="bin" data-b="C"><h5>Ich steuere den Umfang</h5><div class="s">ich verändere, was geliefert wird</div><div class="drop"></div></div>
+    <div class="bin" data-b="D"><h5>Ich weise zurück</h5><div class="s">nein — mit Argument, nicht mit Gefühl</div><div class="drop"></div></div>
+  </div>
+  <div class="row">
+    <button class="btn" onclick="check6()">Auswertung</button>
+    <button class="btn o" onclick="reset6()">Zurücksetzen</button>
+    <button class="btn o" onclick="rv(this)">Kommentar</button>
+  </div>
+  <div class="rev dark">
+    <ul>
+      <li><b>Ich lege mich fest:</b> den Go-Live halten · in den Betrieb übergeben · einen Abstimmungstermin ansetzen · das nehme ich mit ins Sprint-Planning</li>
+      <li><b>Ich knüpfe eine Bedingung:</b> machbar ist das durchaus, allerdings … · das geht, wenn wir den Puffer aufbrauchen · vorausgesetzt, die Inhalte liegen bis Ende März vor · unter der Bedingung, dass wir an anderer Stelle kürzen</li>
+      <li><b>Ich steuere den Umfang:</b> den Umfang eingrenzen · in die nächste Ausbaustufe verschieben · in den Backlog nehmen · das Release verschieben</li>
+      <li><b>Ich weise zurück:</b> davon würde ich abraten · da bauen wir uns technische Schulden ein · dafür fehlt uns die Grundlage · Aufwand und Nutzen stehen in keinem Verhältnis</li>
+    </ul>
+    Die wichtigste Spalte ist die zweite. Eine Projektleiterin, die nur zusagt, verbrennt sich; eine, die nur zurückweist, wird umgangen. <b>Bedingungen zu knüpfen</b> ist die eigentliche Kunst — und sprachlich das, was du am wenigsten geübt hast.
+  </div>
+
+  <div class="card">
+    <div class="lbl">Produktion</div>
+    <h3>Die Projektleitung will „das noch kurz mit reinnehmen“</h3>
+    <p class="body" style="margin:0 0 12px">Du hältst das für falsch. Schreib deine Antwort — mit mindestens einer Wendung aus <b>Spalte B</b>, einer aus <b>Spalte C</b> und einem abschwächenden Wort aus Stunde 2 (<i>durchaus, allerdings, eher, wohl, jedenfalls</i>).</p>
+    <textarea class="dk big" placeholder="…"></textarea>
+    <div class="row"><button class="btn o" onclick="rv(this)">Beispielreaktion</button></div>
+    <div class="rev dark">
+      <span class="v">Machbar ist das durchaus — allerdings müssten wir dafür entweder den Puffer aufbrauchen oder den Umfang an anderer Stelle eingrenzen. Ich würde es eher in die nächste Ausbaustufe verschieben; dann bauen wir uns jetzt keine technischen Schulden ein und halten den Go-Live jedenfalls sicher.</span>
+      Die Struktur: <b>Zugeständnis → Bedingung → Alternative → Zusage.</b> Ein „geht nicht“ steht nie allein.
+    </div>
+  </div>
+</section>
+
+<div class="plus">+++</div>
+
+<!-- ══════════ 6 ══════════ -->
+<section class="blk" id="b7">
+  <div class="bn">Block 6 · Statusrunde</div>
+  <h2>Reagieren, nicht vorbereiten</h2>
+  <p class="sub">Dreißig Karten. Jemand legt eine Situation auf den Tisch, du reagierst sofort. Pflicht in jeder Antwort: eine Zahl mit Bezugsrahmen, ein Verb aus Block 2, eine Wendung aus Block 5.</p>
+  <div class="meta">ca. 12 Min · 60 Sekunden pro Karte</div>
+
+  <div class="deck">
+    <div class="r" id="role">Karte ziehen →</div>
+    <div class="p" id="prompt">Bereit?</div>
+    <div class="tk" id="task"></div>
+    <div class="tm" id="tm">1:00</div>
+  </div>
+  <div class="dbtn">
+    <button class="btn" onclick="draw()">Karte ziehen</button>
+    <button class="btn o" onclick="start(60)">60 Sekunden</button>
+    <button class="btn o" onclick="stop()">Stop</button>
+  </div>
+  <div class="cnt" id="cnt">0 von 30 gezogen</div>
+  <div class="say"><b>Brücken, wenn du ins Stocken kommst:</b> „Lass mich kurz sortieren …“ · „Die Zahl habe ich nicht im Kopf, aber der Trend ist eindeutig: …“ · „Da würde ich unterscheiden zwischen …“ · „Bevor ich das beantworte: Worauf zielt die Frage genau?“</div>
+</section>
+
+<div class="plus">+++</div>
+
+<!-- ══════════ 7 ══════════ -->
+<section class="blk" id="b8">
+  <div class="bn">Block 7 · Finale</div>
+  <h2>Quartals-Update</h2>
+  <p class="sub">Du berichtest der Geschäftsführung über ein laufendes Museumsprojekt. Drei Minuten, zusammenhängend, mit einer Empfehlung am Ende.</p>
+  <div class="meta">ca. 12 Min · das Ziel der ganzen Stunde</div>
+
+  <div class="panel">
+    <h3>Deine Zahlen</h3>
+    <table class="t">
+      <tr><th>Kennzahl</th><th>Stand</th></tr>
+      <tr><td class="n">App-Nutzung</td><td>+18 % gegenüber dem Vorquartal — aber nur 34 % der Besucher:innen starten sie überhaupt</td></tr>
+      <tr><td class="n">Verweildauer vor den Objekten</td><td>seit der Eröffnung unverändert</td></tr>
+      <tr><td class="n">Projektmarge</td><td>22 % — geplant waren 30 %</td></tr>
+      <tr><td class="n">Wartungsaufwand</td><td>rund doppelt so hoch wie kalkuliert</td></tr>
+      <tr><td class="n">Offene Anforderung</td><td>Das Haus möchte einen KI-Chatbot auf der Online-Sammlung — Datenqualität ungeprüft</td></tr>
+    </table>
+
+    <h4>Was in die drei Minuten muss</h4>
+    <ul class="dq">
+      <li>Ordne die Zahlen ein — nicht vorlesen, sondern deuten. Was ist gut, was ist ein Warnsignal?</li>
+      <li>Erklär den Margenverlust, ohne jemanden zu beschuldigen.</li>
+      <li>Sag klar, was du zum Chatbot empfiehlst: zusagen, an eine Bedingung knüpfen, begrenzen oder zurückweisen.</li>
+      <li>Schließ mit der Entscheidung, die du von der Geschäftsführung brauchst.</li>
+    </ul>
+
+    <div class="row">
+      <button class="btn" onclick="start2(180)">3 Minuten starten</button>
+      <span class="tm" id="tm2" style="font-size:27px;color:var(--vio)">3:00</span>
+    </div>
+    <h4>Stichpunkte (keine ganzen Sätze)</h4>
+    <textarea class="big" placeholder="– &#10;– &#10;– "></textarea>
+  </div>
+</section>
+
+<div class="plus">+++</div>
+
+<!-- ══════════ 8 ══════════ -->
+<section class="blk" id="b9">
+  <div class="bn">Zum Mitnehmen</div>
+  <h2>Meine Sätze aus dieser Stunde</h2>
+  <p class="sub">Was du hier notierst, geht ins Notion. Schreib nur auf, was du wirklich benutzen wirst — lieber sechs Sätze, die sitzen, als zwanzig, die du nie sagst.</p>
+
+  <div class="card">
+    <textarea class="dk" style="min-height:300px" placeholder="1. &#10;2. &#10;3. &#10;4. &#10;5. &#10;6. &#10;7. &#10;8. "></textarea>
+  </div>
+</section>
+
+<footer>Deutschunterricht Kate · Stunde 4 · Kennzahlen, Produkt und Softwareentwicklung im Kulturbereich · Originaltexte: fluxguide.com</footer>
+</div>
+<script>
+/* ═══════ state ═══════ */
+var K='kate_st4_fx_v1', ST={txt:{},rev:{},bin:{},drawn:[]};
+try{var r=localStorage.getItem(K); if(r)ST=Object.assign(ST,JSON.parse(r));}catch(e){}
+function save(){try{localStorage.setItem(K,JSON.stringify(ST))}catch(e){}}
+
+/* ═══════ reveal ═══════ */
+document.querySelectorAll('button[onclick^="rv"]').forEach(function(b,i){b.id='rv_'+i;});
+function rv(b){
+  if(!b.dataset.t)b.dataset.t=b.textContent;
+  var box=b.closest('.row').nextElementSibling;
+  if(!box||!box.classList.contains('rev'))return;
+  var open=box.classList.toggle('on');
+  b.textContent=open?'ausblenden':b.dataset.t;
+  ST.rev[b.id]=open; save();
+}
+Object.keys(ST.rev||{}).forEach(function(id){
+  if(!ST.rev[id])return;
+  var b=document.getElementById(id); if(!b)return;
+  var box=b.closest('.row').nextElementSibling;
+  if(box&&box.classList.contains('rev')){box.classList.add('on');
+    if(!b.dataset.t)b.dataset.t=b.textContent; b.textContent='ausblenden';}
+});
+
+/* ═══════ textareas ═══════ */
+document.querySelectorAll('textarea').forEach(function(t,i){
+  t.id='ta_'+i;
+  if(ST.txt[t.id]){t.value=ST.txt[t.id];grow(t);}
+  t.addEventListener('input',function(){ST.txt[t.id]=t.value;save();paint();grow(t);});
+});
+function grow(t){t.style.height='auto';t.style.height=(t.scrollHeight+4)+'px';}
+
+/* ═══════ block 5 ═══════ */
+var CH=[
+ {t:'den Go-Live halten',b:'A'},
+ {t:'in den Betrieb übergeben',b:'A'},
+ {t:'einen Abstimmungstermin ansetzen',b:'A'},
+ {t:'das nehme ich mit ins Sprint-Planning',b:'A'},
+ {t:'machbar ist das durchaus, allerdings …',b:'B'},
+ {t:'das geht, wenn wir den Puffer aufbrauchen',b:'B'},
+ {t:'vorausgesetzt, die Inhalte liegen vor',b:'B'},
+ {t:'unter der Bedingung, dass wir anderswo kürzen',b:'B'},
+ {t:'den Umfang eingrenzen',b:'C'},
+ {t:'in die nächste Ausbaustufe verschieben',b:'C'},
+ {t:'in den Backlog nehmen',b:'C'},
+ {t:'das Release verschieben',b:'C'},
+ {t:'davon würde ich abraten',b:'D'},
+ {t:'da bauen wir uns technische Schulden ein',b:'D'},
+ {t:'dafür fehlt uns die Grundlage',b:'D'},
+ {t:'Aufwand und Nutzen stehen in keinem Verhältnis',b:'D'}
+];
+var pick=null;
+function build6(){
+  var pool=document.getElementById('pool'); pool.innerHTML='';
+  CH.map(function(c){return {c:c,r:Math.random()}}).sort(function(a,b){return a.r-b.r})
+   .forEach(function(x){
+     var d=document.createElement('div');
+     d.className='chip'; d.draggable=true; d.textContent=x.c.t; d.dataset.b=x.c.b; d.dataset.k=x.c.t;
+     d.addEventListener('dragstart',function(){pick=d;});
+     d.addEventListener('click',function(){
+       if(pick&&pick!==d)pick.classList.remove('pick');
+       pick=d; d.classList.add('pick');
+     });
+     pool.appendChild(d);
+   });
+  document.querySelectorAll('.bin').forEach(function(bn){
+    var dz=bn.querySelector('.drop');
+    bn.addEventListener('dragover',function(e){e.preventDefault();bn.classList.add('over');});
+    bn.addEventListener('dragleave',function(){bn.classList.remove('over');});
+    bn.addEventListener('drop',function(e){e.preventDefault();bn.classList.remove('over');place(dz);});
+    bn.addEventListener('click',function(){place(dz);});
+  });
+  pool.addEventListener('dragover',function(e){e.preventDefault();});
+  pool.addEventListener('drop',function(e){e.preventDefault();place(pool);});
+  Object.keys(ST.bin||{}).forEach(function(key){
+    var el=[].find.call(document.querySelectorAll('.chip'),function(c){return c.dataset.k===key});
+    var bn=document.querySelector('.bin[data-b="'+ST.bin[key]+'"]');
+    if(el&&bn)bn.querySelector('.drop').appendChild(el);
+  });
+}
+function place(zone){
+  if(!pick)return;
+  zone.appendChild(pick); pick.classList.remove('pick'); pick=null; rec();
+}
+function rec(){
+  ST.bin={};
+  document.querySelectorAll('.bin').forEach(function(bn){
+    bn.querySelectorAll('.chip').forEach(function(c){ST.bin[c.dataset.k]=bn.dataset.b;});
+  });
+  save(); paint();
+}
+function check6(){
+  var ok=0,all=0;
+  document.querySelectorAll('.bin .chip').forEach(function(c){
+    all++;
+    var bn=c.closest('.bin');
+    if(c.dataset.b===bn.dataset.b){c.style.borderLeft='3px solid #4FD69C';ok++;}
+    else{c.style.borderLeft='3px solid #FF7A6B';}
+  });
+  alert(all===0?'Noch nichts einsortiert.':
+   ok+' von '+all+' sitzen so, wie ich es gemeint habe. (Insgesamt 16 Wendungen.)\n\nGrün = passt. Rot heißt nicht falsch — sag mir, was du mit dem Satz stattdessen tun wolltest.');
+}
+function reset6(){
+  ST.bin={}; save();
+  document.querySelectorAll('.bin .chip').forEach(function(c){c.style.borderLeft='';});
+  build6(); paint();
+}
+build6();
+
+/* ═══════ block 6 · 30 Karten ═══════ */
+var CARDS=[
+ ['Die Geschäftsführung','„Die Nutzungszahlen sehen gut aus, aber die Marge stimmt mir nicht. Woran liegt das?“'],
+ ['Die Entwicklerin','„Wenn wir das so bauen, wie es im Konzept steht, sind wir zum Go-Live nicht fertig.“'],
+ ['Das Museum','„Wir haben doch alles digitalisiert — dann ist der Chatbot ja schnell gemacht.“'],
+ ['Die Projektleitung','„Nimm das Feature noch kurz mit rein, das ist doch eine Kleinigkeit.“'],
+ ['Das Museum','„Warum sollen wir für die Wartung noch einmal zahlen? Wir haben die App doch gekauft.“'],
+ ['Die Geschäftsführung','„Nur ein Drittel der Besucher startet die App. War das Projekt ein Fehlschlag?“'],
+ ['Die Entwicklerin','„Die Sammlungsdaten sind ein Chaos. Halbe Felder leer, keine einheitlichen Bezeichnungen.“'],
+ ['Die Vermittlungsabteilung','„Die Zahlen stagnieren seit Monaten. Vielleicht will das Publikum das einfach nicht.“'],
+ ['Das Museum','„Können Sie uns bis zur Eröffnung noch eine zweite Sprachversion liefern?“'],
+ ['Die Geschäftsführung','„Wir hätten das Projekt kleiner halten sollen. Wie verhindern wir das beim nächsten Mal?“'],
+ ['Die Kuratorin','„Ich möchte nicht, dass eine KI über meine Werke spricht. Das ist meine fachliche Verantwortung.“'],
+ ['Die Entwicklerin','„Die Schnittstelle des Museums liefert nur einmal täglich Daten. Live geht nicht.“'],
+ ['Die Geschäftsführung','„Die Teamauslastung liegt bei 96 Prozent. Kannst du das nächste Projekt trotzdem übernehmen?“'],
+ ['Das Museum','„Der Vorstand hat den Chatbot schon öffentlich angekündigt.“'],
+ ['Die Projektleitung','„Der Kunde hat die Texte noch nicht geliefert, aber der Termin steht. Was machen wir?“'],
+ ['Die Geschäftsführung','„Warum haben wir den Wartungsaufwand von Anfang an falsch kalkuliert?“'],
+ ['Der Vertrieb','„Ich habe dem Haus schon zugesagt, dass die AR-Station im Grundpaket enthalten ist.“'],
+ ['Das Museum','„Die App läuft im Keller nicht. Unsere Besucher beschweren sich.“'],
+ ['Die Entwicklerin','„Ich habe das schnell zwischendurch gelöst, aber sauber ist das nicht.“'],
+ ['Die Geschäftsführung','„Können wir die Marge über die Wartung wieder reinholen?“'],
+ ['Das Museum','„Wir möchten dieselbe Lösung wie das Deutsche Museum — nur günstiger.“'],
+ ['Die Vermittlungsabteilung','„Unsere Texte sind zu lang für die App? Dann kürzen Sie halt.“'],
+ ['Die Entwicklerin','„Wenn wir jetzt noch die Sprachversion aufnehmen, kippt der ganze Zeitplan.“'],
+ ['Die Geschäftsführung','„Was ist eigentlich unsere Kennzahl für Erfolg bei so einem Projekt?“'],
+ ['Das Museum','„Können wir die Inhalte nach dem Go-Live selbst pflegen? Wir haben keine Ressourcen.“'],
+ ['Die Projektleitung','„Die Abbruchquote im Onboarding liegt bei über 50 Prozent. Ist das normal?“'],
+ ['Der Kunde aus dem Tourismus','„Museen sind ja was anderes. Bei uns geht das sicher schneller, oder?“'],
+ ['Die Geschäftsführung','„Ich möchte, dass du das Projekt allein verantwortest. Traust du dir das zu?“'],
+ ['Die Entwicklerin','„Das Feature funktioniert, aber niemand hat es dokumentiert.“'],
+ ['Das Museum','„Wir würden gern zwei Wochen nach hinten gehen. Kostet das etwas?“']
+];
+var TASKS=[
+ 'Reagiere sachlich und nenne eine Zahl mit Bezugsrahmen.',
+ 'Widersprich — aber räume zuerst etwas ein.',
+ 'Antworte mit einer Rückfrage plus eigener Einschätzung.',
+ 'Vertage die Sache, ohne dass es nach Ausrede klingt.',
+ 'Übersetz deine Antwort in Nutzen für das Gegenüber.',
+ 'Knüpfe eine klare Bedingung daran.',
+ 'Weise es zurück — mit Argument, nicht mit Gefühl.',
+ 'Antworte in drei Sätzen: Befund, Ursache, nächster Schritt.'
+];
+function draw(){
+  if(ST.drawn.length>=CARDS.length)ST.drawn=[];
+  var rest=[]; for(var i=0;i<CARDS.length;i++){if(ST.drawn.indexOf(i)<0)rest.push(i);}
+  var idx=rest[Math.floor(Math.random()*rest.length)];
+  ST.drawn.push(idx); save();
+  document.getElementById('role').textContent=CARDS[idx][0];
+  document.getElementById('prompt').textContent=CARDS[idx][1];
+  document.getElementById('task').textContent=TASKS[Math.floor(Math.random()*TASKS.length)];
+  document.getElementById('cnt').textContent=ST.drawn.length+' von '+CARDS.length+' gezogen';
+  start(60);
+}
+document.getElementById('cnt').textContent=(ST.drawn||[]).length+' von '+CARDS.length+' gezogen';
+
+/* ═══════ timers ═══════ */
+var t1=null,t2=null;
+function fmt(s){return Math.floor(s/60)+':'+String(s%60).padStart(2,'0');}
+function start(n){clearInterval(t1);var s=n,e=document.getElementById('tm');e.textContent=fmt(s);
+ t1=setInterval(function(){s--;e.textContent=fmt(s);if(s<=0){clearInterval(t1);e.textContent='Zeit!';}},1000);}
+function stop(){clearInterval(t1);}
+function start2(n){clearInterval(t2);var s=n,e=document.getElementById('tm2');e.textContent=fmt(s);
+ t2=setInterval(function(){s--;e.textContent=fmt(s);if(s<=0){clearInterval(t2);e.textContent='Zeit!';}},1000);}
+
+/* ═══════ progress ═══════ */
+function paint(){
+  var tot=0,dn=0;
+  document.querySelectorAll('textarea').forEach(function(t){tot++;if((t.value||'').trim().length>3)dn++;});
+  tot+=16; dn+=Object.keys(ST.bin||{}).length;
+  var pc=Math.round(dn/tot*100);
+  document.getElementById('pf').style.width=pc+'%';
+  document.getElementById('pt').textContent=pc+' % bearbeitet';
+}
+paint();
+</script>
+</body>
+</html>
